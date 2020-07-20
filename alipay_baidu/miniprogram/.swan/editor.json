@@ -1,22 +1,16 @@
 {
     "editor": {
-        "curPath": "D:\\SVN\\112.74.84.131\\alipay_baidu\\trunk\\OnekitWX_alipay\\miniprogram\\onekit\\api\\VideoContext.js",
+        "curPath": "D:\\GIT\\github.com\\alipay2baidu\\alipay_baidu\\miniprogram\\app.json",
         "expands": [
-            "D:\\SVN\\112.74.84.131\\alipay_baidu\\trunk\\OnekitWX_alipay\\miniprogram\\onekit",
-            "D:\\SVN\\112.74.84.131\\alipay_baidu\\trunk\\OnekitWX_alipay\\miniprogram\\onekit\\api"
+            "D:\\GIT\\github.com\\alipay2baidu\\alipay_baidu\\miniprogram\\page",
+            "D:\\GIT\\github.com\\alipay2baidu\\alipay_baidu\\miniprogram\\page\\component"
         ],
         "markdownUploadTimeMap": {},
         "paths": [
-            "D:\\SVN\\112.74.84.131\\alipay_baidu\\trunk\\OnekitWX_alipay\\miniprogram\\app.json",
-            "D:\\SVN\\112.74.84.131\\alipay_baidu\\trunk\\OnekitWX_alipay\\miniprogram\\onekit\\api\\VideoContext.js",
-            "D:\\SVN\\112.74.84.131\\alipay_baidu\\trunk\\OnekitWX_alipay\\miniprogram\\onekit\\my.js",
-            "D:\\SVN\\112.74.84.131\\alipay_baidu\\trunk\\OnekitWX_alipay\\miniprogram\\onekit\\api\\CanvasContext.js"
+            "D:\\GIT\\github.com\\alipay2baidu\\alipay_baidu\\miniprogram\\app.json"
         ],
         "recentlyFiles": [
-            "D:\\SVN\\112.74.84.131\\alipay_baidu\\trunk\\OnekitWX_alipay\\miniprogram\\onekit\\api\\VideoContext.js",
-            "D:\\SVN\\112.74.84.131\\alipay_baidu\\trunk\\OnekitWX_alipay\\miniprogram\\onekit\\api\\CanvasContext.js",
-            "D:\\SVN\\112.74.84.131\\alipay_baidu\\trunk\\OnekitWX_alipay\\miniprogram\\onekit\\my.js",
-            "D:\\SVN\\112.74.84.131\\alipay_baidu\\trunk\\OnekitWX_alipay\\miniprogram\\app.json"
+            "D:\\GIT\\github.com\\alipay2baidu\\alipay_baidu\\miniprogram\\app.json"
         ]
     }
 }
