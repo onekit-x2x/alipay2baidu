@@ -1,4 +1,6 @@
+import Context from "./api/Context"
 import CanvasContext from "./api/CanvasContext"
+import VideoContext from "./api/VideoContext"
 import wx_cloud from "./my.cloud"
 import onekit from "./onekit"
 export default class my {
@@ -125,11 +127,14 @@ export default class my {
     canvasContext.draw();
   }
   static createContext() {
-    var context = new CanvasContext();
+    var context = new Context();
     return context;
   }
-  static createCanvasContext(object) {
-    return swan.createCanvasContext(object);
+  static createCanvasContext(id) {
+    return new CanvasContext(swan.createCanvasContext(id));
+  }
+  static createVideoContext(videoId) {
+    return new VideoContext(swan.createVideoContext(videoId));
   }
   static canvasToTempFilePath(object) {
     var object2 = {
@@ -841,6 +846,7 @@ export default class my {
       }
     }
     return swan.request(object2);
+
   }
    
   static httpRequest(object) { return /*swan.httpRequest(object)*/console.log("暂不支持") }
@@ -919,47 +925,30 @@ export default class my {
   static offLocalServiceFound(callback) { return swan.offLocalServiceFound(callback); }
   static offLocalServiceDiscoveryStop(callback) { return swan.offLocalServiceDiscoveryStop(callback); }
   ///////// Open Interface //////////
-  static checkSession(object) {
-    var object2 = {};
+  static _checkSession() {
     var now = new Date().getTime();
-    if (swan._sessoion && now - swan._sessoion <= 7200 * 1000) {
-      var result = { errMsg: "checkSession:ok" };
-      if (object.success) {
-        object.success(result);
-      }
-      if (object.complete) {
-        object.complete(result);
-      }
-    } else {
-      var res = { errMsg: "checkSession:fail" };
-      if (object.fail) {
-        object.fail(res);
-      }
-      if (object.complete) {
-        object.complete(res);
-      }
-    }
-    return swan.authorize(object2);
+    return getApp().onekitwx._jscode && getApp().onekitwx._login && now <= getApp().onekitwx._login + 1000 * 60 * 60;
   }
 
-  static login = function(object) {
+  static getAuthCode = function(object) {
     var that = this;
     if (!object) {
-      return swan.authorize(object);
+      return swan.login(object);
     }
     var object2 = {
       scopes: "auth_user"
     };
     object2.success = function(res) {
-      swan._sessoion = new Date().getTime();
-      getApp().onekit.jscode = res.authCode;
-      var result = { code: res.authCode };
+      getApp().onekitwx._login = new Date().getTime();
+      getApp().onekitwx._jscode = res.code;
+      var result = { authCode: res.code };
       if (object.success) {
         object.success(result);
       }
       if (object.complete) {
         object.complete(complete);
       }
+      my._getUserInfo(result);
     }
     object2.fail = function(res) {
       if (object.fail) {
@@ -969,49 +958,52 @@ export default class my {
         object.complete(res);
       }
     }
-    return swan.authorize(object2);
+    if(my._checkSession()){
+      object2.success({ code: getApp().onekitwx._jscode });
+    }else{
+       swan.login(object2);
+    }
   };
-  static getUserInfo(object) {
-    function getUserInfo(jscode, object) {
-      swan.getAuthUserInfo({
-        success(res) {
-          var url = getApp().onekit.server + "userinfo";
-          swan.httpRequest({
-            url: url,
-            header: {
-              'Content-Type': 'application/x-www-form-urlencoded'
-            },
-            method: "POST",
-            data: {
-              nickname: res.nickName,
-              avatarUrl: res.avatar,
-              js_code: jscode
-            },
-            success(res) {
-              if (object.success) {
-                object.success(res.data);
-              }
-              if (object.complete) {
-                object.complete(res.data);
-              }
-            }, fail(res) {
-              console.log(res.data);
-            }
-          });
-        }
-      });
+  static getOpenUserInfo(object) {
+    getApp().onekitwx.getuserinfo = (data, callback) => {
+      console.log(data);
+      //
+      // { "response": { "code": "10000", "msg": "Success", "avatar": "https:\/\/tfs.alipayobjects.com\/images\/partner\/TB1domvbyRADuNkUuBbXXcvopXa", "city": "成都市", "countryCode": "CN", "gender": "m", "nickName": "安好", "province": "四川省" } }
+      var gender ;
+      if(data.userInfo.gender == 1){
+        gender = "m"
+      }else if(data.userInfo.gender == 2){
+        gender = "f";
+      }else{
+        gender = "t";
+      }
+      var res = {
+          code : "10000",
+          msg : "Success",
+         avatar: data.userInfo.avatarUrl,
+         city: "",
+         countryCode: "CN",
+         gender: gender,
+          nickName: data.userInfo.nickName,
+         province: ""
+      };
+      var response = {
+        response : res
+      }
+      var result = {
+        response: JSON.stringify(response)
+      };
+      callback(res);
+      if(object.success){
+        object.success(res);
+      }
+      if(object.complete){
+        object.complete(res);
+      }
     }
-
-    var jscode = getApp().onekit.jscode;
-    if (jscode) {
-      getUserInfo(jscode, object);
-    } else {
-      swan.login({
-        success: (res) => {
-          getUserInfo(res.code, object);
-        },
-      });
-    }
+    swan.navigateTo({
+      url: '/onekitwx/page/getuserinfo/getuserinfo'
+    })
   };
   static getOpenData = function(object) {
     function success(opendata) {
@@ -1080,7 +1072,7 @@ export default class my {
           //  JSON.parse(res.response);
           var response = JSON.parse(res.response);
           console.log(response);
-          var url = getApp().onekit.server + "phonenumber";
+          var url = getApp().onekitwx.server + "phonenumber";
           swan.httpRequest({
             url: url,
             header: {
@@ -1107,7 +1099,7 @@ export default class my {
         }
       });
     }
-    var jscode = getApp().onekit.jscode;
+    var jscode = getApp().onekitwx.jscode;
     if (jscode) {
       getPhoneNumber(jscode, object);
     } else {
@@ -1124,16 +1116,42 @@ export default class my {
 
   static reportMonitor(object) { return swan.reportMonitor(object) }
   static reportAnalytics(object) { return swan.reportAnalytics(object) }
-  static requestPayment(object) {
-    var tradeNO = object.package.split("=")[1];
-    console.log(tradeNO);
-    var object2 = {
-      tradeNO: tradeNO,
-      success: object.success,
-      fail: object.fail,
-      complete: object.complete
-    };
-    return swan.tradePay(object2);
+  static tradePay(object) {
+    var trade_no = object.tradeNO;
+    var url = getApp().onekitwx.server + "orderinfo";
+    swan.request({
+        url: url,
+         header: {
+              'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            method: "POST",
+        data:{
+            trade_no
+        },success(res){
+            console.log(res);
+            var orderInfo = res.data;
+            swan.requestPolymerPayment({
+                orderInfo : orderInfo,
+                success(res){
+                    console.log("pay_success",res);
+                    if(object.success){
+                        object.success(res);
+                    }
+                    if(object.complete){
+                        object.complete(res);
+                    }
+                },fail(res){
+                    console.log("pay_fail",res);
+                    if(object.fail){
+                        object.fail(res);
+                    }
+                    if(object.complete){
+                        object.complete(res);
+                    }
+                }
+            });
+        }
+    });
   };
   static authorize(object) { return swan.authorize(object) }
   static openSetting(object) { return swan.openSetting(object) }

@@ -28,7 +28,7 @@ page{
   justify-content: space-around ;
   align-items: center ;
 }
-.page-section-btns > view{
+.page-section-btns > onekit-view{
   flex: 1 ;
   height: 84rpx ;
   display: flex ;
@@ -36,10 +36,10 @@ page{
   justify-content: space-around ;
   color: #49a9ee ;
 }
-.page-section-btns > view + view{
+.page-section-btns > onekit-view + onekit-view{
   border-left: 1px solid #ddd ;
 }
-onekit_button{
+onekit-button{
   margin-top: 20rpx ;
   margin-bottom: 20rpx ;
 }

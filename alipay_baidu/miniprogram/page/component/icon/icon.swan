@@ -1,38 +1,38 @@
-<view  class="page">
-  <view  class="page-description">图标</view>
-  <view  class="page-section">
-    <view  class="page-section-title">Type</view>
-    <view  class="page-section-demo icon-list">
+<onekit-view  Class="page">
+  <onekit-view  Class="page-description">图标</onekit-view>
+  <onekit-view  Class="page-section">
+    <onekit-view  Class="page-section-title">Type</onekit-view>
+    <onekit-view  Class="page-section-demo icon-list">
       <block  s-for="{{iconType}}" s-key="item">
-        <view  class="item">
+        <onekit-view  Class="item">
           <onekit-icon  type="{{item}}" aria-label="{{item}}" size="45"></onekit-icon>
-          <text >{{item}}</text>
-        </view>
+          <onekit-text>{{item}}</text>
+        </onekit-view>
       </block>
-    </view>
-  </view>
+    </onekit-view>
+  </onekit-view>
 
-  <view  class="page-section">
-    <view  class="page-section-title">Size</view>
-    <view  class="page-section-demo icon-list">
+  <onekit-view  Class="page-section">
+    <onekit-view  Class="page-section-title">Size</onekit-view>
+    <onekit-view  Class="page-section-demo icon-list">
       <block  s-for="{{iconSize}}" s-key="item">
-        <view  class="item">
+        <onekit-view  Class="item">
           <onekit-icon  type="success" size="{{item}}"></onekit-icon>
-          <text >{{item}}</text>
-        </view>
+          <onekit-text>{{item}}</text>
+        </onekit-view>
       </block>
-    </view>
-  </view>
+    </onekit-view>
+  </onekit-view>
 
-  <view  class="page-section">
-    <view  class="page-section-title">Color</view>
-    <view  class="page-section-demo icon-list">
+  <onekit-view  Class="page-section">
+    <onekit-view  Class="page-section-title">Color</onekit-view>
+    <onekit-view  Class="page-section-demo icon-list">
       <block  s-for="{{iconColor}}" s-key="item">
-        <view  class="item">
+        <onekit-view  Class="item">
           <onekit-icon  type="success" size="45" color="{{item}}"></onekit-icon>
-          <text  style="color:{{item}}">{{item}}</text>
-        </view>
+          <onekit-text  style="color:{{item}}">{{item}}</text>
+        </onekit-view>
       </block>
-    </view>
-  </view>
-</view>
+    </onekit-view>
+  </onekit-view>
+</onekit-view>

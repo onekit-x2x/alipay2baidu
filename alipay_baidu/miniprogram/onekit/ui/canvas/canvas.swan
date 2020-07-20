@@ -1,0 +1,15 @@
+<canvas 
+class="onekit-canvas {{Class}}"
+style="{{Style}}"
+
+canvas-id="{{id}}" 
+disable-scroll="{{disableScroll}}" 	
+width="{{width}}" 
+height="{{height}}"  
+style="width:{{width}}rpx;height:{{height}}rpx"
+
+
+
+
+>
+</canvas>

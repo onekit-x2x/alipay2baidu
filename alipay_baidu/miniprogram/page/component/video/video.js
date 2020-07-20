@@ -6,7 +6,7 @@ Page({
     title: 'initial',
     autoplay: 'false',
     objectFit: 'contain',
-    showFullscreenBtn: 'false',
+    showFullscreenBtn: 'false',
     showCenterPlayBtn: 'false',
     muted: 'false',
     loop: 'false',
