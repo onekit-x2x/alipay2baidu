@@ -1,9 +1,9 @@
 {
     "pages": [
+    "page/component/video/video",
     "page/component/image/image",
     "page/component/canvas/canvas",
     "page/component/navigator/navigator",
-    "page/component/video/video",
     "page/component/rich-text/rich-text",
     "page/component/progress/progress",
     "page/component/icon/icon",

@@ -1,4 +1,4 @@
-import Context from "./api/Context"
+// import Context from "./api/Context"
 import CanvasContext from "./api/CanvasContext"
 import VideoContext from "./api/VideoContext"
 import wx_cloud from "./my.cloud"

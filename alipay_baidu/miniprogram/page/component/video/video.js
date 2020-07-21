@@ -65,7 +65,7 @@ Page({
   },
   play(){
       this.videoContext.play();
-      this.videoContext.mute(this.muted);
+
   },
   pause(){
       this.videoContext.pause()
@@ -74,7 +74,7 @@ Page({
       this.videoContext.seek(15)
   },
   mute(){
-      this.videoContext.mute(!this.muted);
+ 
       this.muted = !this.muted;
   },
   stop(){
