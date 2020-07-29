@@ -2,6 +2,9 @@ Component({
   mixins: [],
   data: {},
   properties: {
+  Class:{type:String,value:""},
+    Style:{type:String,value:""},
+    Id:{type:String,value:""},
     readOnly: false,
     placeholder: "",
     showImgSize: false,

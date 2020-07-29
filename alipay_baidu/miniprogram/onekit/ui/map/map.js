@@ -2,7 +2,10 @@ import my from "../../../onekit/my"
 Component({
   mixins: [],
   data: {},
-  props: {
+  properties: {
+  Class:{type:String,value:""},
+    Style:{type:String,value:""},
+    Id:{type:String,value:""},
     longitude: function(longitude) {
 this.setData({longitude:longitude});
     },

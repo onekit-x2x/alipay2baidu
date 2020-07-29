@@ -3,14 +3,9 @@ options: {
         addGlobalClass: true,
     },
     properties: {
-        id: {
-            type: String, 
-            value: "",
-        },
-        src: {
-            type: String, 
-            value: "",
-        },
+        Class:{type:String,value:""},
+        Style:{type:String,value:""},
+        Id:{type:String,value:""},
         loop: {
             type: Boolean, 
             value: false,

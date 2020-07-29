@@ -2,7 +2,7 @@
 class="onekit-canvas {{Class}}"
 style="{{Style}}"
 
-canvas-id="{{id}}" 
+canvas-id="{{Id}}" 
 disable-scroll="{{disableScroll}}" 	
 width="{{width}}" 
 height="{{height}}"  

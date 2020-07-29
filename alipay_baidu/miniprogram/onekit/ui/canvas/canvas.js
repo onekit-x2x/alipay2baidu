@@ -7,14 +7,9 @@ options: {
 
   },
   properties: {
-    Class:{
-        type:String,
-        value:""
-    },
-    Style:{
-        type:String,
-        value:""
-    },
+  Class:{type:String,value:""},
+    Style:{type:String,value:""},
+    Id:{type:String,value:""},
     width: {
      type: String,
      value:'' ,
@@ -24,7 +19,7 @@ options: {
         value:'' ,
       },
     
-    id: {
+    Id: {
       type: String,
       value:'',
     },

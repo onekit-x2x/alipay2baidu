@@ -1,6 +1,6 @@
 Component({
     properties: {
-        id: { // 属性名
+        Id: { // 属性名
             type: String, 
             value: '', 
         }
