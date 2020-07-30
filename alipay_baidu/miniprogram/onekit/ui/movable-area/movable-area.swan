@@ -1,6 +1,6 @@
 <movable-area
 class="onekit-movable-area {{Class}}"
-style="{{Style}}"
+style="{{Style}}" id="{{Id}}"
 scale-area="{{scaleArea}}"
 >
 <slot>

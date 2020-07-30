@@ -9,7 +9,7 @@ Component({
     // this.setData({openType,scope});
   },
   detached() { },
-  properties: {
+  properties: {     
   Class:{type:String,value:""},
     Style:{type:String,value:""},
     Id:{type:String,value:""},},

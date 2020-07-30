@@ -1,6 +1,6 @@
 <map id="map" 
 class="onekit-map {{Class}}"
-style="{{Style}}"
+style="{{Style}}" id="{{Id}}"
   longitude="{{longitude}}"
   latitude="{{latitude}}"
   scale="{{scale}}"

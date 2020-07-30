@@ -2,7 +2,7 @@ Component({
 options: {
         addGlobalClass: true,
     },
-    properties: {
+    properties: {         Class:{type:String,value:""},         Style:{type:String,value:""},         Id:{type:String,value:""}, 
         percent: {
             type: Number, observer: function (newVal, oldVal, changedPath) {
                 var that = this;

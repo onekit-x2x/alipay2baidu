@@ -1,6 +1,6 @@
 <cover-view
 class="onekit-cover-view {{Class}}"
-style="{{Style}}"
+style="{{Style}}" id="{{Id}}"
 bindtap="coverView_tap"
 >
 <slot>

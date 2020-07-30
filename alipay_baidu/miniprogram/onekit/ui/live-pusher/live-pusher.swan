@@ -1,6 +1,6 @@
 <live-pusher
 class="onekit-live-pusher {{Class}}"
-style="{{Style}}"
+style="{{Style}}" id="{{Id}}"
 url="{{url}}"
 mode="{{mode}}"
 autopush="{{autopush}}"
