@@ -1,6 +1,6 @@
 import my from "../../../onekit/my"
 Component({
-options: {
+options: {     virtualHost: true,
         addGlobalClass: true,
     },
   mixins: [],

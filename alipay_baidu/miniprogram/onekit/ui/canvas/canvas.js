@@ -1,6 +1,6 @@
 // onekit/ui/canvas/canvas.js
 Component({
-options: {
+options: {     virtualHost: true,
         addGlobalClass: true,
     },
   data: {

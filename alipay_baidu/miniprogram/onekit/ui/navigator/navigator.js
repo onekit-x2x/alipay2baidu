@@ -1,6 +1,6 @@
 import my from "../../my"
 Component({
- options: {
+ options: {     virtualHost: true,
         addGlobalClass: true,
     },
   properties: {         Class:{type:String,value:""},         Style:{type:String,value:""},         Id:{type:String,value:""}, 

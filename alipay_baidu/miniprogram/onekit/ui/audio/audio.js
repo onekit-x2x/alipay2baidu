@@ -1,5 +1,6 @@
 Component({
-options: {
+options: {     
+        virtualHost: true,
         addGlobalClass: true,
     },
     properties: {    
