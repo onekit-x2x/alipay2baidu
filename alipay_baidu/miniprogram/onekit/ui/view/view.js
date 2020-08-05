@@ -2,7 +2,7 @@ Component({
     options: {     virtualHost: true,
         addGlobalClass: true,
     },
-    properties: {         Class:{type:String,value:""},         Style:{type:String,value:""},         Id:{type:String,value:""}, 
+    properties: {Id:{type:String,value:""}, 
         Class: {
             type: String,
             value: ''

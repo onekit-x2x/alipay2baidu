@@ -1,10 +1,10 @@
 Component({
-    properties: {         Class:{type:String,value:""},         Style:{type:String,value:""},         Id:{type:String,value:""}, 
-        propName: {
+    properties: {
+
         Class:{type:String,value:""},
         Style:{type:String,value:""},
         Id:{type:String,value:""},
-        }
+
     },
 
     data: {}, // 私有数据，可用于模版渲染
