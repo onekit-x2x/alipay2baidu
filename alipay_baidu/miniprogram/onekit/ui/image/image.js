@@ -3,8 +3,8 @@ Component({
         addGlobalClass: true,
     },
     properties: {   
-    Class:{type:String,value:""},
-    Style:{type:String,value:""},
+    onekitClass:{type:String,value:""},
+    onekitStyle:{type:String,value:""},
     Id:{type:String,value:""},
         src: { 
             type: String, 
@@ -25,16 +25,13 @@ Component({
     },
     methods: {
        image_error(e){
-       console.log("image_error", e);
-        this.triggerEvent('error',e.details)
+        this.triggerEvent('error',e)
        },
        image_load(e){
-       console.log("image_load", e);
-        this.triggerEvent('load',e.details)
+        this.triggerEvent('load',e)
        },
        image_tap(e){
-       console.log("image_tap", e);
-        this.triggerEvent('tap',e.details)
+        this.triggerEvent('tap',e)
        },
     }
 });

@@ -1,30 +1,30 @@
-<onekit-view  Class="page">
-  <onekit-view  Class="page-description">可滚动视图区域</onekit-view>
-  <onekit-view  Class="page-section">
-    <onekit-view  Class="page-section-title">vertical scroll</onekit-view>
-    <onekit-view  Class="page-section-demo">
-      <onekit-scroll-view  scroll-y="{{true}}" Style="height: 200px;" bindscrollToUpper="upper" bindscrollToLower="lower" bindscroll="scroll" scroll-into-view="{{toView}}" scroll-top="{{scrollTop}}">
-        <onekit-view  id="blue" Class="scroll-view-item bc_blue"></onekit-view>
-        <onekit-view  id="red" Class="scroll-view-item bc_red"></onekit-view>
-        <onekit-view  id="yellow" Class="scroll-view-item bc_yellow"></onekit-view>
-        <onekit-view  id="green" Class="scroll-view-item bc_green"></onekit-view>
+<onekit-view  onekit-class="page">
+  <onekit-view  onekit-class="page-description">可滚动视图区域</onekit-view>
+  <onekit-view  onekit-class="page-section">
+    <onekit-view  onekit-class="page-section-title">vertical scroll</onekit-view>
+    <onekit-view  onekit-class="page-section-demo">
+      <onekit-scroll-view  scroll-y="{{true}}" onekit-style="height: 200px;" bindscrollToUpper="upper" bindscrollToLower="lower" bindscroll="scroll" scroll-into-view="{{toView}}" scroll-top="{{scrollTop}}">
+        <onekit-view  id="blue" onekit-class="scroll-view-item bc_blue"></onekit-view>
+        <onekit-view  id="red" onekit-class="scroll-view-item bc_red"></onekit-view>
+        <onekit-view  id="yellow" onekit-class="scroll-view-item bc_yellow"></onekit-view>
+        <onekit-view  id="green" onekit-class="scroll-view-item bc_green"></onekit-view>
       </onekit-scroll-view>
     </onekit-view>
-    <onekit-view  Class="page-section-btns">
+    <onekit-view  onekit-class="page-section-btns">
       <onekit-view  bindtap="tap">next</onekit-view>
       <onekit-view  bindtap="tapMove">move</onekit-view>
       <onekit-view  bindtap="scrollToTop">scrollToTop</onekit-view>
     </onekit-view>
   </onekit-view>
 
-  <onekit-view  Class="page-section">
-    <onekit-view  Class="page-section-title">horizontal scroll</onekit-view>
-    <onekit-view  Class="page-section-demo">
-      <scroll-view  Class="scroll-view_H" scroll-x="{{true}}" Style="width: 100%">
-        <onekit-view  id="blue2" Class="scroll-view-item_H bc_blue"></onekit-view>
-        <onekit-view  id="red2" Class="scroll-view-item_H bc_red"></onekit-view>
-        <onekit-view  id="yellow2" Class="scroll-view-item_H bc_yellow"></onekit-view>
-        <onekit-view  id="green2" Class="scroll-view-item_H bc_green"></onekit-view>
+  <onekit-view  onekit-class="page-section">
+    <onekit-view  onekit-class="page-section-title">horizontal scroll</onekit-view>
+    <onekit-view  onekit-class="page-section-demo">
+      <scroll-view  onekit-class="scroll-view_H" scroll-x="{{true}}" onekit-style="width: 100%">
+        <onekit-view  id="blue2" onekit-class="scroll-view-item_H bc_blue"></onekit-view>
+        <onekit-view  id="red2" onekit-class="scroll-view-item_H bc_red"></onekit-view>
+        <onekit-view  id="yellow2" onekit-class="scroll-view-item_H bc_yellow"></onekit-view>
+        <onekit-view  id="green2" onekit-class="scroll-view-item_H bc_green"></onekit-view>
       </scroll-view>
     </onekit-view>
   </onekit-view>

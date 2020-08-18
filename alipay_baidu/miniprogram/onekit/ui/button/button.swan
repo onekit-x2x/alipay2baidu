@@ -1,6 +1,6 @@
 <button
-class="onekit-button {{Class}}"
-style="{{Style}}" "
+class="onekit-button {{onekitClass}}"
+style="{{onekitStyle}}" "
 id="{{Id}}"
 scope="phoneNumber"
   onTap="button_onTap"

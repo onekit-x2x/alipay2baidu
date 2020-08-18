@@ -4,8 +4,8 @@ options: {
         addGlobalClass: true,
     },
     properties: {    
-        Class:{type:String,value:""},
-        Style:{type:String,value:""},
+        onekitClass:{type:String,value:""},
+        onekitStyle:{type:String,value:""},
         Id:{type:String,value:""},
         loop: {
             type: Boolean, 
@@ -31,19 +31,19 @@ options: {
 
     methods: {
        audio_play(e){
-        this.triggerEvent('play',e.details)
+        this.triggerEvent('play',e)
        },
        audio_pause(e){
-        this.triggerEvent("pause",e.details)
+        this.triggerEvent("pause",e)
        },
        audio_timeupdate(e){
-        this.triggerEvent("timeupdate",e.details)
+        this.triggerEvent("timeupdate",e)
        },
        audio_ended(e){
-        this.triggerEvent("ended",e.details)
+        this.triggerEvent("ended",e)
        },
        audio_error(e){
-        this.triggerEvent("error",e.details)
+        this.triggerEvent("error",e)
        },
     }
 });

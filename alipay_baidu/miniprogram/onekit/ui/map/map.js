@@ -3,8 +3,8 @@ Component({
   mixins: [],
   data: {},
   properties: { 
-  Class:{type:String,value:""},
-    Style:{type:String,value:""},
+  onekitClass:{type:String,value:""},
+    onekitStyle:{type:String,value:""},
     Id:{type:String,value:""},
     longitude: function(longitude) {
 this.setData({longitude:longitude});

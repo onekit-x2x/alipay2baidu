@@ -1,6 +1,7 @@
 <video  
-class="onekit-video {{Class}}"
-style="{{Style}}" id="{{Id}}"
+class="onekit-video {{onekitClass}}"
+style="{{onekitStyle}}" 
+id="{{Id}}"
 id="video"
 src="{{src}}" 
 initial-time="{{initialTime}}" 

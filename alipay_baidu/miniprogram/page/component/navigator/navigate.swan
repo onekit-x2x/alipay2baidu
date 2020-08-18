@@ -1,5 +1,5 @@
-<onekit-view  Class="page">
-  <onekit-view  Class="page-description" Style="text-align: center; margin-top: 200px;">
+<onekit-view  onekit-class="page">
+  <onekit-view  onekit-class="page-description" onekit-style="text-align: center; margin-top: 200px;">
     我是一个新的页面
   </onekit-view>
 </onekit-view>

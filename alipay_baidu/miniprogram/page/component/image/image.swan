@@ -1,9 +1,9 @@
-<onekit-view  Class="page">
-  <onekit-view  Class="page-description">图片</onekit-view>
-  <onekit-view  Class="page-section" s-for="{{array}}" s-key="item" s-for-item="item">
-    <onekit-view  Class="page-section-title">{{item.text}}</onekit-view>
-    <onekit-view  Class="page-section-demo" bindtap="onTap">
-      <onekit-image  Class="image" data-name="{{item.mode}}" bindtap="onTap" mode="{{item.mode}}" src="{{src}}" binderror="imageError" bindload="imageLoad"></onekit-image>
+<onekit-view  onekit-class="page">
+  <onekit-view  onekit-class="page-description">图片</onekit-view>
+  <onekit-view  onekit-class="page-section" s-for="{{array}}" s-key="item" s-for-item="item">
+    <onekit-view  onekit-class="page-section-title">{{item.text}}</onekit-view>
+    <onekit-view  onekit-class="page-section-demo" bindtap="onTap">
+      <onekit-image  onekit-class="image" data-name="{{item.mode}}" bindtap="onTap" mode="{{item.mode}}" src="{{src}}" binderror="imageError" bindload="imageLoad"></onekit-image>
     </onekit-view>
   </onekit-view>
 </onekit-view>

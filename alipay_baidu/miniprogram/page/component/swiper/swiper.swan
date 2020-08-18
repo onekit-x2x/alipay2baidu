@@ -1,23 +1,23 @@
-<onekit-view  Class="page">
-    <onekit-view  Class="page-description">滑块视图容器</onekit-view>
-    <onekit-view  Class="page-section">
-        <onekit-view  Class="page-section-demo">
-            <onekit-swiper  Style="height:150px" Class="demo-swiper" previousMargin="10px" nextMargin="10px" indicator-dots="{{indicatorDots}}" autoplay="{{autoplay}}" vertical="{{vertical}}" interval="{{interval}}" circular="{{circular}}">
+<onekit-view  onekit-class="page">
+    <onekit-view  onekit-class="page-description">滑块视图容器</onekit-view>
+    <onekit-view  onekit-class="page-section">
+        <onekit-view  onekit-class="page-section-demo">
+            <onekit-swiper  onekit-style="height:150px" onekit-class="demo-swiper" previousMargin="10px" nextMargin="10px" indicator-dots="{{indicatorDots}}" autoplay="{{autoplay}}" vertical="{{vertical}}" interval="{{interval}}" circular="{{circular}}">
                 <onekit-swiper-item  key="swiper-item-{{index}}" s-for="{{background}}" s-key="item">
-                    <onekit-view  Class="swiper-item bc_{{item}}"></onekit-view>
+                    <onekit-view  onekit-class="swiper-item bc_{{item}}"></onekit-view>
                 </onekit-swiper-item>
             </onekit-swiper>
-            <onekit-view  Class="margin-t">
+            <onekit-view  onekit-class="margin-t">
                 <slider  bindchange="intervalChange" value="{{interval}}" show-value min="500" max="2000"></slider>
                 <onekit-view>interval</onekit-view>
             </onekit-view>
         </onekit-view>
-        <onekit-view  Class="page-section-btns">
+        <onekit-view  onekit-class="page-section-btns">
             <onekit-view  bindtap="changeIndicatorDots">indicator-dots</onekit-view>
             <onekit-view  bindtap="changeAutoplay">autoplay</onekit-view>
             <onekit-view  bindtap="changeVertical">vertical</onekit-view>
         </onekit-view>
-        <onekit-view  Class="page-section-btns">
+        <onekit-view  onekit-class="page-section-btns">
             <onekit-view  bindtap="changeCircular">circular</onekit-view>
         </onekit-view>
     </onekit-view>
