@@ -1,20 +1,17 @@
 {
     "editor": {
-        "curPath": "",
+        "curPath": "D:\\GIT\\github.com\\alipay2baidu\\alipay_baidu\\miniprogram\\page\\component\\video\\video.swan",
         "expands": [
             "D:\\GIT\\github.com\\alipay2baidu\\alipay_baidu\\miniprogram\\page",
             "D:\\GIT\\github.com\\alipay2baidu\\alipay_baidu\\miniprogram\\page\\component",
-            "D:\\GIT\\github.com\\alipay2baidu\\alipay_baidu\\miniprogram\\page\\component\\image",
-            "D:\\GIT\\github.com\\alipay2baidu\\alipay_baidu\\miniprogram\\onekit",
-            "D:\\GIT\\github.com\\alipay2baidu\\alipay_baidu\\miniprogram\\onekit\\component\\image",
-            "D:\\GIT\\github.com\\alipay2baidu\\alipay_baidu\\miniprogram\\onekit\\ui",
-            "D:\\GIT\\github.com\\alipay2baidu\\alipay_baidu\\miniprogram\\onekit\\ui\\image",
             "D:\\GIT\\github.com\\alipay2baidu\\alipay_baidu\\miniprogram\\node_modules",
-            "D:\\GIT\\github.com\\alipay2baidu\\alipay_baidu\\miniprogram\\node_modules\\mini-antui",
-            "D:\\GIT\\github.com\\alipay2baidu\\alipay_baidu\\miniprogram\\node_modules\\mini-antui\\es",
             "D:\\GIT\\github.com\\alipay2baidu\\alipay_baidu\\miniprogram\\node_modules\\mini-antui\\es\\input-item",
+            "D:\\GIT\\github.com\\alipay2baidu\\alipay_baidu\\miniprogram\\onekit",
             "D:\\GIT\\github.com\\alipay2baidu\\alipay_baidu\\miniprogram\\onekit\\ui\\button",
-            "D:\\GIT\\github.com\\alipay2baidu\\alipay_baidu\\miniprogram\\page\\component\\button"
+            "D:\\GIT\\github.com\\alipay2baidu\\alipay_baidu\\miniprogram\\onekit\\ui\\image",
+            "D:\\GIT\\github.com\\alipay2baidu\\alipay_baidu\\miniprogram\\onekit\\ui\\video",
+            "D:\\GIT\\github.com\\alipay2baidu\\alipay_baidu\\miniprogram\\node_modules\\mini-antui\\es\\_util",
+            "D:\\GIT\\github.com\\alipay2baidu\\alipay_baidu\\miniprogram\\page\\component\\video"
         ],
         "markdownUploadTimeMap": {},
         "paths": [
@@ -22,13 +19,24 @@
             "D:\\GIT\\github.com\\alipay2baidu\\alipay_baidu\\miniprogram\\page\\component\\image\\image.json",
             "D:\\GIT\\github.com\\alipay2baidu\\alipay_baidu\\miniprogram\\onekit\\ui\\button\\button.swan",
             "D:\\GIT\\github.com\\alipay2baidu\\alipay_baidu\\miniprogram\\page\\component\\button\\button.json",
-            "search"
+            "D:\\GIT\\github.com\\alipay2baidu\\alipay_baidu\\miniprogram\\onekit\\ui\\video\\video.swan",
+            "search",
+            "D:\\GIT\\github.com\\alipay2baidu\\alipay_baidu\\miniprogram\\onekit\\ui\\button\\button.js",
+            "D:\\GIT\\github.com\\alipay2baidu\\alipay_baidu\\miniprogram\\page\\component\\video\\video.swan",
+            "D:\\GIT\\github.com\\alipay2baidu\\alipay_baidu\\miniprogram\\app.json"
         ],
         "recentlyFiles": [
-            "D:\\GIT\\github.com\\alipay2baidu\\alipay_baidu\\miniprogram\\page\\component\\button\\button.json",
-            "D:\\GIT\\github.com\\alipay2baidu\\alipay_baidu\\miniprogram\\page\\component\\button\\button.swan",
-            "D:\\GIT\\github.com\\alipay2baidu\\alipay_baidu\\miniprogram\\onekit\\ui\\button\\button.swan",
+            "D:\\GIT\\github.com\\alipay2baidu\\alipay_baidu\\miniprogram\\page\\component\\video\\video.swan",
+            "D:\\GIT\\github.com\\alipay2baidu\\alipay_baidu\\miniprogram\\app.json",
+            "D:\\GIT\\github.com\\alipay2baidu\\alipay_baidu\\miniprogram\\page\\component\\video\\video.js",
+            "D:\\GIT\\github.com\\alipay2baidu\\alipay_baidu\\miniprogram\\page\\component\\video\\video.json",
             "D:\\GIT\\github.com\\alipay2baidu\\alipay_baidu\\miniprogram\\page\\component\\image\\image.swan",
+            "D:\\GIT\\github.com\\alipay2baidu\\alipay_baidu\\miniprogram\\page\\component\\checkbox\\checkbox.swan",
+            "D:\\GIT\\github.com\\alipay2baidu\\alipay_baidu\\miniprogram\\page\\component\\button\\button.swan",
+            "D:\\GIT\\github.com\\alipay2baidu\\alipay_baidu\\miniprogram\\onekit\\ui\\button\\button.js",
+            "D:\\GIT\\github.com\\alipay2baidu\\alipay_baidu\\miniprogram\\onekit\\ui\\button\\button.swan",
+            "D:\\GIT\\github.com\\alipay2baidu\\alipay_baidu\\miniprogram\\onekit\\ui\\video\\video.swan",
+            "D:\\GIT\\github.com\\alipay2baidu\\alipay_baidu\\miniprogram\\page\\component\\button\\button.json",
             "D:\\GIT\\github.com\\alipay2baidu\\alipay_baidu\\miniprogram\\onekit\\ui\\image\\image.swan",
             "D:\\GIT\\github.com\\alipay2baidu\\alipay_baidu\\miniprogram\\page\\component\\image\\image.js",
             "D:\\GIT\\github.com\\alipay2baidu\\alipay_baidu\\miniprogram\\onekit\\ui\\image\\image.js",
@@ -37,12 +45,7 @@
             "D:\\GIT\\github.com\\alipay2baidu\\alipay_baidu\\miniprogram\\onekit\\component\\text\\text.swan",
             "D:\\GIT\\github.com\\alipay2baidu\\alipay_baidu\\miniprogram\\onekit\\component\\movable-area\\movable-area.swan",
             "D:\\GIT\\github.com\\alipay2baidu\\alipay_baidu\\miniprogram\\onekit\\component\\input\\input.css",
-            "D:\\GIT\\github.com\\alipay2baidu\\alipay_baidu\\miniprogram\\onekit\\component\\input\\input.swan",
-            "D:\\GIT\\github.com\\alipay2baidu\\alipay_baidu\\miniprogram\\onekit\\component\\input\\input.json",
-            "D:\\GIT\\github.com\\alipay2baidu\\alipay_baidu\\miniprogram\\onekit\\component\\image\\image.swan",
-            "D:\\GIT\\github.com\\alipay2baidu\\alipay_baidu\\miniprogram\\onekit\\component\\image\\image.json",
-            "D:\\GIT\\github.com\\alipay2baidu\\alipay_baidu\\miniprogram\\onekit\\component\\image\\image.js",
-            "D:\\GIT\\github.com\\alipay2baidu\\alipay_baidu\\miniprogram\\onekit\\component\\image\\image.css"
+            "D:\\GIT\\github.com\\alipay2baidu\\alipay_baidu\\miniprogram\\onekit\\component\\input\\input.swan"
         ]
     }
 }

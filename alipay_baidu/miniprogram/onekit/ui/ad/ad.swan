@@ -1,7 +1,7 @@
 <ad
 class="onekit-ad {{onekitClass}}"
 style="{{onekitStyle}}" 
-id="{{Id}}"
+id="{{onekitId}}"
 unit-id="{{unit-id}}"
 type="{{ad-type}}"
 ></ad>

@@ -1,7 +1,7 @@
 <view
 class="onekit-navigator {{onekitClass}}"
-style="{{onekitStyle}}" id="{{Id}}"
-id="{{Id}}"
+style="{{onekitStyle}}" id="{{onekitId}}"
+id="{{onekitId}}"
 bindtap="view_tap" navigateToMiniProgram
 url="{{url}}"
 open-type="{{openType}}"

@@ -12,7 +12,7 @@ Component({
   properties: {     
   onekitClass:{type:String,value:""},
     onekitStyle:{type:String,value:""},
-    Id:{type:String,value:""},},
+    onekitId:{type:String,value:""},},
   methods: {   
     button_onTap(e) {
       var that = this;

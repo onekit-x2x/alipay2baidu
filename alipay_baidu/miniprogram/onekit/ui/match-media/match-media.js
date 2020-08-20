@@ -2,7 +2,7 @@ Component({
     properties: {
         onekitClass:{type:String,value:""},
         onekitStyle:{type:String,value:""},
-        Id:{type:String,value:""}, 
+        onekitId:{type:String,value:""}, 
     },
 
     data: {}, // 私有数据，可用于模版渲染

@@ -5,7 +5,7 @@ Component({
   properties: { 
   onekitClass:{type:String,value:""},
     onekitStyle:{type:String,value:""},
-    Id:{type:String,value:""},
+    onekitId:{type:String,value:""},
     longitude: function(longitude) {
 this.setData({longitude:longitude});
     },

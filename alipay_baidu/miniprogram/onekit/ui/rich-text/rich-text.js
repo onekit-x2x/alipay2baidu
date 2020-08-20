@@ -2,7 +2,7 @@ Component({
 options: {     virtualHost: true,
         addGlobalClass: true,
     },
-    properties: {         onekitClass:{type:String,value:""},         onekitStyle:{type:String,value:""},         Id:{type:String,value:""}, 
+    properties: {         onekitClass:{type:String,value:""},         onekitStyle:{type:String,value:""},         onekitId:{type:String,value:""}, 
         nodes:{
       type:[],
       value:0,

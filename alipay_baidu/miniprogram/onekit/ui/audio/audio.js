@@ -6,7 +6,7 @@ options: {
     properties: {    
         onekitClass:{type:String,value:""},
         onekitStyle:{type:String,value:""},
-        Id:{type:String,value:""},
+        onekitId:{type:String,value:""},
         loop: {
             type: Boolean, 
             value: false,

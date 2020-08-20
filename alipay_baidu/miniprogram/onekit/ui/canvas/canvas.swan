@@ -1,8 +1,8 @@
 <canvas 
 class="onekit-canvas {{onekitClass}}"
-style="{{onekitStyle}}" id="{{Id}}"
+style="{{onekitStyle}}" id="{{onekitId}}"
 
-canvas-id="{{Id}}" 
+canvas-id="{{onekitId}}" 
 disable-scroll="{{disableScroll}}" 	
 width="{{width}}" 
 height="{{height}}"  
