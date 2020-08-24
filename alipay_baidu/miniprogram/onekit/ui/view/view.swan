@@ -8,8 +8,8 @@ hover-stop-propagation="{{hoverStopPropagation}}"
 hidden="{{hidden}}"
 disable-scroll="{{disableScroll}}"
 bindanimation="{{animation}}"
+catchtap="view_tap"
 
-bindtap="view_Tap"
 >
 <slot></slot>
 </view>

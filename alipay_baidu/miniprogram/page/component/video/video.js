@@ -42,6 +42,10 @@ Page({
       console.log('onPlay');
       this.setData({title:'onPlay'})
   },
+   onTap(){
+      console.log('onTap');
+      this.setData({title:'onTap'})
+  },
   onPause(){
       console.log('onPause');
       this.setData({title:'onPause'})

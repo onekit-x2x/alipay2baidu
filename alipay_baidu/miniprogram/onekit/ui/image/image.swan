@@ -7,9 +7,9 @@ lazy-load="{{lazyLoad}}"
 default-source="{{defaultSource}}"
 
 bindload="image_load"
-onError="image_error"
-onTap="image_tap"
+binderror="image_error"
+catchtap="image_tap"
 
 >
-   <slot/>
+
 </image>

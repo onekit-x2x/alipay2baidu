@@ -1,13 +1,14 @@
 Component({
-    options: {     virtualHost: true,
+    options: {     
+        virtualHost: true,
         addGlobalClass: true,
     },
     properties: {onekitId:{type:String,value:""}, 
-        Class: {
+        onekitClass: {
             type: String,
             value: ''
         },
-        Style: { type: String, value: "" },
+        onekitStyle: { type: String, value: "" },
         hoverClass: {
             type: String,
             value: ""
@@ -32,10 +33,12 @@ Component({
             type: Boolean,
             value: false
         },
-        disableScroll: {
-            type: Object,
-            value: {}
-        }
+       
+    },
+    method:{
+        view_tap(e){
+        this.triggerEvent('tap',{}, { bubbles: true, capturePhase: true })
+       },
     },
 
 });

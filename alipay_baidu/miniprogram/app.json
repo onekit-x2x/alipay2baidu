@@ -1,18 +1,21 @@
 {
     "pages": [
-    "page/component/video/video",
-    "page/component/image/image",
-    "page/component/canvas/canvas",
-    "page/component/navigator/navigator",
-    "page/component/rich-text/rich-text",
-    "page/component/progress/progress",
-    "page/component/icon/icon",
-    "page/component/text/text",
-    "page/component/swiper/swiper",
-    "page/component/scroll-view/scroll-view",
+        "page/component/video/video",
+        "page/component/image/image",
+        "page/component/swiper/swiper",
+        "page/component/cover-image/cover-image",
+        "page/tabBar/component/index",
+        "page/component/button/button",
+        "page/component/canvas/canvas",
+        "page/component/navigator/navigator",
+        "page/component/rich-text/rich-text",
+        "page/component/progress/progress",
+        "page/component/icon/icon",
+        "page/component/text/text",
+        "page/component/swiper/swiper",
+        "page/component/scroll-view/scroll-view",
         "page/component/cover-view/cover-view",
-        "page/component/movable-view/movable-view",
-        "page/component/view/view"
+        "page/component/movable-view/movable-view"
     ],
     "window": {
         "backgroundColor": "#F5F5F9"

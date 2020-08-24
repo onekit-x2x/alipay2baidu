@@ -1,6 +1,6 @@
 <view >
   <view  class="banner">
-    <view  class="logo" style="opacity: {{titleOpacity}}"><image  src="/image/component_logo.png" mode="aspectFit"></image></view>
+    <view  class="logo" style="opacity: {{titleOpacity}}"><onekit-image  src="/image/component_logo.png" mode="aspectFit"></onekit-image></view>
     <view  class="title" style="opacity: {{titleOpacity}}">小程序官方示例</view>
     <view  class="sub-title" style="opacity: {{titleOpacity}}">以下展示小程序官方组件和API</view>
   </view>
@@ -22,7 +22,7 @@
             <block  s-for="{{list.list}}" s-key="list">
               <view  arrow="{{true}}" multipleLine="{{false}}" key="items-{{item.name}}" last="{{true}}">
                 <navigator  url="{{item.path}}" style="display: flex; align-items: center">
-                  <image  src="{{item.thumb}}" class="thumb" mode="aspectFit"></image>
+                  <onekit-image  src="{{item.thumb}}" onekitClass="thumb" mode="aspectFit"></onekit-image>
                   <text  class="component-name">{{item.name}}</text>
                   <text  class="component-brief">{{item.nameEn}}</text>
                 </navigator>

@@ -63,22 +63,25 @@ Component({
     },
     methods: {
        video_play(e){
-        this.triggerEvent('play',e)
+        this.triggerEvent('play',{})
        },
        video_pause(e){
-        this.triggerEvent('pause',e)
+        this.triggerEvent('pause',{})
        },
        video_ended(e){
-        this.triggerEvent('ended',e)
+        this.triggerEvent('ended',{})
        },
         video_timeupdate(e){
-        this.triggerEvent('timeupdate',e)
+        this.triggerEvent('timeupdate',{})
        },
         video_fullscreenchange(e){
-        this.triggerEvent('fullscreenchange',e)
+        this.triggerEvent('fullscreenchange',{})
        },
        video_error(e){
-        this.triggerEvent('error',e)
+        this.triggerEvent('error',{})
+       },
+       video_tap(e){
+        this.triggerEvent('tap',{})
        },
     }
 });

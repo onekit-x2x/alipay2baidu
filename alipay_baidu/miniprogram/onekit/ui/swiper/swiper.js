@@ -13,7 +13,7 @@ options: {     virtualHost: true,
         },
         indicatorActiveColor: {
             type: String,
-            value: '	#000'
+            value: '#000'
         },
         autoplay: {
             type: Boolean,

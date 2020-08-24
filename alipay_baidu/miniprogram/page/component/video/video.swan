@@ -1,6 +1,6 @@
 <onekit-view  onekit-class="video-page">
 <onekit-view  onekit-class="video-contain">
-  <onekit-video  src="{{src}}" onekit-class="video" onekit-id="video" poster="https://zos.alipayobjects.com/rmsportal/SSWkSLDrrgsLFDfsjzTZ.png" autoplay="{{autoplay}}" object-fit="{{objectFit}}" loop="{{loop}}" show-fullscreen-btn="{{showFullscreenBtn}}" show-center-play-btn="{{showCenterPlayBtn}}" bindplay="onPlay" bindpause="onPause" bindended="onEnded" bindtimeUpdate="onTimeUpdate" bindloading="onLoading" bindstop="onStop" enableNative="{{true}}" muted="true">
+  <onekit-video  src="{{src}}" onekit-class="video" onekit-id="video" poster="https://zos.alipayobjects.com/rmsportal/SSWkSLDrrgsLFDfsjzTZ.png" autoplay="{{autoplay}}" object-fit="{{objectFit}}" loop="{{loop}}" show-fullscreen-btn="{{showFullscreenBtn}}" show-center-play-btn="{{showCenterPlayBtn}}" bindtap="onTap" bindplay="onPlay" bindpause="onPause" bindended="onEnded" bindtimeUpdate="onTimeUpdate" bindloading="onLoading" bindstop="onStop" enableNative="{{true}}" muted="true">
     </onekit-video>
     </onekit-view>
     <onekit-view  onekit-class="operation-item" style="background-color:lightblue">{{title}}</onekit-view>

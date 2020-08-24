@@ -1,5 +1,6 @@
 Component({
- options: {     virtualHost: true,
+ options: {     
+        virtualHost: true,
         addGlobalClass: true,
     },
     properties: {   
@@ -25,13 +26,13 @@ Component({
     },
     methods: {
        image_error(e){
-        this.triggerEvent('error',e)
+        this.triggerEvent('error',{})
        },
        image_load(e){
-        this.triggerEvent('load',e)
+        this.triggerEvent('load',{})
        },
        image_tap(e){
-        this.triggerEvent('tap',e)
+        this.triggerEvent('tap',{})
        },
     }
 });
