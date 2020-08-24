@@ -19,10 +19,6 @@ options: {     virtualHost: true,
         value:'' ,
       },
     
-    Id: {
-      type: String,
-      value:'',
-    },
     disableScroll: {
       type: Boolean,
       value:false

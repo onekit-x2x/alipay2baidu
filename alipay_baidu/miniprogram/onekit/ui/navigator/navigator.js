@@ -4,15 +4,15 @@ Component({
         addGlobalClass: true,
     },
   properties: {
-    Class: {
+    onekitClass: {
       type: String,
       value: ""
     },
-    Style: {
+    onekitStyle: {
       type: String,
       value: ""
     },
-    Id: {
+    onekitId: {
       type: String,
       value: ""
     },
