@@ -43,15 +43,15 @@ options: {     virtualHost: true,
     methods: {
         live_player_statechange(e){
         console.log("live_player_statechange", e);
-        this.triggerEvent('statechange',e.details)
+        this.triggerEvent('statechange')
        },
        live_player_netstatus(e){
         console.log("live_player_netstatus", e);
-        this.triggerEvent('netstatus',e.details)
+        this.triggerEvent('netstatus')
        },
        live_player_fullscreenchange(e){
         console.log("live_player_fullscreenchange", e);
-        this.triggerEvent('fullscreenchange',e.details)
+        this.triggerEvent('fullscreenchange')
        },
     }
 });

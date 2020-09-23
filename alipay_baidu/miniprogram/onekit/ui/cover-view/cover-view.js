@@ -1,4 +1,4 @@
-Component({
+﻿Component({
 options: {     virtualHost: true,
         addGlobalClass: true,
     },
@@ -24,7 +24,7 @@ options: {     virtualHost: true,
 
     methods: {
         coverView_tap(e) {
-            this.triggerEvent('tap', {})
+            this.triggerEvent('tap')
         }
     }
 });

@@ -26,13 +26,13 @@ Component({
     },
     methods: {
        image_error(e){
-        this.triggerEvent('error',{})
+        this.triggerEvent('error')
        },
        image_load(e){
-        this.triggerEvent('load',{})
+        this.triggerEvent('load')
        },
        image_tap(e){
-        this.triggerEvent('tap',{})
+        this.triggerEvent('tap')
        },
     }
 });

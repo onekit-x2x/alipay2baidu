@@ -56,13 +56,13 @@ options: {     virtualHost: true,
     },
     methods: {
         on_toupper(e) {
-            this.triggerEvent('scrolltoupper', {})
+            this.triggerEvent('scrolltoupper')
         },
         on_tolower(e) {
-            this.triggerEvent('scrolltolower', {})
+            this.triggerEvent('scrolltolower')
         },
         on_scroll(e) {
-            this.triggerEvent('scroll', {})
+            this.triggerEvent('scroll')
         }
     }
 });

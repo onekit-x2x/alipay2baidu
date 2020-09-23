@@ -1,4 +1,4 @@
-Component({
+﻿Component({
 options: {     
         virtualHost: true,
         addGlobalClass: true,
@@ -31,19 +31,19 @@ options: {
 
     methods: {
        audio_play(e){
-        this.triggerEvent('play',e)
+        this.triggerEvent('play')
        },
        audio_pause(e){
-        this.triggerEvent("pause",e)
+        this.triggerEvent("pause")
        },
        audio_timeupdate(e){
-        this.triggerEvent("timeupdate",e)
+        this.triggerEvent("timeupdate")
        },
        audio_ended(e){
-        this.triggerEvent("ended",e)
+        this.triggerEvent("ended")
        },
        audio_error(e){
-        this.triggerEvent("error",e)
+        this.triggerEvent("error")
        },
     }
 });

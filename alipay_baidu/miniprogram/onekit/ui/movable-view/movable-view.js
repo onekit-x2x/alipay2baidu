@@ -1,4 +1,4 @@
-Component({
+﻿Component({
 options: {     virtualHost: true,
         addGlobalClass: true,
     },
@@ -66,10 +66,10 @@ options: {     virtualHost: true,
 
     methods: {
         movable_Change(e) {
-            this.triggerEvent('change', {})
+            this.triggerEvent('change')
         },
         movable_scale(e) {
-            this.triggerEvent('scale', {})
+            this.triggerEvent('scale')
         }
     }
 });

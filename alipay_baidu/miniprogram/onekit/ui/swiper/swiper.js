@@ -1,4 +1,4 @@
-Component({
+﻿Component({
 options: {     virtualHost: true,
         addGlobalClass: true,
     },
@@ -77,13 +77,13 @@ options: {     virtualHost: true,
 
     methods: {
         swiper_change(e) {
-            this.triggerEvent('change', e.detail)
+            this.triggerEvent('change')
         },
         swiper_transition(e) {
-            this.triggerEvent('Transition', {})
+            this.triggerEvent('Transition')
         },
         swiper_AnimationEnd(e) {
-            this.triggerEvent('animationfinish', e.detail)
+            this.triggerEvent('animationfinish')
         }
     }
 });
