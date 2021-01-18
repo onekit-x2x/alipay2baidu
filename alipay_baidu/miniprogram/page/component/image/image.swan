@@ -1,9 +1,0 @@
-<onekit-view  onekit-class="page">
-  <onekit-view  onekit-class="page-description">图片</onekit-view>
-  <onekit-view  onekit-class="page-section" s-for="{{array}}" s-key="item" s-for-item="item">
-    <onekit-view  onekit-class="page-section-title">{{item.text}}</onekit-view>
-    <onekit-view bindtap="onTap" onekit-class="page-section-demo">
-      <onekit-image bindtap="onTap" onekit-class="image" data-name="{{item.mode}}" mode="{{item.mode}}" src="{{src}}" binderror="imageError" bindload="imageLoad"></onekit-image>
-    </onekit-view>
-  </onekit-view>
-</onekit-view>

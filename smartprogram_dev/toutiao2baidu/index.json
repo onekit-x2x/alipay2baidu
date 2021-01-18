@@ -1,0 +1,13 @@
+{
+  "usingComponents": {
+    "ad": "./ui/ad/ad/index",
+    "checkbox": "./ui/checkbox/checkbox/index",
+    "icon": "./ui/icon/icon/index",
+    "progress":"./ui/progress/progress/index",
+    "radio": "./ui/radio/radio/index",
+    "slider":"./ui/slider/slider/index",
+    "switch":"./ui/switch/switch/index",
+    "text":"./ui/text/text/index",
+    "video":"./ui/video/video/index"
+  }
+}
