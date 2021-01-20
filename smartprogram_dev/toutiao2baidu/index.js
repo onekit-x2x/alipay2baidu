@@ -94,9 +94,9 @@ module.exports =
 
 exports.__esModule = true;
 
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }(); /* eslint-disable no-console */
-/* eslint-disable camelcase */
-
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }(); /* eslint-disable camelcase */
+/* eslint-disable consistent-return */
+/* eslint-disable no-console */
 
 var _PROMISE = __webpack_require__(5);
 
@@ -123,32 +123,20 @@ var my = function () {
   };
 
   my.getAppIdSync = function getAppIdSync() {
-    var swan_appID = null;
-    var my_res = {
-      appId: swan_appID
-    };
-    return my_res;
+    if (getApp().onekit_AppId) {
+      return getApp().onekit_AppId;
+    }
   };
 
   my.getLaunchOptionsSync = function getLaunchOptionsSync() {
-    return console.warn('TO DO ... WANGYEWEI');
+    return console.warn('TO DO ... ');
   };
 
-  my.getRunScene = function getRunScene(my_object) {
-    var my_success = my_object.success;
-    var my_fail = my_object.fail;
-    var my_complete = my_object.complete;
-    my_object = null;
-
-    (0, _PROMISE2.default)(function (SUCCESS) {
-      var swan_accountInfo = swan.getAccountInfoSync();
-
-      var my_res = {
-        envVersion: swan_accountInfo.miniProgram.envVersion
-      };
-
-      SUCCESS(my_res);
-    }, my_success, my_fail, my_complete);
+  my.getRunScene = function getRunScene() {
+    var my_res = {
+      envVersion: 'develop'
+    };
+    return my_res;
   };
 
   my.SDKVersion = function SDKVersion(my_object) {
@@ -179,7 +167,7 @@ var my = function () {
   };
 
   my.offComponentError = function offComponentError() {
-    return console.warn('offComponentError is not support');
+    getApp().onekit_ComponentError = false;
   };
 
   my.offError = function offError(callback) {
@@ -187,7 +175,7 @@ var my = function () {
   };
 
   my.offUnhandledRejection = function offUnhandledRejection() {
-    return console.warn('offUnhandledRejection is not support');
+    getApp().onekit_UnhandledRejection = false;
   };
 
   my.onAppHide = function onAppHide(callback) {
@@ -195,17 +183,12 @@ var my = function () {
   };
 
   my.onAppShow = function onAppShow(callback) {
-    swan.onAppShow(function (swan_res) {
-      var my_res = {
-        query: swan_res.query,
-        scene: swan_res.scene
-      };
-      callback(my_res);
-    });
+    getApp().onekit_AppId = callback.referrerInfo.appid;
+    return swan.onAppShow(callback);
   };
 
   my.onComponentError = function onComponentError() {
-    return console.warn('onComponentError is not support');
+    getApp().onekit_ComponentError = true;
   };
 
   my.onError = function onError(callback) {
@@ -213,7 +196,7 @@ var my = function () {
   };
 
   my.onUnhandledRejection = function onUnhandledRejection() {
-    return console.warn('onUnhandledRejection is not support');
+    getApp().onekit_UnhandledRejection = true;
   };
 
   // ////////////////////  界面  ///////////////////////////
@@ -226,7 +209,7 @@ var my = function () {
   };
 
   my.hideBackHome = function hideBackHome() {
-    return swan.hideHomeButton();
+    return console.warn('hideBackHome is not support');
   };
 
   my.setNavigationBar = function setNavigationBar(my_object) {
@@ -239,23 +222,26 @@ var my = function () {
     var title = my_title;
     var backgroundColor = my_backgroundColor;
     var frontColor = '#ffffff';
-    var swan_object1 = {
-      title: title
-    };
-    var swan_object2 = {
-      frontColor: frontColor,
-      backgroundColor: backgroundColor
-    };
-
     (0, _PROMISE2.default)(function (SUCCESS) {
-      swan.setNavigationBarTitle(swan_object1);
-      swan.setNavigationBarColor(swan_object2);
-
-      var result = {
-        errMsg: 'setNavigationBar: ok'
-      };
-
-      SUCCESS(result);
+      swan.setNavigationBarTitle({
+        title: title,
+        success: function success() {
+          var my_res = {
+            success: true
+          };
+          SUCCESS(my_res);
+        }
+      });
+      swan.setNavigationBarColor({
+        backgroundColor: backgroundColor,
+        frontColor: frontColor,
+        success: function success() {
+          var my_res = {
+            success: true
+          };
+          SUCCESS(my_res);
+        }
+      });
     }, my_success, my_fail, my_complete);
   };
 
@@ -370,17 +356,19 @@ var my = function () {
         content: content,
         confirmText: confirmText,
         cancelText: cancelText,
-        success: function success(res) {
-          if (res.confirm) {
-            var _res = {
-              confirm: true
+        success: function success(swan_res) {
+          if (swan_res.confirm) {
+            var my_res = {
+              confirm: true,
+              cancel: false
             };
-            SUCCESS(_res);
-          } else if (res.cancel) {
-            var _res2 = {
-              confirm: false
+            SUCCESS(my_res);
+          } else if (swan_res.cancel) {
+            var _my_res = {
+              confirm: false,
+              cancel: true
             };
-            SUCCESS(_res2);
+            SUCCESS(_my_res);
           }
         }
       });
@@ -441,8 +429,8 @@ var my = function () {
 
   my.showToast = function showToast(my_object) {
     var my_title = my_object.content;
-    var my_duration = my_object.duration;
-    var my_icon = my_object.type;
+    var my_duration = my_object.duration || 3000;
+    var my_icon = my_object.type || 'none';
     var my_success = my_object.success;
     var my_fail = my_object.fail;
     var my_complete = my_object.complete;
@@ -519,13 +507,7 @@ var my = function () {
 
 
   my.createAnimation = function createAnimation(my_object) {
-    var swan_res = swan.createAnimation(my_object);
-    var my_res = {
-      animations: swan_res.actions,
-      config: swan_res.option,
-      currentAnimation: swan_res.currentStepAnimates
-    };
-    return my_res;
+    return swan.createAnimation(my_object);
   };
 
   // //////  画布  /////////
@@ -557,9 +539,8 @@ var my = function () {
 
 
   my.pageScrollTo = function pageScrollTo(my_object) {
-    var my_scrollTop = my_object.scrollTop;
+    var my_scrollTop = my_object.scrollTop || 200;
     var my_duration = my_object.duration;
-    var my_selector = my_object.selector;
     var my_success = my_object.success;
     var my_fail = my_object.fail;
     var my_complete = my_object.complete;
@@ -567,11 +548,9 @@ var my = function () {
     (0, _PROMISE2.default)(function (SUCCESS) {
       var scrollTop = my_scrollTop;
       var duration = my_duration;
-      var selector = my_selector;
       swan.pageScrollTo({
         scrollTop: scrollTop,
         duration: duration,
-        selector: selector,
         success: function success() {
           var my_res = {
             success: true
@@ -644,7 +623,25 @@ var my = function () {
 
 
   my.loadFontFace = function loadFontFace(my_object) {
-    return swan.loadFontFace(my_object);
+    var my_source = my_object.source;
+    var my_success = my_object.success;
+    var my_fail = my_object.fail;
+    var my_complete = my_object.complete;
+    my_object = null;
+    (0, _PROMISE2.default)(function (SUCCESS) {
+      var url = my_source;
+      swan.downloadFile({
+        url: url,
+        success: function success(swan_res) {
+          var my_res = {
+            tempFilePath: swan_res.swan_res,
+            statusCode: swan_res.statusCode,
+            success: true
+          };
+          SUCCESS(my_res);
+        }
+      });
+    }, my_success, my_fail, my_complete);
   };
 
   // ////////////////////  多媒体  ///////////////////////////
@@ -653,9 +650,9 @@ var my = function () {
 
 
   my.chooseImage = function chooseImage(my_object) {
-    var my_count = my_object.count;
-    var my_sizeType = my_object.sizeType;
-    var my_sourceType = my_object.sourceType;
+    var my_count = my_object.count || 1;
+    var my_sizeType = my_object.sizeType || ['original', 'compressed'];
+    var my_sourceType = my_object.sourceType || ['camera', 'album'];
     var my_success = my_object.success;
     var my_fail = my_object.fail;
     var my_complete = my_object.complete;
@@ -693,7 +690,6 @@ var my = function () {
       } else {
         swan_qumyty = (my_compressLevel + 1) * 25;
       }
-
       (0, _TASK2.default)(my_apFilePaths, function (my_apFilePath, callback) {
         var swan_src = my_apFilePath;
         swan.compressImage({
@@ -975,7 +971,19 @@ var my = function () {
             longitude: swan_res.longitude,
             latitude: swan_res.latitude,
             accuracy: swan_res.accuracy,
-            horizontalAccuracy: swan_res.horizontalAccuracy
+            horizontalAccuracy: swan_res.horizontalAccuracy,
+            country: swan_res.country,
+            countryCode: swan_res.countryCode,
+            province: swan_res.province,
+            city: swan_res.city,
+            cityAdcode: swan_res.cityCode,
+            district: swan_res.district,
+            streetNumber: swan_res.streetNumber,
+            pois: [],
+            speed: swan_res.speed,
+            altitude: swan_res.altitude,
+            verticalAccuracy: swan_res.verticalAccuracy,
+            isFullAccuracy: swan_res.isFullAccuracy
           };
           SUCCESS(my_res);
         }
@@ -987,6 +995,7 @@ var my = function () {
     var my_longitude = my_object.longitude;
     var my_latitude = my_object.latitude;
     var my_keyword = my_object.name;
+    var my_scale = my_object.scale || 15;
     var my_success = my_object.success;
     var my_fail = my_object.fail;
     var my_complete = my_object.complete;
@@ -997,9 +1006,11 @@ var my = function () {
     var success = my_success;
     var fail = my_fail;
     var complete = my_complete;
+    var scale = my_scale;
     var swan_object = {
       longitude: longitude,
       latitude: latitude,
+      scale: scale,
       name: name,
       success: success,
       fail: fail,
@@ -1043,8 +1054,7 @@ var my = function () {
           var my_res = {
             data: swan_res.data,
             statusCode: swan_res.statusCode,
-            headers: swan_res.header,
-            cookies: swan_res.cookies
+            headers: swan_res.header
           };
           SUCCESS(my_res);
         }
@@ -1148,19 +1158,19 @@ var my = function () {
   };
 
   my.offSocketClose = function offSocketClose() {
-    return console.warn('offSocketClose is not support');
+    getApp().onekit_SocketClose = false;
   };
 
   my.offSocketMessage = function offSocketMessage() {
-    return console.warn('offSocketMessage is not support');
+    getApp().onekit_SocketMessage = false;
   };
 
   my.offSocketOpen = function offSocketOpen() {
-    return console.warn('offSocketOpen is not support');
+    getApp().onekit_SocketOpen = false;
   };
 
   my.offSocketError = function offSocketError() {
-    return console.warn('offSocketError is not support');
+    getApp().onekit_SocketError = false;
   };
 
   // ////////////////////  设备  ///////////////////////////
@@ -1202,7 +1212,7 @@ var my = function () {
   };
 
   my.offNetworkStatusChange = function offNetworkStatusChange() {
-    return console.warn('offNetworkStatusChange is not support');
+    getApp().onekit_NetworkStatusChange = false;
   };
 
   // //////  摇一摇  /////////
@@ -1215,8 +1225,8 @@ var my = function () {
   // //////  震动  /////////
 
 
-  my.vibrate = function vibrate() {
-    return console.warn('vibrate is not support');
+  my.vibrate = function vibrate(my_object) {
+    return swan.vibrateShort(my_object);
   };
 
   my.vibrateLong = function vibrateLong(my_object) {

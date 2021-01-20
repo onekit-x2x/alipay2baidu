@@ -1,9 +1,9 @@
 import {
   OnekitApp
-} from './toutiao2baidu/index';
+} from './alipay2baidu/index';
 import {
   my
-} from './toutiao2baidu/index';
+} from './alipay2baidu/index';
 OnekitApp({
   onLaunch: function () {
     console.log('App Launch');

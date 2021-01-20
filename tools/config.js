@@ -8,7 +8,7 @@ const isWatch = process.argv.indexOf('--watch') >= 0
 const demoSrc = path.resolve(__dirname, './demo')
 const demoDist = path.resolve(__dirname, '../smartprogram_dev')
 const src = path.resolve(__dirname, '../src')
-const dev = path.join(demoDist, 'toutiao2baidu')
+const dev = path.join(demoDist, 'alipay2baidu')
 const dist = path.resolve(__dirname, '../smartprogram_dist')
 
 module.exports = {
@@ -59,7 +59,9 @@ module.exports = {
     },
     plugins: [
       new webpack.DefinePlugin({}),
-      new webpack.optimize.LimitChunkCountPlugin({maxChunks: 1}),
+      new webpack.optimize.LimitChunkCountPlugin({
+        maxChunks: 1
+      }),
     ],
     optimization: {
       minimize: false,
