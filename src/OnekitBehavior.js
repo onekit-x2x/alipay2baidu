@@ -1,9 +1,9 @@
 /* eslint-disable camelcase */
 import STRING from 'oneutil/STRING'
-import tt from './tt'
+import my from './my'
 
 export default function OnekitBehavior(object) {
-  const tt_object = {
+  const my_object = {
     onInit(query) {
       let created
       if (object.lifetimes && object.lifetimes.created) {
@@ -49,14 +49,16 @@ export default function OnekitBehavior(object) {
     }
   }
   if (object) {
-    if (!object.methods) { object.methods = {} }
+    if (!object.methods) {
+      object.methods = {}
+    }
     object.methods.triggerEvent = function (name, data) {
       const funcName = `on${STRING.firstUpper(name)}`
       if (this.props[funcName]) {
         this.props[funcName](data)
       }
     }
-    object.methods.createSelectorQuery = tt.createSelectorQuery
+    object.methods.createSelectorQuery = my.createSelectorQuery
   }
   for (const key of Object.keys(object)) {
     const value = object[key]
@@ -65,16 +67,16 @@ export default function OnekitBehavior(object) {
     }
     switch (key) {
       case 'properties':
-        tt_object.props = {}
+        my_object.props = {}
         for (const p of Object.keys(value)) {
           const v = value[p]
-          tt_object.props[p] = (v && v.value ? v.value : null)
+          my_object.props[p] = (v && v.value ? v.value : null)
         }
         break
       default:
-        tt_object[key] = value
+        my_object[key] = value
     }
   }
 
-  return tt_object
+  return my_object
 }

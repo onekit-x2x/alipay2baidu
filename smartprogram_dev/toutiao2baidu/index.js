@@ -82,13 +82,11 @@ module.exports =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 12);
+/******/ 	return __webpack_require__(__webpack_require__.s = 1);
 /******/ })
 /************************************************************************/
 /******/ ([
-/* 0 */,
-/* 1 */,
-/* 2 */
+/* 0 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -96,1222 +94,1674 @@ module.exports =
 
 exports.__esModule = true;
 
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }(); /* eslint-disable no-console */
+/* eslint-disable camelcase */
+
+
+var _PROMISE = __webpack_require__(5);
+
+var _PROMISE2 = _interopRequireDefault(_PROMISE);
+
+var _TASK = __webpack_require__(6);
+
+var _TASK2 = _interopRequireDefault(_TASK);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-/* eslint-disable no-console */
-// import {STRING} from 'oneutil'
-// import LivePlayerContext from './api/LivePlayerContext'
-// import CameraContext from './api/CameraContext'
-
-// // import Context from "./api/Context.js"
-var tt = function () {
-  function tt() {
-    _classCallCheck(this, tt);
+// import TheKit from './tools/TheKit'
+var my = function () {
+  function my() {
+    _classCallCheck(this, my);
   }
 
-  tt.canIuse = function canIuse() {
-    return true;
+  // ////////////////////  基础  ///////////////////////////
+
+  my.canIUse = function canIUse(schema) {
+    return swan.canIUse(schema);
   };
 
-  tt.base64ToArrayBuffer = function base64ToArrayBuffer(base64) {
-    base64 = base64.replace(/\s/g, '+');
-    var commonContent = Buffer.from(base64, 'base64');
-    return commonContent;
+  my.getAppIdSync = function getAppIdSync() {
+    var swan_appID = null;
+    var my_res = {
+      appId: swan_appID
+    };
+    return my_res;
   };
 
-  tt.arrayBufferToBase64 = function arrayBufferToBase64(arrybufferr) {
-    var base64Content = Buffer.from(arrybufferr).toString('base64');
-    return base64Content;
+  my.getLaunchOptionsSync = function getLaunchOptionsSync() {
+    return console.warn('TO DO ... WANGYEWEI');
   };
 
-  tt.getLaunchOptionsSync = function getLaunchOptionsSync() {
-    // baidu is not surpport
+  my.getRunScene = function getRunScene(my_object) {
+    var my_success = my_object.success;
+    var my_fail = my_object.fail;
+    var my_complete = my_object.complete;
+    my_object = null;
+
+    (0, _PROMISE2.default)(function (SUCCESS) {
+      var swan_accountInfo = swan.getAccountInfoSync();
+
+      var my_res = {
+        envVersion: swan_accountInfo.miniProgram.envVersion
+      };
+
+      SUCCESS(my_res);
+    }, my_success, my_fail, my_complete);
   };
 
-  tt.exitSmartprogram = function exitSmartprogram() {
-    // baidu is not support
+  my.SDKVersion = function SDKVersion(my_object) {
+    var my_success = my_object.success;
+    var my_fail = my_object.fail;
+    var my_complete = my_object.complete;
+    my_object = null;
+    (0, _PROMISE2.default)(function (SUCCESS) {
+      swan.getSystemInfo({
+        success: function success(swan_res) {
+          var my_res = {
+            SDKVersion: swan_res.SDKVersion
+          };
+          SUCCESS(my_res);
+        }
+      });
+    }, my_success, my_fail, my_complete);
   };
 
-  tt.canIPutStuffOverComponent = function canIPutStuffOverComponent() {
-    return true;
-  };
+  // ////////////////////  应用级事件  ///////////////////////////
 
-  tt.getUpdateManager = function getUpdateManager() {
-    return swan.getUpdateManager();
-  };
-
-  tt.updateManager = function updateManager() {
-    return swan.updateManager();
-  };
-
-  tt.onAppShow = function onAppShow(callback) {
-    return swan.onAppShow(callback);
-  };
-
-  tt.offAppshow = function offAppshow(callback) {
-    return swan.offAppshow(callback);
-  };
-
-  tt.onAppHide = function onAppHide(callbak) {
-    return swan.onAppHide(callbak);
-  };
-
-  tt.offAppHide = function offAppHide(callback) {
+  my.offAppHide = function offAppHide(callback) {
     return swan.offAppHide(callback);
   };
 
-  tt.onError = function onError(callback) {
-    return swan.onError(callback);
+  my.offAppShow = function offAppShow(callback) {
+    return swan.offAppShow(callback);
   };
 
-  tt.offError = function offError(callback) {
+  my.offComponentError = function offComponentError() {
+    return console.warn('offComponentError is not support');
+  };
+
+  my.offError = function offError(callback) {
     return swan.offError(callback);
   };
 
-  tt.downloadFile = function downloadFile(optios) {
-    return swan.downloadFile(optios);
+  my.offUnhandledRejection = function offUnhandledRejection() {
+    return console.warn('offUnhandledRejection is not support');
   };
 
-  tt.request = function request(options) {
-    return swan.request(options);
+  my.onAppHide = function onAppHide(callback) {
+    return swan.onAppHide(callback);
   };
 
-  tt.uploadFile = function uploadFile(options) {
-    return swan.uploadFile(options);
+  my.onAppShow = function onAppShow(callback) {
+    swan.onAppShow(function (swan_res) {
+      var my_res = {
+        query: swan_res.query,
+        scene: swan_res.scene
+      };
+      callback(my_res);
+    });
   };
 
-  tt.connectSocket = function connectSocket(options) {
-    return swan.connectSocket(options);
+  my.onComponentError = function onComponentError() {
+    return console.warn('onComponentError is not support');
   };
 
-  tt.chooseImage = function chooseImage(options) {
-    return swan.chooseImage(options);
+  my.onError = function onError(callback) {
+    return swan.onError(callback);
   };
 
-  tt.saveImageToPhotosAlbum = function saveImageToPhotosAlbum(options) {
-    return swan.saveImageToPhotosAlbum(options);
+  my.onUnhandledRejection = function onUnhandledRejection() {
+    return console.warn('onUnhandledRejection is not support');
   };
 
-  tt.previewImage = function previewImage(options) {
-    return swan.previewImage(options);
+  // ////////////////////  界面  ///////////////////////////
+
+  // ///// 导航栏 /////
+
+
+  my.getTitleColor = function getTitleColor() {
+    return console.warn('getTitleColor is not support');
   };
 
-  tt.getImageInfo = function getImageInfo(options) {
-    return swan.getImageInfo(options);
+  my.hideBackHome = function hideBackHome() {
+    return swan.hideHomeButton();
   };
 
-  tt.compressImage = function compressImage(options) {
-    return swan.compressImage(options);
+  my.setNavigationBar = function setNavigationBar(my_object) {
+    var my_title = my_object.title;
+    var my_backgroundColor = my_object.backgroundColor;
+    var my_success = my_object.success;
+    var my_fail = my_object.fail;
+    var my_complete = my_object.complete;
+    my_object = null;
+    var title = my_title;
+    var backgroundColor = my_backgroundColor;
+    var frontColor = '#ffffff';
+    var swan_object1 = {
+      title: title
+    };
+    var swan_object2 = {
+      frontColor: frontColor,
+      backgroundColor: backgroundColor
+    };
+
+    (0, _PROMISE2.default)(function (SUCCESS) {
+      swan.setNavigationBarTitle(swan_object1);
+      swan.setNavigationBarColor(swan_object2);
+
+      var result = {
+        errMsg: 'setNavigationBar: ok'
+      };
+
+      SUCCESS(result);
+    }, my_success, my_fail, my_complete);
   };
 
-  tt.getRecorderManager = function getRecorderManager() {
-    return swan.getRecorderManager();
+  my.hideNavigationBarLoading = function hideNavigationBarLoading() {
+    return swan.hideNavigationBarLoading();
   };
 
-  tt.createInnerAudioContext = function createInnerAudioContext() {
-    return swan.createInnerAudioContext();
+  my.showNavigationBarLoading = function showNavigationBarLoading() {
+    return swan.showNavigationBarLoading();
   };
 
-  tt.getBackgroundAudioManager = function getBackgroundAudioManager() {
-    return swan.getBackgroundAudioManager();
+  // ///// tabBar /////
+
+
+  my.hideTabBar = function hideTabBar(my_object) {
+    return swan.hideTabBar(my_object);
   };
 
-  tt.chooseVideo = function chooseVideo() {
-    return swan.chooseVideo();
+  my.hideTabBarRedDot = function hideTabBarRedDot(my_object) {
+    return swan.hideTabBarRedDot(my_object);
   };
 
-  tt.saveVideoToPhotosAlbum = function saveVideoToPhotosAlbum() {
-    return swan.saveVideoToPhotosAlbum();
+  my.removeTabBarBadge = function removeTabBarBadge(my_object) {
+    return swan.removeTabBarBadge(my_object);
   };
 
-  tt.createVideoContext = function createVideoContext() {
-    return swan.createVideoContext();
+  my.setTabBarBadge = function setTabBarBadge(my_object) {
+    return swan.setTabBarBadge(my_object);
   };
 
-  tt.createLivePlayerContext = function createLivePlayerContext() {
-    return swan.createLivePlayerContext();
+  my.setTabBarItem = function setTabBarItem(my_object) {
+    return swan.setTabBarItem(my_object);
   };
 
-  tt.createCameraContext = function createCameraContext(id) {
-    // return new CameraContext(swan.createCameraContext())
-    return swan.createCanvasContext(id);
+  my.setTabBarStyle = function setTabBarStyle(my_object) {
+    return swan.setTabBarStyle(my_object);
   };
 
-  tt.createMapContext = function createMapContext() {
-    return swan.createCameraContext();
+  my.showTabBar = function showTabBar(my_object) {
+    return swan.showTabBar(my_object);
   };
 
-  tt.saveFile = function saveFile(object) {
-    return swan.saveFile(object);
+  my.showTabBarRedDot = function showTabBarRedDot(my_object) {
+    return swan.showTabBarRedDot(my_object);
   };
 
-  tt.getFileInfo = function getFileInfo(object) {
-    return swan.getFileInfo(object);
+  // //////  路由  /////////
+
+  my.switchTab = function switchTab(my_object) {
+    return swan.switchTab(my_object);
   };
 
-  tt.getSavedFileList = function getSavedFileList(object) {
-    return swan.getSavedFileList(object);
+  my.reLaunch = function reLaunch(my_object) {
+    return swan.reLaunch(my_object);
   };
 
-  tt.openDocument = function openDocument(options) {
-    return swan.openDocument(options);
+  my.redirectTo = function redirectTo(my_object) {
+    return swan.redirectTo(my_object);
   };
 
-  tt.removeSavedFile = function removeSavedFile(options) {
-    return swan.removeSavedFile(options);
+  my.navigateTo = function navigateTo(my_object) {
+    return swan.navigateTo(my_object);
   };
 
-  tt.getFileSystemManager = function getFileSystemManager() {
-    return swan.getFileSystemManager();
+  my.navigateBack = function navigateBack(my_object) {
+    return swan.navigateBack(my_object);
   };
 
-  tt.createCanvasContext = function createCanvasContext(canvasId) {
-    // return new CanvasContext(swan.createCanvasContext(canvasId))
+  // //////  交互反馈  /////////
+
+
+  my.alert = function alert(my_object) {
+    var my_title = my_object.title;
+    var my_content = my_object.content;
+    var my_confirmText = my_object.buttonText;
+    var my_success = my_object.success;
+    var my_fail = my_object.fail;
+    var my_complete = my_object.complete;
+    my_object = null;
+    (0, _PROMISE2.default)(function (SUCCESS) {
+      var title = my_title;
+      var content = my_content;
+      var confirmText = my_confirmText;
+      swan.showModal({
+        title: title,
+        content: content,
+        confirmText: confirmText,
+        success: function success() {
+          var my_res = {};
+          SUCCESS(my_res);
+        }
+      });
+    }, my_success, my_fail, my_complete);
+  };
+
+  my.confirm = function confirm(my_object) {
+    var my_title = my_object.title;
+    var my_content = my_object.content;
+    var my_confirmText = my_object.confirmButtonText;
+    var my_cancelText = my_object.cancelButtonText;
+    var my_success = my_object.success;
+    var my_fail = my_object.fail;
+    var my_complete = my_object.complete;
+    my_object = null;
+    (0, _PROMISE2.default)(function (SUCCESS) {
+      var title = my_title;
+      var content = my_content;
+      var confirmText = my_confirmText;
+      var cancelText = my_cancelText;
+      swan.showModal({
+        title: title,
+        content: content,
+        confirmText: confirmText,
+        cancelText: cancelText,
+        success: function success(res) {
+          if (res.confirm) {
+            var _res = {
+              confirm: true
+            };
+            SUCCESS(_res);
+          } else if (res.cancel) {
+            var _res2 = {
+              confirm: false
+            };
+            SUCCESS(_res2);
+          }
+        }
+      });
+    }, my_success, my_fail, my_complete);
+  };
+
+  my.hideLoading = function hideLoading(my_object) {
+    return swan.hideLoading(my_object);
+  };
+
+  my.hideToast = function hideToast(my_object) {
+    return swan.hideToast(my_object);
+  };
+
+  my.prompt = function prompt() {
+    return console.warn('prompt is not support');
+  };
+
+  my.showActionSheet = function showActionSheet(my_object) {
+    var my_items = my_object.items;
+    var my_success = my_object.success;
+    var my_fail = my_object.fail;
+    var my_complete = my_object.complete;
+    my_object = null;
+    (0, _PROMISE2.default)(function (SUCCESS) {
+      var itemList = my_items;
+      swan.showActionSheet({
+        itemList: itemList,
+        success: function success(swan_res) {
+          var my_res = {
+            index: swan_res.tapIndex
+          };
+          SUCCESS(my_res);
+        }
+      });
+    }, my_success, my_fail, my_complete);
+  };
+
+  my.showLoading = function showLoading(my_object) {
+    var my_title = my_object.content;
+    var my_success = my_object.success;
+    var my_fail = my_object.fail;
+    var my_complete = my_object.complete;
+    my_object = null;
+    (0, _PROMISE2.default)(function (SUCCESS) {
+      var title = my_title;
+      swan.showLoading({
+        title: title,
+        success: function success() {
+          var my_res = {
+            success: true
+          };
+          SUCCESS(my_res);
+        }
+      });
+    }, my_success, my_fail, my_complete);
+  };
+
+  my.showToast = function showToast(my_object) {
+    var my_title = my_object.content;
+    var my_duration = my_object.duration;
+    var my_icon = my_object.type;
+    var my_success = my_object.success;
+    var my_fail = my_object.fail;
+    var my_complete = my_object.complete;
+    my_object = null;
+    (0, _PROMISE2.default)(function (SUCCESS) {
+      var title = my_title;
+      var duration = my_duration;
+      var icon = my_icon;
+      swan.showToast({
+        title: title,
+        duration: duration,
+        icon: icon,
+        success: function success() {
+          var my_res = {};
+          SUCCESS(my_res);
+        }
+      });
+    }, my_success, my_fail, my_complete);
+  };
+
+  // //////  下拉刷新  /////////
+
+
+  my.startPullDownRefresh = function startPullDownRefresh(my_object) {
+    return swan.startPullDownRefresh(my_object);
+  };
+
+  my.stopPullDownRefresh = function stopPullDownRefresh(my_object) {
+    return swan.stopPullDownRefresh(my_object);
+  };
+
+  // //////  联系人  /////////
+
+
+  my.choosemypayContact = function choosemypayContact() {
+    return console.warn('choosemypayContact is not support');
+  };
+
+  my.chooseContact = function chooseContact() {
+    return console.warn('chooseContactt is not support');
+  };
+
+  my.choosePhoneContact = function choosePhoneContact() {
+    return console.warn('choosePhoneContact is not support');
+  };
+
+  // //////  选择城市  /////////
+
+
+  my.chooseCity = function chooseCity() {
+    return console.warn('chooseCity is not support');
+  };
+
+  my.onLocatedComplete = function onLocatedComplete() {
+    return console.warn('onLocatedComplete is not support');
+  };
+
+  my.setLocatedCity = function setLocatedCity() {
+    return console.warn('setLocatedCity is not support');
+  };
+
+  my.regionPicker = function regionPicker() {
+    return console.warn('regionPicker is not support');
+  };
+
+  // //////  选择日期  /////////
+
+
+  my.datePicker = function datePicker() {
+    return console.warn('datePicker is not support');
+  };
+
+  // //////  动画  /////////
+
+
+  my.createAnimation = function createAnimation(my_object) {
+    var swan_res = swan.createAnimation(my_object);
+    var my_res = {
+      animations: swan_res.actions,
+      config: swan_res.option,
+      currentAnimation: swan_res.currentStepAnimates
+    };
+    return my_res;
+  };
+
+  // //////  画布  /////////
+
+
+  my.createCanvasContext = function createCanvasContext(canvasId) {
     return swan.createCanvasContext(canvasId);
   };
 
-  tt.canvasToTempFilePath = function canvasToTempFilePath(object) {
-    return swan.canvasToTempFilePath(object);
+  // //////  地图  /////////
+
+
+  my.createMapContext = function createMapContext(mapId) {
+    return swan.createMapContext(mapId);
   };
 
-  tt.canvasPutImageData = function canvasPutImageData(object) {
-    return swan.canvasPutImageData(object);
+  my.getMapInfo = function getMapInfo() {
+    return console.warn('getMapInfo is not support');
   };
 
-  tt.canvasGetImageData = function canvasGetImageData(object) {
-    return swan.canvasGetImageData(object);
+  // //////  计算路径  /////////
+
+
+  my.calculateRoute = function calculateRoute() {
+    return console.warn('calculateRoute is not support');
   };
 
-  // //////////// Device //////////////////
+  // //////  滚动  /////////
 
 
-  tt.onBeaconServiceChange = function onBeaconServiceChange(object) {
-    return swan.onBeaconServiceChange(object);
+  my.pageScrollTo = function pageScrollTo(my_object) {
+    var my_scrollTop = my_object.scrollTop;
+    var my_duration = my_object.duration;
+    var my_selector = my_object.selector;
+    var my_success = my_object.success;
+    var my_fail = my_object.fail;
+    var my_complete = my_object.complete;
+    my_object = null;
+    (0, _PROMISE2.default)(function (SUCCESS) {
+      var scrollTop = my_scrollTop;
+      var duration = my_duration;
+      var selector = my_selector;
+      swan.pageScrollTo({
+        scrollTop: scrollTop,
+        duration: duration,
+        selector: selector,
+        success: function success() {
+          var my_res = {
+            success: true
+          };
+          SUCCESS(my_res);
+        }
+      });
+    }, my_success, my_fail, my_complete);
   };
 
-  tt.onBeaconUpdate = function onBeaconUpdate(object) {
-    return swan.onBeaconUpdate(object);
+  // //////  节点查询  /////////
+
+
+  my.createIntersectionObserver = function createIntersectionObserver(my_object) {
+    return swan.createIntersectionObserver(my_object);
   };
 
-  tt.getBeacons = function getBeacons(object) {
-    return swan.getBeacons(object);
+  my.createSelectorQuery = function createSelectorQuery() {
+    return swan.createSelectorQuery();
   };
 
-  tt.stopBeaconDiscovery = function stopBeaconDiscovery(object) {
-    return swan.stopBeaconDiscovery(object);
+  // //////  选项选择器  /////////
+
+
+  my.optionsSelect = function optionsSelect() {
+    return console.warn('optionsSelect is not support');
   };
 
-  tt.startBeaconDiscovery = function startBeaconDiscovery(object) {
-    return swan.startBeaconDiscovery(object);
+  // //////  设置窗口背景  /////////
+
+
+  my.setBackgroundColor = function setBackgroundColor(my_object) {
+    var my_backgroundColor = my_object.backgroundColor;
+    var my_backgroundColorTop = my_object.backgroundColorTop;
+    var my_backgroundColorBottom = my_object.backgroundColorBottom;
+    var my_success = my_object.success;
+    var my_fail = my_object.fail;
+    var my_complete = my_object.complete;
+    my_object = null;
+    (0, _PROMISE2.default)(function (SUCCESS) {
+      var backgroundColor = my_backgroundColor;
+      var backgroundColorTop = my_backgroundColorTop;
+      var backgroundColorBottom = my_backgroundColorBottom;
+      swan.setBackgroundColor({
+        backgroundColor: backgroundColor,
+        backgroundColorTop: backgroundColorTop,
+        backgroundColorBottom: backgroundColorBottom,
+        success: function success() {
+          var my_res = {
+            success: true
+          };
+          SUCCESS(my_res);
+        }
+      });
+    }, my_success, my_fail, my_complete);
   };
 
-  tt.stopWifi = function stopWifi(object) {
-    return swan.stopWifi(object);
+  my.setBackgroundTextStyle = function setBackgroundTextStyle(my_object) {
+    return swan.setBackgroundTextStyle(my_object);
   };
 
-  tt.startWifi = function startWifi(object) {
-    return swan.startWifi(object);
+  // //////  设置页面是否支持下拉  /////////
+
+
+  my.setCanPullDown = function setCanPullDown() {
+    return console.error('setCanPullDown is not support');
   };
 
-  tt.setWifiList = function setWifiList(object) {
-    return swan.setWifiList(object);
+  // //////  字体  /////////
+
+
+  my.loadFontFace = function loadFontFace(my_object) {
+    return swan.loadFontFace(my_object);
   };
 
-  tt.onWifiConnected = function onWifiConnected(object) {
-    return swan.onWifiConnected(object);
+  // ////////////////////  多媒体  ///////////////////////////
+
+  // //////  图片  /////////
+
+
+  my.chooseImage = function chooseImage(my_object) {
+    var my_count = my_object.count;
+    var my_sizeType = my_object.sizeType;
+    var my_sourceType = my_object.sourceType;
+    var my_success = my_object.success;
+    var my_fail = my_object.fail;
+    var my_complete = my_object.complete;
+    my_object = null;
+    (0, _PROMISE2.default)(function (SUCCESS) {
+      var count = my_count;
+      var sizeType = my_sizeType;
+      var sourceType = my_sourceType;
+      swan.chooseImage({
+        count: count,
+        sizeType: sizeType,
+        sourceType: sourceType,
+        success: function success(res) {
+          var my_res = {
+            tempFiles: res.tempFiles,
+            apFilePaths: res.tempFilePaths
+          };
+          SUCCESS(my_res);
+        }
+      });
+    }, my_success, my_fail, my_complete);
   };
 
-  tt.onGetWifiList = function onGetWifiList(object) {
-    return swan.onGetWifiList(object);
+  my.compressImage = function compressImage(my_object) {
+    var my_apFilePaths = my_object.apFilePaths;
+    var my_compressLevel = my_object.compressLevel || 4;
+    var my_success = my_object.success;
+    var my_fail = my_object.fail;
+    var my_complete = my_object.complete;
+    my_object = null;
+    (0, _PROMISE2.default)(function (SUCCESS) {
+      var swan_qumyty = void 0;
+      if (my_compressLevel) {
+        swan_qumyty = 80;
+      } else {
+        swan_qumyty = (my_compressLevel + 1) * 25;
+      }
+
+      (0, _TASK2.default)(my_apFilePaths, function (my_apFilePath, callback) {
+        var swan_src = my_apFilePath;
+        swan.compressImage({
+          src: swan_src,
+          qumyty: swan_qumyty,
+          success: function success(res) {
+            var apFilePath = res.tempFilePath;
+            callback(apFilePath);
+          }
+        });
+      }, function (apFilePaths) {
+        var my_res = {
+          apFilePaths: apFilePaths
+        };
+        SUCCESS(my_res);
+      });
+    }, my_success, my_fail, my_complete);
   };
 
-  tt.getWifiList = function getWifiList(object) {
-    return swan.getWifiList(object);
+  my.getImageInfo = function getImageInfo(my_object) {
+    return swan.getImageInfo(my_object);
   };
 
-  tt.getConnectedWifi = function getConnectedWifi(object) {
-    return swan.getConnectedWifi(object);
+  my.previewImage = function previewImage(my_object) {
+    return swan.previewImage(my_object);
   };
 
-  tt.connectWifi = function connectWifi(object) {
-    return swan.connectWifi(object);
+  my.saveImage = function saveImage(my_object) {
+    var my_url = my_object.url;
+    var my_success = my_object.success;
+    var my_fail = my_object.fail;
+    var my_complete = my_object.complete;
+    my_object = null;
+    (0, _PROMISE2.default)(function (SUCCESS) {
+      var filpath = my_url;
+      swan.saveImageToPhotosAlbum({
+        filpath: filpath,
+        success: function success() {
+          var my_res = {
+            succcess: true
+          };
+          SUCCESS(my_res);
+        }
+      });
+    }, my_success, my_fail, my_complete);
   };
 
-  //
+  // //////  视频播放  /////////
 
 
-  tt.onAccelerometerChange = function onAccelerometerChange(callback) {
-    return swan.onAccelerometerChange(callback);
+  my.createVideoContext = function createVideoContext(videoId) {
+    return swan.createVideoContext(videoId);
   };
 
-  tt.stopAccelerometer = function stopAccelerometer(object) {
-    return swan.stopAccelerometer(object);
+  // //////  音频播放  /////////
+
+
+  my.createInnerAudioContext = function createInnerAudioContext() {
+    return swan.createInnerAudioContext();
   };
 
-  tt.startAccelerometer = function startAccelerometer(object) {
-    return swan.startAccelerometer(object);
+  my.getAvailableAudioSources = function getAvailableAudioSources() {
+    return console.warn('getAvailableAudioSources is not support');
   };
 
-  tt.getBatteryInfoSync = function getBatteryInfoSync(object) {
-    return swan.getBatteryInfoSync(object);
+  my.getBackgroundAudioManager = function getBackgroundAudioManager() {
+    return swan.getBackgroundAudioManager();
   };
 
-  tt._getBatteryInfo = function _getBatteryInfo(result) {
-    return swan._getBatteryInfo(result);
+  my.offAudioInterruptionBegin = function offAudioInterruptionBegin() {
+    return console.warn('offAudioInterruptionBegin is not support');
   };
 
-  tt.getBatteryInfo = function getBatteryInfo(object) {
-    return swan.getBatteryInfo(object);
+  my.offAudioInterruptionEnd = function offAudioInterruptionEnd() {
+    return console.warn('offAudioInterruptionEnd is not support');
   };
 
-  //
-
-
-  tt.getClipboardData = function getClipboardData(object) {
-    return swan.getClipboardData(object);
+  my.onAudioInterruptionBegin = function onAudioInterruptionBegin() {
+    return console.warn('onAudioInterruptionBegin is not support');
   };
 
-  tt.setClipboardData = function setClipboardData(object) {
-    return swan.setClipboardData(object);
+  my.onAudioInterruptionEnd = function onAudioInterruptionEnd() {
+    return console.warn('onAudioInterruptionEnd is not support');
   };
 
-  tt.onCompassChange = function onCompassChange(callback) {
-    return swan.onCompassChange(callback);
+  // ////////////////////  缓存  ///////////////////////////
+
+  my.clearStorage = function clearStorage() {
+    return swan.clearStorage();
   };
 
-  tt.stopCompass = function stopCompass(object) {
-    return swan.stopCompass(object);
+  my.clearStorageSync = function clearStorageSync() {
+    return swan.clearStorageSync();
   };
 
-  tt.startCompass = function startCompass(object) {
-    return swan.startCompass(object);
+  my.getStorage = function getStorage(my_object) {
+    return swan.getStorage(my_object);
   };
 
-  tt.addPhoneContact = function addPhoneContact(object) {
-    return swan.addPhoneContact(object);
+  my.getStorageInfo = function getStorageInfo(my_object) {
+    return swan.getStorageInfo(my_object);
   };
 
-  tt.onGyroscopeChange = function onGyroscopeChange(callback) {
-    return swan.onGyroscopeChange(callback);
+  my.getStorageInfoSync = function getStorageInfoSync() {
+    return swan.getStorageInfoSync();
   };
 
-  tt.stopGyroscope = function stopGyroscope(object) {
-    return swan.stopGyroscope(object);
+  my.getStorageSync = function getStorageSync(my_object) {
+    var my_key = my_object.key;
+    my_object = null;
+    var swan_res = swan.getStorageSync(my_key);
+    var my_res = {
+      success: true,
+      data: swan_res
+    };
+    return my_res;
   };
 
-  tt.startGyroscope = function startGyroscope(object) {
-    return swan.startGyroscope(object);
+  my.removeStorage = function removeStorage(my_object) {
+    return swan.removeStorage(my_object);
   };
 
-  //
-
-
-  tt.onDeviceMotionChange = function onDeviceMotionChange(object) {
-    return swan.onDeviceMotionChange(object);
+  my.removeStorageSync = function removeStorageSync(my_object) {
+    var my_key = my_object.key;
+    my_object = null;
+    return swan.removeStorageSync(my_key);
   };
 
-  tt.stopDeviceMotionListening = function stopDeviceMotionListening(object) {
-    return swan.stopDeviceMotionListening(object);
+  my.setStorage = function setStorage(my_object) {
+    return swan.setStorage(my_object);
   };
 
-  tt.startDeviceMotionListening = function startDeviceMotionListening(object) {
-    return swan.startDeviceMotionListening(object);
+  my.setStorageSync = function setStorageSync(my_object) {
+    var my_key = my_object.key;
+    var my_data = my_object.data;
+    my_object = null;
+    return swan.setStorageSync(my_key, my_data);
   };
 
-  tt.getNetworkType = function getNetworkType(object) {
-    return swan.getNetworkType(object);
+  // ////////////////////  文件  ///////////////////////////
+
+  my.getFileInfo = function getFileInfo(my_object) {
+    var my_apFilePath = my_object.apFilePath;
+    var my_digestAlgorithm = my_object.digestAlgorithm || 'md5';
+    var my_success = my_object.success;
+    var my_fail = my_object.fail;
+    var my_complete = my_object.complete;
+    my_object = null;
+    (0, _PROMISE2.default)(function (SUCCESS) {
+      var filePath = my_apFilePath;
+      var digestAlgorithm = my_digestAlgorithm;
+      swan.getFileInfo({
+        filePath: filePath,
+        digestAlgorithm: digestAlgorithm,
+        success: function success(swan_res) {
+          var my_res = {
+            size: swan_res.size,
+            digest: swan_res.digest
+          };
+          SUCCESS(my_res);
+        }
+      });
+    }, my_success, my_fail, my_complete);
   };
 
-  tt._network = function _network(res) {
-    return swan._network(res);
+  my.getSavedFileInfo = function getSavedFileInfo(my_object) {
+    var my_apFilePath = my_object.apFilePath;
+    var my_success = my_object.success;
+    var my_fail = my_object.fail;
+    var my_complete = my_object.complete;
+    my_object = null;
+    (0, _PROMISE2.default)(function (SUCCESS) {
+      var filePath = my_apFilePath;
+      swan.getSavedFileInfo({
+        filePath: filePath,
+        success: function success(swan_res) {
+          var my_res = {
+            size: swan_res.size,
+            createTime: swan_res.createTime
+          };
+          SUCCESS(my_res);
+        }
+      });
+    }, my_success, my_fail, my_complete);
   };
 
-  tt.onNetworkStatusChange = function onNetworkStatusChange(callback) {
+  my.getSavedFileList = function getSavedFileList(my_object) {
+    var my_success = my_object.success;
+    var my_fail = my_object.fail;
+    var my_complete = my_object.complete;
+    my_object = null;
+    (0, _PROMISE2.default)(function (SUCCESS) {
+      swan.getSavedFileList({
+        success: function success(swan_res) {
+          var my_fileList = swan_res.fileList.map(function (file) {
+            return {
+              size: file.size,
+              createTime: file.createTime,
+              apFilePath: file.filePath
+            };
+          });
+          var my_res = {
+            fileList: my_fileList
+          };
+          SUCCESS(my_res);
+        }
+      });
+    }, my_success, my_fail, my_complete);
+  };
+
+  my.openDocument = function openDocument(my_object) {
+    return swan.openDocument(my_object);
+  };
+
+  my.removeSavedFile = function removeSavedFile(my_object) {
+    var my_apFilePath = my_object.apFilePath;
+    var my_success = my_object.success;
+    var my_fail = my_object.fail;
+    var my_complete = my_object.complete;
+    my_object = null;
+    var filePath = my_apFilePath;
+    var success = my_success;
+    var fail = my_fail;
+    var complete = my_complete;
+    var swan_object = {
+      filePath: filePath,
+      success: success,
+      fail: fail,
+      complete: complete
+    };
+    return swan.removeSavedFile(swan_object);
+  };
+
+  my.saveFile = function saveFile(my_object) {
+    var my_apFilePath = my_object.apFilePath;
+    var my_success = my_object.success;
+    var my_fail = my_object.fail;
+    var my_complete = my_object.complete;
+    my_object = null;
+    (0, _PROMISE2.default)(function (SUCCESS) {
+      var tempFilePath = my_apFilePath;
+      swan.saveFile({
+        tempFilePath: tempFilePath,
+        success: function success(swan_res) {
+          var my_res = {
+            apFilePath: swan_res.savedFilePath
+          };
+          SUCCESS(my_res);
+        }
+      });
+    }, my_success, my_fail, my_complete);
+  };
+
+  // ////////////////////  位置  ///////////////////////////
+
+
+  my.chooseLocation = function chooseLocation(my_object) {
+    return swan.chooseLocation(my_object);
+  };
+
+  my.getLocation = function getLocation(my_object) {
+    var my_type = my_object.type || 0;
+    var my_success = my_object.success;
+    var my_fail = my_object.fail;
+    var my_complete = my_object.complete;
+    my_object = null;
+    var swan_type = null;
+    if (my_type === 0) {
+      swan_type = 'wgs84';
+    } else {
+      swan_type = 'gcj02';
+    }
+    (0, _PROMISE2.default)(function (SUCCESS) {
+      var type = swan_type;
+      swan.getLocation({
+        type: type,
+        success: function success(swan_res) {
+          var my_res = {
+            longitude: swan_res.longitude,
+            latitude: swan_res.latitude,
+            accuracy: swan_res.accuracy,
+            horizontalAccuracy: swan_res.horizontalAccuracy
+          };
+          SUCCESS(my_res);
+        }
+      });
+    }, my_success, my_fail, my_complete);
+  };
+
+  my.openLocation = function openLocation(my_object) {
+    var my_longitude = my_object.longitude;
+    var my_latitude = my_object.latitude;
+    var my_keyword = my_object.name;
+    var my_success = my_object.success;
+    var my_fail = my_object.fail;
+    var my_complete = my_object.complete;
+    my_object = null;
+    var longitude = my_longitude;
+    var latitude = my_latitude;
+    var name = my_keyword;
+    var success = my_success;
+    var fail = my_fail;
+    var complete = my_complete;
+    var swan_object = {
+      longitude: longitude,
+      latitude: latitude,
+      name: name,
+      success: success,
+      fail: fail,
+      complete: complete
+    };
+
+    return swan.openLocation(swan_object);
+  };
+
+  // ////////////////////  网络  ///////////////////////////
+
+  // //////  发起请求  /////////
+
+
+  my.request = function request(my_object) {
+    var my_url = my_object.url;
+    var my_headers = my_object.headers;
+    var my_method = my_object.method || 'GET';
+    var my_data = my_object.data;
+    var my_timeout = my_object.timeout || 30000;
+    var my_dataType = my_object.dataType || 'JSON';
+    var my_success = my_object.success;
+    var my_fail = my_object.fail;
+    var my_complete = my_object.complete;
+    my_object = null;
+    (0, _PROMISE2.default)(function (SUCCESS) {
+      var url = my_url;
+      var header = my_headers;
+      var method = my_method;
+      var data = my_data;
+      var timeout = my_timeout;
+      var dataType = my_dataType;
+      swan.request({
+        url: url,
+        header: header,
+        method: method,
+        data: data,
+        timeout: timeout,
+        dataType: dataType,
+        success: function success(swan_res) {
+          var my_res = {
+            data: swan_res.data,
+            statusCode: swan_res.statusCode,
+            headers: swan_res.header,
+            cookies: swan_res.cookies
+          };
+          SUCCESS(my_res);
+        }
+      });
+    }, my_success, my_fail, my_complete);
+  };
+
+  // //////  上传、下载  /////////
+
+
+  my.downloadFile = function downloadFile(my_object) {
+    var my_url = my_object.url;
+    var my_header = my_object.header;
+    var my_success = my_object.success;
+    var my_fail = my_object.fail;
+    var my_complete = my_object.complete;
+    my_object = null;
+    (0, _PROMISE2.default)(function (SUCCESS) {
+      var url = my_url;
+      var header = my_header;
+      swan.downloadFile({
+        url: url,
+        header: header,
+        success: function success(swan_res) {
+          var my_res = {
+            apFilePath: swan_res.tempFilePath,
+            statusCode: swan_res.statusCode
+          };
+          SUCCESS(my_res);
+        }
+      });
+    }, my_success, my_fail, my_complete);
+  };
+
+  my.uploadFile = function uploadFile(my_object) {
+    var my_url = my_object.url;
+    var my_filePath = my_object.filePath;
+    var my_fileName = my_object.fileName;
+    var my_fileType = my_object.fileType;
+    var my_header = my_object.header;
+    var my_formData = my_object.formData;
+    var my_success = my_object.success;
+    var my_fail = my_object.fail;
+    var my_complete = my_object.complete;
+    my_object = null;
+    (0, _PROMISE2.default)(function (SUCCESS) {
+      var url = my_url;
+      var header = my_header;
+      var filePath = my_filePath;
+      var fileType = my_fileType;
+      var name = my_fileName;
+      var formData = my_formData;
+      swan.uploadFile({
+        url: url,
+        header: header,
+        filePath: filePath,
+        fileType: fileType,
+        name: name,
+        formData: formData,
+        success: function success(swan_res) {
+          var my_res = {
+            statusCode: swan_res.statusCode,
+            data: swan_res.data,
+            header: {}
+          };
+          SUCCESS(my_res);
+        }
+      });
+    }, my_success, my_fail, my_complete);
+  };
+
+  // //////  webScoket  /////////
+
+
+  my.connectSocket = function connectSocket(my_object) {
+    return swan.connectSocket(my_object);
+  };
+
+  my.onSocketOpen = function onSocketOpen(callback) {
+    return swan.onSocketOpen(callback);
+  };
+
+  my.onSocketError = function onSocketError(callback) {
+    return swan.onSocketError(callback);
+  };
+
+  my.sendSocketMessage = function sendSocketMessage(my_object) {
+    return swan.sendSocketMessage(my_object);
+  };
+
+  my.onSocketMessage = function onSocketMessage(callback) {
+    return swan.onSocketMessage(callback);
+  };
+
+  my.closeSocket = function closeSocket(my_object) {
+    return swan.closeSocket(my_object);
+  };
+
+  my.onSocketClose = function onSocketClose(callback) {
+    return swan.onSocketClose(callback);
+  };
+
+  my.offSocketClose = function offSocketClose() {
+    return console.warn('offSocketClose is not support');
+  };
+
+  my.offSocketMessage = function offSocketMessage() {
+    return console.warn('offSocketMessage is not support');
+  };
+
+  my.offSocketOpen = function offSocketOpen() {
+    return console.warn('offSocketOpen is not support');
+  };
+
+  my.offSocketError = function offSocketError() {
+    return console.warn('offSocketError is not support');
+  };
+
+  // ////////////////////  设备  ///////////////////////////
+
+  // //////  系统消息  /////////
+
+
+  my.getSystemInfo = function getSystemInfo(my_object) {
+    return swan.getSystemInfo(my_object);
+  };
+
+  my.getSystemInfoSync = function getSystemInfoSync() {
+    return swan.getSystemInfoSync();
+  };
+
+  // //////  网络状态  /////////
+
+
+  my.getNetworkType = function getNetworkType(my_object) {
+    var my_success = my_object.success;
+    var my_fail = my_object.fail;
+    var my_complete = my_object.complete;
+    my_object = null;
+    (0, _PROMISE2.default)(function (SUCCESS) {
+      swan.getNetworkType({
+        success: function success(swan_res) {
+          var my_res = {
+            networkType: swan_res.networkType,
+            networkAvailable: true
+          };
+          SUCCESS(my_res);
+        }
+      });
+    }, my_success, my_fail, my_complete);
+  };
+
+  my.onNetworkStatusChange = function onNetworkStatusChange(callback) {
     return swan.onNetworkStatusChange(callback);
   };
 
-  //
-
-
-  tt.makePhoneCall = function makePhoneCall(object) {
-    return swan.makePhoneCall(object);
-  };
-
-  tt.scanCode = function scanCode(object) {
-    return swan.scanCode(object);
-  };
-
-  //
-
-
-  tt.vibrateLong = function vibrateLong(object) {
-    return swan.vibrateLong(object);
-  };
-
-  tt.vibrateShort = function vibrateShort(object) {
-    return swan.vibrateShort(object);
-  };
-
-  //
-
-
-  tt.onMemoryWarning = function onMemoryWarning(object) {
-    return swan.onMemoryWarning(object);
-  };
-
-  //
-
-
-  tt.writeBLECharacteristicValue = function writeBLECharacteristicValue(object) {
-    return swan.writeBLECharacteristicValue(object);
-  };
-
-  tt.readBLECharacteristicValue = function readBLECharacteristicValue(object) {
-    return swan.readBLECharacteristicValue(object);
-  };
-
-  tt.onBLEConnectionStateChange = function onBLEConnectionStateChange(object) {
-    return swan.onBLEConnectionStateChange(object);
-  };
-
-  tt.onBLECharacteristicValueChange = function onBLECharacteristicValueChange(object) {
-    return swan.onBLECharacteristicValueChange(object);
-  };
-
-  tt.notifyBLECharacteristicValueChange = function notifyBLECharacteristicValueChange(object) {
-    return swan.notifyBLECharacteristicValueChange(object);
-  };
-
-  tt.getBLEDeviceServices = function getBLEDeviceServices(object) {
-    return swan.getBLEDeviceServices(object);
-  };
-
-  tt.getBLEDeviceCharacteristics = function getBLEDeviceCharacteristics(object) {
-    return swan.getBLEDeviceCharacteristics(object);
-  };
-
-  tt.createBLEConnection = function createBLEConnection(object) {
-    return swan.createBLEConnection(object);
-  };
-
-  tt.closeBLEConnection = function closeBLEConnection(object) {
-    return swan.closeBLEConnection(object);
-  };
-
-  //
-
-
-  tt.stopBluetoothDevicesDiscovery = function stopBluetoothDevicesDiscovery() {
-    /*
-    return swan.stopBluetoothDevicesDiscovery(object);
-    */
-  };
-
-  tt.startBluetoothDevicesDiscovery = function startBluetoothDevicesDiscovery(object) {
-    return swan.startBluetoothDevicesDiscovery(object);
-  };
-
-  tt.openBluetoothAdapter = function openBluetoothAdapter() {
-    /* return swan.openBluetoothAdapter(object); */
-  };
-
-  tt.onBluetoothDeviceFound = function onBluetoothDeviceFound(object) {
-    return swan.onBluetoothDeviceFound(object);
-  };
-
-  tt.onBluetoothAdapterStateChange = function onBluetoothAdapterStateChange(object) {
-    return swan.onBluetoothAdapterStateChange(object);
-  };
-
-  tt.getConnectedBluetoothDevices = function getConnectedBluetoothDevices(object) {
-    return swan.getConnectedBluetoothDevices(object);
-  };
-
-  tt.getBluetoothDevices = function getBluetoothDevices(object) {
-    return swan.getBluetoothDevices(object);
-  };
-
-  tt.getBluetoothAdapterState = function getBluetoothAdapterState(object) {
-    return swan.getBluetoothAdapterState(object);
-  };
-
-  tt.closeBluetoothAdapter = function closeBluetoothAdapter(object) {
-    return swan.closeBluetoothAdapter(object);
-  };
-
-  //
-
-
-  tt.stopHCE = function stopHCE(object) {
-    return swan.stopHCE(object);
-  };
-
-  tt.startHCE = function startHCE(object) {
-    return swan.startHCE(object);
+  my.offNetworkStatusChange = function offNetworkStatusChange() {
+    return console.warn('offNetworkStatusChange is not support');
   };
 
-  tt.sendHCEMessage = function sendHCEMessage(object) {
-    return swan.sendHCEMessage(object);
-  };
-
-  tt.onHCEMessage = function onHCEMessage(object) {
-    return swan.onHCEMessage(object);
-  };
-
-  tt.getHCEState = function getHCEState(object) {
-    return swan.getHCEState(object);
-  };
-
-  //
-
-
-  tt.setScreenBrightness = function setScreenBrightness(object) {
-    return swan.setScreenBrightness(object);
-  };
-
-  tt.setKeepScreenOn = function setKeepScreenOn(object) {
-    return swan.setKeepScreenOn(object);
-  };
-
-  tt.onUserCaptureScreen = function onUserCaptureScreen(object) {
-    return swan.onUserCaptureScreen(object);
-  };
-
-  tt.getScreenBrightness = function getScreenBrightness(object) {
-    return swan.getScreenBrightness(object);
-  };
-
-  // ///////////////// Ext //////////////
-
-
-  tt.getExtConfigSync = function getExtConfigSync(object) {
-    return swan.getExtConfigSync(object);
-  };
-
-  tt.getExtConfig = function getExtConfig(object) {
-    return swan.getExtConfig(object);
-  };
-
-  // ////////////////// File //////////
-
-
-  tt.getSavedFileInfo = function getSavedFileInfo(object) {
-    return swan.getSavedFileInfo(object);
-  };
-
-  // ////////// Location ///////////////
-
-
-  tt.openLocation = function openLocation(object) {
-    return swan.openLocation(object);
-  };
-
-  tt.getLocation = function getLocation(object) {
-    return swan.getLocation(object);
-  };
-
-  tt.chooseLocation = function chooseLocation(object) {
-    return swan.chooseLocation(object);
-  };
-
-  tt.stopVoice = function stopVoice(object) {
-    return swan.stopVoice(object);
-  };
-
-  tt.pauseVoice = function pauseVoice(object) {
-    return swan.pauseVoice(object);
-  };
-
-  tt.playVoice = function playVoice(object) {
-    return swan.playVoice(object);
-  };
-
-  tt.setInnerAudioOption = function setInnerAudioOption(object) {
-    return swan.setInnerAudioOption(object);
-  };
-
-  tt.getAvailableAudioSources = function getAvailableAudioSources(object) {
-    return swan.getAvailableAudioSources(object);
-  };
-
-  tt.createAudioContext = function createAudioContext(object) {
-    return swan.createAudioContext(object);
-  };
+  // //////  摇一摇  /////////
 
-  tt.onBackgroundAudioStop = function onBackgroundAudioStop(object) {
-    return swan.onBackgroundAudioStop(object);
-  };
 
-  tt.onBackgroundAudioPause = function onBackgroundAudioPause(object) {
-    return swan.onBackgroundAudioPause(object);
+  my.watchShake = function watchShake() {
+    return console.warn('watchShake is not support');
   };
 
-  tt.onBackgroundAudioPlay = function onBackgroundAudioPlay(object) {
-    return swan.onBackgroundAudioPlay(object);
-  };
+  // //////  震动  /////////
 
-  tt.stopBackgroundAudio = function stopBackgroundAudio(object) {
-    return swan.stopBackgroundAudio(object);
-  };
 
-  tt.seekBackgroundAudio = function seekBackgroundAudio(object) {
-    return swan.seekBackgroundAudio(object);
+  my.vibrate = function vibrate() {
+    return console.warn('vibrate is not support');
   };
 
-  tt.pauseBackgroundAudio = function pauseBackgroundAudio(object) {
-    return swan.pauseBackgroundAudio(object);
+  my.vibrateLong = function vibrateLong(my_object) {
+    return swan.vibrateLong(my_object);
   };
 
-  tt.playBackgroundAudio = function playBackgroundAudio(object) {
-    return swan.playBackgroundAudio(object);
+  my.vibrateShort = function vibrateShort(my_object) {
+    return swan.vibrateShort(my_object);
   };
 
-  tt.getBackgroundAudioPlayerState = function getBackgroundAudioPlayerState(object) {
-    return swan.getBackgroundAudioPlayerState(object);
-  };
+  // //////  加速度计  /////////
 
-  tt.createLivePusherContext = function createLivePusherContext(object) {
-    return swan.createLivePusherContext(object);
-  };
 
-  tt.onSocketError = function onSocketError(object) {
-    return swan.onSocketError(object);
+  my.onAccelerometerChange = function onAccelerometerChange(callback) {
+    return swan.onAccelerometerChange(callback);
   };
 
-  tt.onSocketMessage = function onSocketMessage(object) {
-    return swan.onSocketMessage(object);
+  my.offAccelerometerChange = function offAccelerometerChange(callback) {
+    return swan.offAccelerometerChange(callback);
   };
 
-  tt.onSocketClose = function onSocketClose(object) {
-    return swan.onSocketClose(object);
-  };
+  // //////  陀螺仪  /////////
 
-  tt.onSocketOpen = function onSocketOpen(object) {
-    return swan.connectSocket(object);
-  };
 
-  tt.sendSocketMessage = function sendSocketMessage(object) {
-    return swan.sendSocketMessage(object);
+  my.onGyroscopeChange = function onGyroscopeChange(callback) {
+    return swan.onGyroscopeChange(callback);
   };
 
-  tt.closeSocket = function closeSocket(object) {
-    return swan.closeSocket(object);
+  my.offGyroscopeChange = function offGyroscopeChange() {
+    return console.warn('offGyroscopeChange is not support');
   };
 
-  tt.offLocalServiceResolveFail = function offLocalServiceResolveFail(object) {
-    return swan.offLocalServiceResolveFail(object);
-  };
+  // //////  罗盘  /////////
 
-  tt.onLocalServiceResolveFail = function onLocalServiceResolveFail(object) {
-    return swan.onLocalServiceResolveFail(object);
-  };
 
-  tt.offLocalServiceDiscoveryStop = function offLocalServiceDiscoveryStop(object) {
-    return swan.offLocalServiceDiscoveryStop(object);
+  my.onCompassChange = function onCompassChange(callback) {
+    return swan.onCompassChange(callback);
   };
 
-  tt.onLocalServiceDiscoveryStop = function onLocalServiceDiscoveryStop(object) {
-    return swan.onLocalServiceDiscoveryStop(object);
+  my.offCompassChange = function offCompassChange(callback) {
+    return swan.offCompassChange(callback);
   };
 
-  tt.offLocalServiceLost = function offLocalServiceLost(object) {
-    return swan.offLocalServiceLost(object);
-  };
+  // //////  拨打电话  /////////
 
-  tt.onLocalServiceLost = function onLocalServiceLost(object) {
-    return swan.onLocalServiceLost(object);
-  };
 
-  tt.offLocalServiceFound = function offLocalServiceFound(object) {
-    return swan.offLocalServiceFound(object);
+  my.makePhoneCall = function makePhoneCall(my_object) {
+    return swan.makePhoneCall(my_object);
   };
 
-  tt.onLocalServiceFound = function onLocalServiceFound(object) {
-    return swan.onLocalServiceFound(object);
-  };
+  // //////  获取服务器时间  /////////
 
-  tt.stopLocalServiceDiscovery = function stopLocalServiceDiscovery(object) {
-    return swan.stopLocalServiceDiscovery(object);
-  };
 
-  tt.startLocalServiceDiscovery = function startLocalServiceDiscovery(object) {
-    return swan.startLocalServiceDiscovery(object);
+  my.getServerTime = function getServerTime() {
+    return console.warn('getServerTime is not support');
   };
 
-  // /////// Open Interface //////////
+  // //////  用户截屏事件  /////////
 
 
-  tt._checkSession = function _checkSession() {
-    var now = new Date().getTime();
-    return getApp().onekitwx._jscode && getApp().onekitwx._login && now <= getApp().onekitwx._login + 1000 * 60 * 60 * 24 * 3;
+  my.onUserCaptureScreen = function onUserCaptureScreen(callback) {
+    return swan.onUserCaptureScreen(callback);
   };
 
-  tt.checkSession = function checkSession(object) {
-    if (tt._checkSession()) {
-      if (object.success) {
-        object.success();
-      }
-      if (object.complete) {
-        object.complete();
-      }
-    } else {
-      if (object.fail) {
-        object.fail();
-      }
-      if (object.complete) {
-        object.complete();
-      }
-    }
+  my.offUserCaptureScreen = function offUserCaptureScreen() {
+    return console.warn('offUserCaptureScreen is not support');
   };
 
-  tt.login = function login(object) {
-    if (!object) {
-      swan.login(object);
-      return;
-    }
-    var object2 = {};
-    object2.success = function (res) {
-      getApp().onekitwx._jscode = res.code;
-      getApp().onekitwx._login = new Date().getTime();
-      var result = {
-        code: res.code
-      };
-      if (object.success) {
-        object.success(result);
-      }
-      if (object.complete) {
-        object.complete();
-      }
-    };
-    object2.fail = function (res) {
-      if (object.fail) {
-        object.fail(res);
-      }
-      if (object.complete) {
-        object.complete(res);
-      }
-    };
-    if (tt._checkSession()) {
-      object2.success({
-        code: getApp().onekitwx._jscode
-      });
-    } else {
-      swan.login(object2);
-    }
-  };
+  // //////  屏幕亮度  /////////
 
-  tt._getUserInfo = function _getUserInfo(data, callback) {
-    tt.login({
-      success: function success(res) {
-        console.log(res);
-        var code = res.code;
-        var withCredentials = getApp().onekitwx.getuserinfo_withCredentials === true;
-        var url = getApp().onekitwx.server + 'userinfo';
-        swan.request({
-          url: url,
-          header: {
-            'Content-Type': 'application/x-www-form-urlencoded'
-          },
-          method: 'POST',
-          data: {
-            code: code,
-            withCredentials: withCredentials,
-            data: JSON.stringify(data)
-          },
-          success: function success(res) {
-            callback(res.data);
-          },
-          fail: function fail(res) {
-            console.log(res);
-            callback(res);
-          }
-        });
-      },
-      fail: function fail(res) {
-        console.log(res);
-      }
-    });
-  };
 
-  tt.getUserInfo = function getUserInfo(object) {
-    getApp().onekitwx.getuserinfo_withCredentials = object.withCredentials;
-    getApp().onekitwx.getuserinfo = function (data) {
-      tt._getUserInfo(data, function (res) {
-        if (object.success) {
-          object.success(res);
-        }
-        if (object.complete) {
-          object.complete(res);
+  my.getScreenBrightness = function getScreenBrightness(my_object) {
+    var my_success = my_object.success;
+    var my_fail = my_object.fail;
+    var my_complete = my_object.complete;
+    my_object = null;
+    (0, _PROMISE2.default)(function (SUCCESS) {
+      swan.getScreenBrightness({
+        success: function success(swan_res) {
+          var my_res = {
+            brightnes: swan_res.value
+          };
+          SUCCESS(my_res);
         }
       });
+    }, my_success, my_fail, my_complete);
+  };
+
+  my.setScreenBrightness = function setScreenBrightness(my_object) {
+    var my_brightness = my_object.brightness;
+    var my_success = my_object.success;
+    var my_fail = my_object.fail;
+    var my_complete = my_object.complete;
+    my_object = null;
+    var value = my_brightness;
+    var success = my_success;
+    var fail = my_fail;
+    var complete = my_complete;
+    var swan_object = {
+      value: value,
+      success: success,
+      fail: fail,
+      complete: complete
     };
-    swan.navigateTo({
-      url: '/onekitwx/page/getuserinfo/getuserinfo'
-    });
+    return swan.setScreenBrightness(swan_object);
   };
 
-  tt.getOpenData = function getOpenData(object) {
-    return swan.getOpenData(object);
+  my.setKeepScreenOn = function setKeepScreenOn(my_object) {
+    return swan.setKeepScreenOn(my_object);
   };
 
-  tt._getPhoneNumber = function _getPhoneNumber(data, callback) {
-    tt.login({
-      success: function success(res) {
-        var code = res.code;
-        var url = getApp().onekitwx.server + 'phonenumber';
-        console.log(data);
-        swan.request({
-          url: url,
-          header: {
-            'Content-Type': 'application/x-www-form-urlencoded'
-          },
-          method: 'POST',
-          data: {
-            data: JSON.stringify(data),
-            code: code
-          },
-          success: function success(res) {
-            var data = res.data;
-            callback(data);
-          },
-          fail: function fail(res) {
-            console.log(res.data);
-          }
-        });
-      }
-    });
-  };
+  // //////  设置  /////////
 
-  tt.getPhoneNumber = function getPhoneNumber(object) {
-    getApp().onekitwx._bindgetphonenumber = function (data) {
-      tt._getPhoneNumber(data, function (res) {
-        if (object.success) {
-          object.success(res);
-        }
-        if (object.complete) {
-          object.complete(res);
-        }
-      });
-    };
-    swan.navigateTo({
-      url: 'page/getphonenumber'
-    });
-  };
 
-  tt.navigateToSmartprogram = function navigateToSmartprogram(object) {
-    return swan.navigateToSmartprogram(object);
-  };
-
-  tt.navigateBackSmartprogram = function navigateBackSmartprogram(object) {
-    return swan.navigateBackSmartprogram(object);
-  };
-
-  tt.getAccountInfoSync = function getAccountInfoSync(object) {
-    return swan.getAccountInfoSync(object);
-  };
-
-  tt.reportMonitor = function reportMonitor(object) {
-    return swan.reportMonitor(object);
-  };
-
-  tt.reportAnalytics = function reportAnalytics(object, eventName) {
-    return swan.reportAnalytics(object, eventName);
-  };
-
-  tt.pay = function pay(object) {
-    var url = getApp().onekitwx.server + 'orderinfo';
-    swan.request({
-      url: url,
-      method: 'POST',
-      header: {
-        'Content-Type': 'application/x-www-form-urlencoded'
-      },
-      data: {
-        orderInfo: JSON.stringify(object.orderInfo)
-      },
-      success: function success(res) {
-        console.log(res);
-        var data = {
-          out_order_no: res.data.tpOrderId
-        };
-        swan.requestPolymerPayment({
-          orderInfo: res.data,
-          success: function success() {
-            if (object.getOrderStatus) {
-              object.getOrderStatus(data);
-              console.log('ok');
+  my.getSetting = function getSetting(my_object) {
+    var my_success = my_object.success;
+    var my_fail = my_object.fail;
+    var my_complete = my_object.complete;
+    my_object = null;
+    (0, _PROMISE2.default)(function (SUCCESS) {
+      swan.getSetting({
+        success: function success(swan_res) {
+          var my_res = {
+            authSetting: {
+              location: swan_res.authSetting['scope.userLocation'],
+              album: swan_res.authSetting['scope.writePhotosAlbum'],
+              camera: swan_res.authSetting['scope.camera'],
+              mypaysports: swan_res.authSetting['scope.werun'],
+              phoneNumber: '000000',
+              myaddress: swan_res.authSetting['scope.address'],
+              userinfo: swan_res.authSetting['scope.userInfo'],
+              userLocationBackground: swan_res.authSetting['scope.userLocationBackground'],
+              record: swan_res.authSetting['scope.record'],
+              invoice: swan_res.authSetting['scope.invoice'],
+              invoiceTitle: swan_res.authSetting['scope.invoiceTitle'],
+              _RVA_APPID: null
             }
-          },
-          fail: function fail(res) {
-            console.log(res);
-          }
-        });
-      },
-      fail: function fail(res) {
-        console.log(res);
-      }
+          };
+          SUCCESS(my_res);
+        }
+      });
+    }, my_success, my_fail, my_complete);
+  };
+
+  my.openSetting = function openSetting(my_object) {
+    var my_success = my_object.success;
+    var my_fail = my_object.fail;
+    var my_complete = my_object.complete;
+    my_object = null;
+    (0, _PROMISE2.default)(function (SUCCESS) {
+      swan.openSetting({
+        success: function success(swan_res) {
+          var my_res = {
+            authSetting: {
+              location: swan_res.authSetting['scope.userLocation'],
+              album: swan_res.authSetting['scope.writePhotosAlbum'],
+              camera: swan_res.authSetting['scope.camera'],
+              werun: swan_res.authSetting['scope.werun'],
+              address: swan_res.authSetting['scope.address'],
+              userinfo: swan_res.authSetting['scope.userInfo'],
+              userLocationBackground: swan_res.authSetting['scope.userLocationBackground'],
+              record: swan_res.authSetting['scope.record'],
+              invoice: swan_res.authSetting['scope.invoice'],
+              invoiceTitle: swan_res.authSetting['scope.invoiceTitle']
+            }
+          };
+          SUCCESS(my_res);
+        }
+      });
+    }, my_success, my_fail, my_complete);
+  };
+
+  // //////  添加手机联系人  /////////
+
+
+  my.addPhoneContact = function addPhoneContact(my_object) {
+    return swan.addPhoneContact(my_object);
+  };
+
+  // //////  权限引导  /////////
+
+
+  my.showAuthGuide = function showAuthGuide() {
+    return console.warn('showAuthGuide is not support');
+  };
+
+  // //////  扫码  /////////
+
+
+  my.scan = function scan(my_object) {
+    var my_scanType = my_object.scanType || ['qrCode', 'barCode'];
+    var my_hideAlbum = my_object.hideAlbum || false;
+    var my_success = my_object.success;
+    var my_fail = my_object.fail;
+    var my_complete = my_object.complete;
+    my_object = null;
+    var scanType = my_scanType;
+    var onlyFromCamera = my_hideAlbum;
+    (0, _PROMISE2.default)(function (SUCCESS) {
+      swan.scanCode({
+        scanType: scanType,
+        onlyFromCamera: onlyFromCamera,
+        success: function success(swan_res) {
+          var my_res = {
+            code: 'code data',
+            qrCode: 'qrCode data',
+            barCode: 'barCode data',
+            codeContent: swan_res.result,
+            imageChannel: '',
+            rawData: '',
+            charSet: swan_res.charSet,
+            path: swan_res.path
+          };
+          SUCCESS(my_res);
+        }
+      });
+    }, my_success, my_fail, my_complete);
+  };
+
+  // //////  内存不足警告  /////////
+
+
+  my.onMemoryWarning = function onMemoryWarning(callback) {
+    return swan.onMemoryWarning(callback);
+  };
+
+  my.offMemoryWarning = function offMemoryWarning() {
+    return console.warn('offMemoryWarning is not support');
+  };
+
+  // //////  获取设备电量  /////////
+
+
+  my.getBatteryInfo = function getBatteryInfo() {
+    return console.warn('getBatteryInfo is not support');
+  };
+
+  my.getBatteryInfoSync = function getBatteryInfoSync() {
+    return console.warn('getBatteryInfoSync is not support');
+  };
+
+  // //////  传统蓝牙  /////////
+
+
+  my.openBluetoothAdapter = function openBluetoothAdapter(my_object) {
+    return swan.openBluetoothAdapter(my_object);
+  };
+
+  my.startBluetoothDevicesDiscovery = function startBluetoothDevicesDiscovery(my_object) {
+    return swan.startBluetoothDevicesDiscovery(my_object);
+  };
+
+  my.onBluetoothDeviceFound = function onBluetoothDeviceFound(callback) {
+    swan.onBluetoothDeviceFound(function (swan_res) {
+      var my_devices = swan_res.devices.map(function (device) {
+        return {
+          name: device.name,
+          deviceName: device.name,
+          deviceId: device.deviceId,
+          localName: device.localName,
+          RSSI: device.RSSI,
+          advertisData: device.advertisData,
+          advertisServiceUUIDs: device.advertisServiceUUIDs,
+          serviceData: device.serviceData
+        };
+      });
+      var my_res = {
+        devices: my_devices
+      };
+      callback(my_res);
     });
   };
 
-  tt.authorize = function authorize(object) {
-    return swan.authorize(object);
-  };
-
-  tt.openSetting = function openSetting(object) {
-    return swan.openSetting(object);
-  };
-
-  tt.getSetting = function getSetting(object) {
-    return swan.getSetting(object);
-  };
-
-  tt.chooseAddress = function chooseAddress(object) {
-    return swan.chooseAddress(object);
-  };
-
-  tt.openCard = function openCard(object) {
-    return swan.openCard(object);
-  };
-
-  tt.addCard = function addCard(object) {
-    return swan.addCard(object);
-  };
-
-  tt.chooseInvoiceTitle = function chooseInvoiceTitle(object) {
-    return swan.chooseInvoiceTitle(object);
-  };
-
-  tt.chooseInvoice = function chooseInvoice(object) {
-    return swan.chooseInvoice(object);
-  };
-
-  tt.startSoterAuthentication = function startSoterAuthentication(object) {
-    return swan.startSoterAuthentication(object);
-  };
-
-  tt.checkIsSupportSoterAuthentication = function checkIsSupportSoterAuthentication(object) {
-    return swan.checkIsSupportSoterAuthentication(object);
-  };
-
-  tt.checkIsSoterEnrolledInDevice = function checkIsSoterEnrolledInDevice(object) {
-    return swan.checkIsSoterEnrolledInDevice(object);
-  };
-
-  tt.getWeRunData = function getWeRunData(object) {
-    return swan.getWeRunData(object);
-  };
-
-  // //////// Router //////////////
-
-
-  tt.navigateBack = function navigateBack(object) {
-    return swan.navigateBack(object);
-  };
-
-  tt.switchTab = function switchTab(object) {
-    return swan.switchTab(object);
-  };
-
-  tt.navigateTo = function navigateTo(object) {
-    return swan.navigateTo(object);
-  };
-
-  tt.reLaunch = function reLaunch(object) {
-    return swan.reLaunch(object);
-  };
-
-  tt.redirectTo = function redirectTo(object) {
-    return swan.redirectTo(object);
-  };
-
-  // /////////// Share /////////////
-
-
-  tt.updateShareMenu = function updateShareMenu(object) {
-    return swan.updateShareMenu(object);
-  };
-
-  tt.showShareMenu = function showShareMenu() {
-    console.error('Baidu is not support!');
-  };
-
-  tt.hideShareMenu = function hideShareMenu() {
-    console.error('Baidu is not support!');
-  };
-
-  tt.navigateToVideoView = function navigateToVideoView() {
-    console.error('Baidu is not support!');
-  };
-
-  tt.getShareInfo = function getShareInfo(object) {
-    return swan.getShareInfo(object);
-  };
-
-  // ///////////// Storage //////////////
-
-
-  tt.getStorageInfoSync = function getStorageInfoSync(object) {
-    return swan.getStorageInfoSync(object);
-  };
-
-  tt.getStorageInfo = function getStorageInfo(object) {
-    return swan.getStorageInfo(object);
-  };
-
-  tt.clearStorageSync = function clearStorageSync(object) {
-    return swan.clearStorageSync(object);
-  };
-
-  tt.clearStorage = function clearStorage(object) {
-    return swan.clearStorage(object);
-  };
-
-  tt.removeStorageSync = function removeStorageSync(object) {
-    return swan.removeStorageSync(object);
-  };
-
-  tt.removeStorage = function removeStorage(object) {
-    return swan.removeStorage(object);
-  };
-
-  tt.setStorageSync = function setStorageSync(key, value) {
-    return swan.setStorageSync(key, value);
-  };
-
-  tt.setStorage = function setStorage(object) {
-    return swan.setStorage(object);
-  };
-
-  tt.getStorageSync = function getStorageSync(key) {
-    return swan.getStorageSync(key);
-  };
-
-  tt.getStorage = function getStorage(object) {
-    return swan.getStorage(object);
-  };
-
-  // //////////// UI ////////////////
-
-
-  tt.showActionSheet = function showActionSheet(object) {
-    return swan.showActionSheet(object);
-  };
-
-  tt.showFavoriteGuide = function showFavoriteGuide(options) {
-    return swan.showFavoriteGuide(options);
-  };
-
-  tt.showInteractionBar = function showInteractionBar() {
-    console.error('showInteractionBar is not support in Baidu');
-  };
-
-  tt.hideLoading = function hideLoading(object) {
-    return swan.hideLoading(object);
-  };
-
-  tt.showLoading = function showLoading(object) {
-    return swan.showLoading(object);
-  };
-
-  tt.hideToast = function hideToast(object) {
-    return swan.hideToast(object);
-  };
-
-  tt.showToast = function showToast(object) {
-    return swan.showToast(object);
-  };
-
-  tt.showModal = function showModal(object) {
-    return swan.showModal(object);
-  };
-
-  tt.setNavigationBarColor = function setNavigationBarColor(object) {
-    return swan.setNavigationBarColor(object);
-  };
-
-  tt.hideNavigationBarLoading = function hideNavigationBarLoading(object) {
-    return swan.hideNavigationBarLoading(object);
-  };
-
-  tt.showNavigationBarLoading = function showNavigationBarLoading(object) {
-    return swan.showNavigationBarLoading(object);
-  };
-
-  tt.hideHomeButton = function hideHomeButton() {
-    console.error('Baidu is note support hideHomeButton!');
-  };
-
-  tt.setNavigationBarTitle = function setNavigationBarTitle(object) {
-    return swan.setNavigationBarTitle(object);
-  };
-
-  tt.setBackgroundTextStyle = function setBackgroundTextStyle(object) {
-    return swan.setBackgroundTextStyle(object);
-  };
-
-  tt.setBackgroundColor = function setBackgroundColor(object) {
-    return swan.setBackgroundColor(object);
-  };
-
-  tt.setTabBarItem = function setTabBarItem(object) {
-    return swan.setTabBarItem(object);
-  };
-
-  tt.setTabBarStyle = function setTabBarStyle(object) {
-    return swan.setTabBarStyle(object);
-  };
-
-  tt.hideTabBar = function hideTabBar(object) {
-    return swan.hideTabBar(object);
-  };
-
-  tt.showTabBar = function showTabBar(object) {
-    return swan.showTabBar(object);
-  };
-
-  tt.hideTabBarRedDot = function hideTabBarRedDot(object) {
-    return swan.hideTabBarRedDot(object);
-  };
-
-  tt.showTabBarRedDot = function showTabBarRedDot(object) {
-    return swan.showTabBarRedDot(object);
-  };
-
-  tt.removeTabBarBadge = function removeTabBarBadge(object) {
-    return swan.removeTabBarBadge(object);
-  };
-
-  tt.setTabBarBadge = function setTabBarBadge(object) {
-    return swan.setTabBarBadge(object);
-  };
-
-  tt.loadFontFace = function loadFontFace(object) {
-    return swan.loadFontFace(object);
-  };
-
-  tt.pageScrollTo = function pageScrollTo(object) {
-    return swan.pageScrollTo(object);
-  };
-
-  tt.onPullDownRefresh = function onPullDownRefresh() {
-    return swan.onPullDownRefresh();
-  };
-
-  tt.setTopBarText = function setTopBarText(object) {
-    return swan.setTopBarText(object);
-  };
-
-  tt.stopPullDownRefresh = function stopPullDownRefresh(object) {
-    return swan.stopPullDownRefresh(object);
-  };
-
-  tt.startPullDownRefresh = function startPullDownRefresh(object) {
-    return swan.startPullDownRefresh(object);
-  };
-
-  tt.nextTick = function nextTick(object) {
-    return swan.nextTick(object);
-  };
-
-  tt.getMenuButtonBoundingClientRect = function getMenuButtonBoundingClientRect(object) {
-    return swan.getMenuButtonBoundingClientRect(object);
-  };
-
-  tt.createAnimation = function createAnimation(options) {
-    return swan.createAnimation(options);
-  };
-
-  tt.offWindowResize = function offWindowResize(object) {
-    return swan.offWindowResize(object);
-  };
-
-  tt.onWindowResize = function onWindowResize(object) {
-    return swan.onWindowResize(object);
-  };
-
-  // //////////// Worker ///////////////
-
-
-  tt.createWorker = function createWorker() {
-    return swan.createWorker();
-  };
-
-  // //////////// WXML ///////////////
-
-
-  tt.createSelectorQuery = function createSelectorQuery(object) {
-    return swan.createSelectorQuery(object);
-  };
-
-  tt.createIntersectionObserver = function createIntersectionObserver(object) {
-    return swan.createIntersectionObserver(object);
-  };
-
-  // ///////////////////////////////////
-
-
-  tt.hideKeyboard = function hideKeyboard(object) {
-    return swan.hideKeyboard(object);
-  };
-
-  // /////////////////////////////////
-
-
-  tt.createARCameraContext = function createARCameraContext() {
-    console.error('Baidu is not support createARCameraContext!!');
-  };
-
-  _createClass(tt, null, [{
+  my.stopBluetoothDevicesDiscovery = function stopBluetoothDevicesDiscovery(my_object) {
+    return swan.stopBluetoothDevicesDiscovery(my_object);
+  };
+
+  my.onBluetoothAdapterStateChange = function onBluetoothAdapterStateChange(callback) {
+    return swan.onBluetoothAdapterStateChange(callback);
+  };
+
+  my.getConnectedBluetoothDevices = function getConnectedBluetoothDevices(my_object) {
+    var my_deviceId = my_object.deviceId;
+    var my_success = my_object.success;
+    var my_fail = my_object.fail;
+    var my_complete = my_object.complete;
+    my_object = null;
+    var services = [my_deviceId];
+    var success = my_success;
+    var fail = my_fail;
+    var complete = my_complete;
+    var swan_object = {
+      services: services,
+      success: success,
+      fail: fail,
+      complete: complete
+    };
+    return swan.getConnectedBluetoothDevices(swan_object);
+  };
+
+  my.getBluetoothDevices = function getBluetoothDevices(my_object) {
+    var my_success = my_object.success;
+    var my_fail = my_object.fail;
+    var my_complete = my_object.complete;
+    my_object = null;
+    (0, _PROMISE2.default)(function (SUCCESS) {
+      swan.getBluetoothDevices({
+        success: function success(swan_res) {
+          var my_devices = swan_res.devices.map(function (device) {
+            return {
+              name: device.name,
+              deviceName: device.name,
+              deviceId: device.deviceId,
+              localName: device.localName,
+              RSSI: device.RSSI,
+              manufacturerData: device.advertisData,
+              advertisServiceUUIDs: device.advertisServiceUUIDs,
+              serviceData: device.serviceData
+            };
+          });
+          var my_res = {
+            devices: my_devices
+          };
+          SUCCESS(my_res);
+        }
+      });
+    }, my_success, my_fail, my_complete);
+  };
+
+  my.getBluetoothAdapterState = function getBluetoothAdapterState(my_object) {
+    return swan.getBluetoothAdapterState(my_object);
+  };
+
+  my.closeBluetoothAdapter = function closeBluetoothAdapter(my_object) {
+    return swan.closeBluetoothAdapter(my_object);
+  };
+
+  my.offBluetoothAdapterStateChange = function offBluetoothAdapterStateChange() {
+    return console.warn('offBluetoothAdapterStateChange is not support');
+  };
+
+  my.offBluetoothDeviceFound = function offBluetoothDeviceFound() {
+    return console.warn('getBatteryInfoSync is not support');
+  };
+
+  // //////  低功耗蓝牙  /////////
+
+
+  my.connectBLEDevice = function connectBLEDevice(my_object) {
+    return swan.createBLEConnection(my_object);
+  };
+
+  my.disconnectBLEDevice = function disconnectBLEDevice(my_object) {
+    return swan.closeBLEConnection(my_object);
+  };
+
+  my.getBLEDeviceCharacteristics = function getBLEDeviceCharacteristics(my_object) {
+    var swan_res = swan.getBLEDeviceCharacteristics(my_object);
+    var my_characteristics = swan_res.characteristics.map(function (characteristic) {
+      return {
+        characteristicId: characteristic.uuid,
+        properties: characteristic.properties,
+        value: '',
+        localName: ''
+      };
+    });
+    var my_res = {
+      characteristics: my_characteristics
+    };
+    return my_res;
+  };
+
+  my.getBLEDeviceServices = function getBLEDeviceServices(my_object) {
+    var swan_res = swan.getBLEDeviceServices(my_object);
+    var my_services = swan_res.services.map(function (service) {
+      return {
+        serviceId: service.uuid,
+        isPrimary: service.isPrimary
+      };
+    });
+    var my_res = {
+      services: my_services
+    };
+    return my_res;
+  };
+
+  my.notifyBLECharacteristicValueChange = function notifyBLECharacteristicValueChange(my_object) {
+    return swan.notifyBLECharacteristicValueChange(my_object);
+  };
+
+  my.onBLECharacteristicValueChange = function onBLECharacteristicValueChange(callback) {
+    swan.onBLECharacteristicValueChange(function (swan_res) {
+      var my_res = {
+        deviceId: swan_res.deviceId,
+        serviceId: swan_res.serviceId,
+        characteristicId: swan_res.characteristicId,
+        value: swan_res.value,
+        connected: true
+      };
+      callback(my_res);
+    });
+  };
+
+  my.onBLEConnectionStateChange = function onBLEConnectionStateChange(callback) {
+    return swan.onBLEConnectionStateChange(callback);
+  };
+
+  my.readBLECharacteristicValue = function readBLECharacteristicValue(my_object) {
+    var swan_res = swan.readBLECharacteristicValue(my_object);
+    var my_res = {
+      deviceId: swan_res.deviceId,
+      serviceId: swan_res.serviceId,
+      characteristicId: swan_res.characteristicId,
+      value: swan_res.value
+    };
+    return my_res;
+  };
+
+  my.writeBLECharacteristicValue = function writeBLECharacteristicValue(my_object) {
+    var my_deviceId = my_object.deviceId;
+    var my_serviceId = my_object.serviceId;
+    var my_characteristicId = my_object.characteristicId;
+    var my_value = my_object.value;
+    var my_success = my_object.success;
+    var my_fail = my_object.fail;
+    var my_complete = my_object.complete;
+    my_object = null;
+    var deviceId = my_deviceId;
+    var serviceId = my_serviceId;
+    var characteristicId = my_characteristicId;
+    var value = [my_value];
+    var success = my_success;
+    var fail = my_fail;
+    var complete = my_complete;
+    var swan_object = {
+      deviceId: deviceId,
+      serviceId: serviceId,
+      characteristicId: characteristicId,
+      value: value,
+      success: success,
+      fail: fail,
+      complete: complete
+    };
+    return swan.writeBLECharacteristicValue(swan_object);
+  };
+
+  // //////  iBeacon  /////////
+
+
+  my.getBeacons = function getBeacons(my_object) {
+    var my_success = my_object.success;
+    var my_fail = my_object.fail;
+    var my_complete = my_object.complete;
+    my_object = null;
+    (0, _PROMISE2.default)(function (SUCCESS) {
+      swan.getBeacons({
+        success: function success(swan_res) {
+          var my_res = {
+            beacons: swan_res.beacons,
+            errCode: '0',
+            errorMsg: 'ok'
+          };
+          SUCCESS(my_res);
+        }
+      });
+    }, my_success, my_fail, my_complete);
+  };
+
+  my.startBeaconDiscovery = function startBeaconDiscovery(my_object) {
+    return swan.startBeaconDiscovery(my_object);
+  };
+
+  my.stopBeaconDiscovery = function stopBeaconDiscovery(my_object) {
+    return swan.stopBeaconDiscovery(my_object);
+  };
+
+  my.onBeaconServiceChange = function onBeaconServiceChange(my_object) {
+    var my_success = my_object.success;
+    my_object = null;
+    return swan.onBeaconServiceChange(my_success);
+  };
+
+  my.onBeaconUpdate = function onBeaconUpdate(my_object) {
+    var my_success = my_object.success;
+    my_object = null;
+    return swan.onBeaconUpdate(my_success);
+  };
+
+  // ////////////////////  数据安全  ///////////////////////////
+
+  // ////////////////////  分享  ///////////////////////////
+
+
+  my.showSharePanel = function showSharePanel() {
+    return swan.showShareMenu();
+  };
+
+  my.hideShareMenu = function hideShareMenu(my_object) {
+    return swan.hideShareMenu(my_object);
+  };
+
+  // //////////////////////// serverless ///////////////////////////
+
+  _createClass(my, null, [{
     key: 'env',
     get: function get() {
-      var VERSION = 'production';
-      var USER_DATA_PATH = swan.env.USER_DATA_PATH;
-      var obj = {
-        VERSION: VERSION,
-        USER_DATA_PATH: USER_DATA_PATH
+      var my_res = {
+        USER_DATA_PATH: 'https://usr'
       };
-      return Object(obj);
+      return my_res;
+    }
+  }, {
+    key: 'serverless',
+    get: function get() {
+      return null;
     }
   }]);
 
-  return tt;
+  return my;
 }();
 
-exports.default = tt;
+exports.default = my;
 
 /***/ }),
-/* 3 */,
-/* 4 */,
-/* 5 */,
-/* 6 */,
-/* 7 */,
-/* 8 */,
-/* 9 */,
-/* 10 */,
-/* 11 */,
-/* 12 */
+/* 1 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.tt = exports.OnekitPage = exports.OnekitComponent = exports.OnekitBehavior = exports.OnekitApp = void 0;
-var OnekitApp_1 = __webpack_require__(13);
+exports.my = exports.OnekitPage = exports.OnekitComponent = exports.OnekitBehavior = exports.OnekitApp = void 0;
+var OnekitApp_1 = __webpack_require__(2);
 exports.OnekitApp = OnekitApp_1.default;
-var OnekitBehavior_1 = __webpack_require__(14);
+var OnekitBehavior_1 = __webpack_require__(3);
 exports.OnekitBehavior = OnekitBehavior_1.default;
-var OnekitComponent_1 = __webpack_require__(16);
+var OnekitComponent_1 = __webpack_require__(7);
 exports.OnekitComponent = OnekitComponent_1.default;
-var OnekitPage_1 = __webpack_require__(17);
+var OnekitPage_1 = __webpack_require__(8);
 exports.OnekitPage = OnekitPage_1.default;
-var tt_1 = __webpack_require__(2);
-exports.tt = tt_1.default;
+var my_1 = __webpack_require__(0);
+exports.my = my_1.default;
 
 /***/ }),
-/* 13 */
+/* 2 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1321,13 +1771,13 @@ exports.__esModule = true;
 exports.default = OnekitApp;
 /* eslint-disable camelcase */
 
-function OnekitApp(tt_object) {
-  var swan_object = tt_object;
+function OnekitApp(my_object) {
+  var swan_object = my_object;
   return App(swan_object);
 }
 
 /***/ }),
-/* 14 */
+/* 3 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1336,19 +1786,19 @@ function OnekitApp(tt_object) {
 exports.__esModule = true;
 exports.default = OnekitBehavior;
 
-var _STRING = __webpack_require__(15);
+var _STRING = __webpack_require__(4);
 
 var _STRING2 = _interopRequireDefault(_STRING);
 
-var _tt = __webpack_require__(2);
+var _my = __webpack_require__(0);
 
-var _tt2 = _interopRequireDefault(_tt);
+var _my2 = _interopRequireDefault(_my);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /* eslint-disable camelcase */
 function OnekitBehavior(object) {
-  var tt_object = {
+  var my_object = {
     onInit: function onInit(query) {
       var created = void 0;
       if (object.lifetimes && object.lifetimes.created) {
@@ -1403,7 +1853,7 @@ function OnekitBehavior(object) {
         this.props[funcName](data);
       }
     };
-    object.methods.createSelectorQuery = _tt2.default.createSelectorQuery;
+    object.methods.createSelectorQuery = _my2.default.createSelectorQuery;
   }
   for (var _iterator = Object.keys(object), _isArray = Array.isArray(_iterator), _i = 0, _iterator = _isArray ? _iterator : _iterator[Symbol.iterator]();;) {
     var _ref;
@@ -1425,7 +1875,7 @@ function OnekitBehavior(object) {
     }
     switch (key) {
       case 'properties':
-        tt_object.props = {};
+        my_object.props = {};
         for (var _iterator2 = Object.keys(value), _isArray2 = Array.isArray(_iterator2), _i2 = 0, _iterator2 = _isArray2 ? _iterator2 : _iterator2[Symbol.iterator]();;) {
           var _ref2;
 
@@ -1441,25 +1891,86 @@ function OnekitBehavior(object) {
           var p = _ref2;
 
           var v = value[p];
-          tt_object.props[p] = v && v.value ? v.value : null;
+          my_object.props[p] = v && v.value ? v.value : null;
         }
         break;
       default:
-        tt_object[key] = value;
+        my_object[key] = value;
     }
   }
 
-  return tt_object;
+  return my_object;
 }
 
 /***/ }),
-/* 15 */
+/* 4 */
 /***/ (function(module, exports) {
 
 module.exports = require("oneutil/STRING");
 
 /***/ }),
-/* 16 */
+/* 5 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* eslint-disable camelcase */
+/* harmony default export */ __webpack_exports__["default"] = (function (body, success, fail, complete) {
+  try {
+    return body(res => {
+      if (success) {
+        success(res)
+      }
+      if (complete) {
+        complete(res)
+      }
+    }, res => {
+      if (fail) {
+        fail(res)
+      }
+      if (complete) {
+        complete(res)
+      }
+    },)
+  } catch (e) {
+    const res = {
+      errMsg: e.message
+    }
+    if (fail) {
+      fail(res)
+    }
+    if (complete) {
+      complete(res)
+    }
+    return null
+  }
+});
+
+
+/***/ }),
+/* 6 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony default export */ __webpack_exports__["default"] = (function (items, func, success) {
+  const result = []
+  let i = 0
+  let itemCallback = null
+  itemCallback = function (res) {
+    result.push(res)
+    if (i >= items.length) {
+      success(result)
+      return
+    }
+    func(items[i++], itemCallback)
+  }
+  func(items[i++], itemCallback)
+});
+
+
+/***/ }),
+/* 7 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1468,13 +1979,13 @@ module.exports = require("oneutil/STRING");
 exports.__esModule = true;
 exports.default = OnekitComponent;
 /* eslint-disable camelcase */
-function OnekitComponent(tt_object) {
-  var swan_object = tt_object;
+function OnekitComponent(my_object) {
+  var swan_object = my_object;
   return Component(swan_object);
 }
 
 /***/ }),
-/* 17 */
+/* 8 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1484,8 +1995,8 @@ exports.__esModule = true;
 exports.default = OnekitPage;
 /* eslint-disable no-console */
 /* eslint-disable camelcase */
-function OnekitPage(tt_object) {
-  var swan_object = tt_object;
+function OnekitPage(my_object) {
+  var swan_object = my_object;
 
   return Page(swan_object);
 }
