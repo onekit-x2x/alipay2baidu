@@ -1,5 +1,7 @@
-/* eslint-disable no-console */
 /* eslint-disable camelcase */
+/* eslint-disable consistent-return */
+/* eslint-disable no-console */
+
 import PROMISE from '../node_modules/oneutil/PROMISE'
 import TASK from '../node_modules/oneutil/TASK'
 
@@ -12,32 +14,20 @@ export default class my {
   }
 
   static getAppIdSync() {
-    const swan_appID = null
-    const my_res = {
-      appId: swan_appID
+    if (getApp().onekit_AppId) {
+      return getApp().onekit_AppId
     }
-    return my_res
   }
 
   static getLaunchOptionsSync() {
     return console.warn('TO DO ... WANGYEWEI')
   }
 
-  static getRunScene(my_object) {
-    const my_success = my_object.success
-    const my_fail = my_object.fail
-    const my_complete = my_object.complete
-    my_object = null
-
-    PROMISE((SUCCESS) => {
-      const swan_accountInfo = swan.getAccountInfoSync()
-
-      const my_res = {
-        envVersion: swan_accountInfo.miniProgram.envVersion
-      }
-
-      SUCCESS(my_res)
-    }, my_success, my_fail, my_complete)
+  static getRunScene() {
+    const my_res = {
+      envVersion: 'develop'
+    }
+    return my_res
   }
 
   static SDKVersion(my_object) {
@@ -75,7 +65,7 @@ export default class my {
   }
 
   static offComponentError() {
-    return console.warn('offComponentError is not support')
+    getApp().onekit_ComponentError = false
   }
 
   static offError(callback) {
@@ -83,7 +73,7 @@ export default class my {
   }
 
   static offUnhandledRejection() {
-    return console.warn('offUnhandledRejection is not support')
+    getApp().onekit_UnhandledRejection = false
   }
 
   static onAppHide(callback) {
@@ -91,17 +81,12 @@ export default class my {
   }
 
   static onAppShow(callback) {
-    swan.onAppShow(swan_res => {
-      const my_res = {
-        query: swan_res.query,
-        scene: swan_res.scene
-      }
-      callback(my_res)
-    })
+    getApp().onekit_AppId = callback.referrerInfo.appid
+    return swan.onAppShow(callback)
   }
 
   static onComponentError() {
-    return console.warn('onComponentError is not support')
+    getApp().onekit_ComponentError = true
   }
 
   static onError(callback) {
@@ -109,7 +94,7 @@ export default class my {
   }
 
   static onUnhandledRejection() {
-    return console.warn('onUnhandledRejection is not support')
+    getApp().onekit_UnhandledRejection = true
   }
 
   // ////////////////////  界面  ///////////////////////////
@@ -133,23 +118,26 @@ export default class my {
     const title = my_title
     const backgroundColor = my_backgroundColor
     const frontColor = '#ffffff'
-    const swan_object1 = {
-      title
-    }
-    const swan_object2 = {
-      frontColor,
-      backgroundColor
-    }
-
     PROMISE((SUCCESS) => {
-      swan.setNavigationBarTitle(swan_object1)
-      swan.setNavigationBarColor(swan_object2)
-
-      const result = {
-        errMsg: 'setNavigationBar: ok'
-      }
-
-      SUCCESS(result)
+      swan.setNavigationBarTitle({
+        title,
+        success: () => {
+          const my_res = {
+            success: true
+          }
+          SUCCESS(my_res)
+        }
+      })
+      swan.setNavigationBarColor({
+        backgroundColor,
+        frontColor,
+        success: () => {
+          const my_res = {
+            success: true
+          }
+          SUCCESS(my_res)
+        }
+      })
     }, my_success, my_fail, my_complete)
   }
 
@@ -161,6 +149,7 @@ export default class my {
   static showNavigationBarLoading() {
     return swan.showNavigationBarLoading()
   }
+
 
   // ///// tabBar /////
   static hideTabBar(my_object) {
