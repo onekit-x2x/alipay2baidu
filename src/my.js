@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 /* eslint-disable camelcase */
 /* eslint-disable consistent-return */
 /* eslint-disable no-console */
@@ -5,7 +6,6 @@
 import PROMISE from '../node_modules/oneutil/PROMISE'
 import TASK from '../node_modules/oneutil/TASK'
 
-// import TheKit from './tools/TheKit'
 export default class my {
   // ////////////////////  基础  ///////////////////////////
 
@@ -81,7 +81,7 @@ export default class my {
   }
 
   static onAppShow(callback) {
-    getApp().onekit_AppId = callback.referrerInfo.appid
+    getApp().onekit_AppId = callback(referrerInfo.appid)
     return swan.onAppShow(callback)
   }
 
@@ -208,9 +208,9 @@ export default class my {
 
   // //////  交互反馈  /////////
   static alert(my_object) {
-    const my_title = my_object.title
-    const my_content = my_object.content
-    const my_confirmText = my_object.buttonText
+    const my_title = my_object.title || ''
+    const my_content = my_object.content || ''
+    const my_confirmText = my_object.buttonText || '确定'
     const my_success = my_object.success
     const my_fail = my_object.fail
     const my_complete = my_object.complete
@@ -1085,8 +1085,8 @@ export default class my {
     return swan.onAccelerometerChange(callback)
   }
 
-  static offAccelerometerChange(callback) {
-    return swan.offAccelerometerChange(callback)
+  static offAccelerometerChange() {
+    getApp().onekit_AccelerometerChange = false
   }
 
   // //////  陀螺仪  /////////
@@ -1095,7 +1095,7 @@ export default class my {
   }
 
   static offGyroscopeChange() {
-    return console.warn('offGyroscopeChange is not support')
+    getApp().onekit_GyroscopeChange = false
   }
 
   // //////  罗盘  /////////
@@ -1103,13 +1103,24 @@ export default class my {
     return swan.onCompassChange(callback)
   }
 
-  static offCompassChange(callback) {
-    return swan.offCompassChange(callback)
+  static offCompassChange() {
+    getApp().onekit_CompassChange = false
   }
 
   // //////  拨打电话  /////////
   static makePhoneCall(my_object) {
-    return swan.makePhoneCall(my_object)
+    const phoneNumber = my_object.number
+    const success = my_object.success
+    const fail = my_object.fail
+    const complete = my_object.complete
+    my_object = null
+    const swan_object = {
+      phoneNumber,
+      success,
+      fail,
+      complete
+    }
+    return swan.makePhoneCall(swan_object)
   }
 
   // //////  获取服务器时间  /////////
@@ -1123,7 +1134,7 @@ export default class my {
   }
 
   static offUserCaptureScreen() {
-    return console.warn('offUserCaptureScreen is not support')
+    getApp().onekit_UserCaptureScreen = false
   }
 
   // //////  屏幕亮度  /////////
@@ -1238,18 +1249,12 @@ export default class my {
 
   // //////  扫码  /////////
   static scan(my_object) {
-    const my_scanType = my_object.scanType || ['qrCode', 'barCode']
-    const my_hideAlbum = my_object.hideAlbum || false
     const my_success = my_object.success
     const my_fail = my_object.fail
     const my_complete = my_object.complete
     my_object = null
-    const scanType = my_scanType
-    const onlyFromCamera = my_hideAlbum
     PROMISE((SUCCESS) => {
       swan.scanCode({
-        scanType,
-        onlyFromCamera,
         success: swan_res => {
           const my_res = {
             code: 'code data',
@@ -1259,7 +1264,7 @@ export default class my {
             imageChannel: '',
             rawData: '',
             charSet: swan_res.charSet,
-            path: swan_res.path
+            scanType: swan_res.scanType
           }
           SUCCESS(my_res)
         }
@@ -1273,250 +1278,250 @@ export default class my {
   }
 
   static offMemoryWarning() {
-    return console.warn('offMemoryWarning is not support')
+    getApp().onekit_MemoryWarning = false
   }
 
   // //////  获取设备电量  /////////
-  static getBatteryInfo() {
-    return console.warn('getBatteryInfo is not support')
+  static getBatteryInfo(my_object) {
+    return swan.getBatteryInfo(my_object)
   }
 
   static getBatteryInfoSync() {
-    return console.warn('getBatteryInfoSync is not support')
+    return swan.getBatteryInfoSync()
   }
 
-  // //////  传统蓝牙  /////////
-  static openBluetoothAdapter(my_object) {
-    return swan.openBluetoothAdapter(my_object)
-  }
+  // // //////  传统蓝牙  /////////
+  // static openBluetoothAdapter(my_object) {
+  //   return swan.openBluetoothAdapter(my_object)
+  // }
 
-  static startBluetoothDevicesDiscovery(my_object) {
-    return swan.startBluetoothDevicesDiscovery(my_object)
-  }
+  // static startBluetoothDevicesDiscovery(my_object) {
+  //   return swan.startBluetoothDevicesDiscovery(my_object)
+  // }
 
-  static onBluetoothDeviceFound(callback) {
-    swan.onBluetoothDeviceFound(swan_res => {
-      const my_devices = swan_res.devices.map(device => ({
-        name: device.name,
-        deviceName: device.name,
-        deviceId: device.deviceId,
-        localName: device.localName,
-        RSSI: device.RSSI,
-        advertisData: device.advertisData,
-        advertisServiceUUIDs: device.advertisServiceUUIDs,
-        serviceData: device.serviceData
-      }))
-      const my_res = {
-        devices: my_devices
-      }
-      callback(my_res)
-    })
-  }
+  // static onBluetoothDeviceFound(callback) {
+  //   swan.onBluetoothDeviceFound(swan_res => {
+  //     const my_devices = swan_res.devices.map(device => ({
+  //       name: device.name,
+  //       deviceName: device.name,
+  //       deviceId: device.deviceId,
+  //       localName: device.localName,
+  //       RSSI: device.RSSI,
+  //       advertisData: device.advertisData,
+  //       advertisServiceUUIDs: device.advertisServiceUUIDs,
+  //       serviceData: device.serviceData
+  //     }))
+  //     const my_res = {
+  //       devices: my_devices
+  //     }
+  //     callback(my_res)
+  //   })
+  // }
 
-  static stopBluetoothDevicesDiscovery(my_object) {
-    return swan.stopBluetoothDevicesDiscovery(my_object)
-  }
+  // static stopBluetoothDevicesDiscovery(my_object) {
+  //   return swan.stopBluetoothDevicesDiscovery(my_object)
+  // }
 
-  static onBluetoothAdapterStateChange(callback) {
-    return swan.onBluetoothAdapterStateChange(callback)
-  }
+  // static onBluetoothAdapterStateChange(callback) {
+  //   return swan.onBluetoothAdapterStateChange(callback)
+  // }
 
-  static getConnectedBluetoothDevices(my_object) {
-    const my_deviceId = my_object.deviceId
-    const my_success = my_object.success
-    const my_fail = my_object.fail
-    const my_complete = my_object.complete
-    my_object = null
-    const services = [my_deviceId]
-    const success = my_success
-    const fail = my_fail
-    const complete = my_complete
-    const swan_object = {
-      services,
-      success,
-      fail,
-      complete
-    }
-    return swan.getConnectedBluetoothDevices(swan_object)
-  }
+  // static getConnectedBluetoothDevices(my_object) {
+  //   const my_deviceId = my_object.deviceId
+  //   const my_success = my_object.success
+  //   const my_fail = my_object.fail
+  //   const my_complete = my_object.complete
+  //   my_object = null
+  //   const services = [my_deviceId]
+  //   const success = my_success
+  //   const fail = my_fail
+  //   const complete = my_complete
+  //   const swan_object = {
+  //     services,
+  //     success,
+  //     fail,
+  //     complete
+  //   }
+  //   return swan.getConnectedBluetoothDevices(swan_object)
+  // }
 
-  static getBluetoothDevices(my_object) {
-    const my_success = my_object.success
-    const my_fail = my_object.fail
-    const my_complete = my_object.complete
-    my_object = null
-    PROMISE((SUCCESS) => {
-      swan.getBluetoothDevices({
-        success: swan_res => {
-          const my_devices = swan_res.devices.map(device => ({
-            name: device.name,
-            deviceName: device.name,
-            deviceId: device.deviceId,
-            localName: device.localName,
-            RSSI: device.RSSI,
-            manufacturerData: device.advertisData,
-            advertisServiceUUIDs: device.advertisServiceUUIDs,
-            serviceData: device.serviceData
-          }))
-          const my_res = {
-            devices: my_devices
-          }
-          SUCCESS(my_res)
-        }
-      })
-    }, my_success, my_fail, my_complete)
-  }
+  // static getBluetoothDevices(my_object) {
+  //   const my_success = my_object.success
+  //   const my_fail = my_object.fail
+  //   const my_complete = my_object.complete
+  //   my_object = null
+  //   PROMISE((SUCCESS) => {
+  //     swan.getBluetoothDevices({
+  //       success: swan_res => {
+  //         const my_devices = swan_res.devices.map(device => ({
+  //           name: device.name,
+  //           deviceName: device.name,
+  //           deviceId: device.deviceId,
+  //           localName: device.localName,
+  //           RSSI: device.RSSI,
+  //           manufacturerData: device.advertisData,
+  //           advertisServiceUUIDs: device.advertisServiceUUIDs,
+  //           serviceData: device.serviceData
+  //         }))
+  //         const my_res = {
+  //           devices: my_devices
+  //         }
+  //         SUCCESS(my_res)
+  //       }
+  //     })
+  //   }, my_success, my_fail, my_complete)
+  // }
 
-  static getBluetoothAdapterState(my_object) {
-    return swan.getBluetoothAdapterState(my_object)
-  }
+  // static getBluetoothAdapterState(my_object) {
+  //   return swan.getBluetoothAdapterState(my_object)
+  // }
 
-  static closeBluetoothAdapter(my_object) {
-    return swan.closeBluetoothAdapter(my_object)
-  }
+  // static closeBluetoothAdapter(my_object) {
+  //   return swan.closeBluetoothAdapter(my_object)
+  // }
 
-  static offBluetoothAdapterStateChange() {
-    return console.warn('offBluetoothAdapterStateChange is not support')
-  }
+  // static offBluetoothAdapterStateChange() {
+  //   return console.warn('offBluetoothAdapterStateChange is not support')
+  // }
 
-  static offBluetoothDeviceFound() {
-    return console.warn('getBatteryInfoSync is not support')
-  }
+  // static offBluetoothDeviceFound() {
+  //   return console.warn('getBatteryInfoSync is not support')
+  // }
 
-  // //////  低功耗蓝牙  /////////
-  static connectBLEDevice(my_object) {
-    return swan.createBLEConnection(my_object)
-  }
+  // // //////  低功耗蓝牙  /////////
+  // static connectBLEDevice(my_object) {
+  //   return swan.createBLEConnection(my_object)
+  // }
 
-  static disconnectBLEDevice(my_object) {
-    return swan.closeBLEConnection(my_object)
-  }
+  // static disconnectBLEDevice(my_object) {
+  //   return swan.closeBLEConnection(my_object)
+  // }
 
-  static getBLEDeviceCharacteristics(my_object) {
-    const swan_res = swan.getBLEDeviceCharacteristics(my_object)
-    const my_characteristics = swan_res.characteristics.map(characteristic => ({
-      characteristicId: characteristic.uuid,
-      properties: characteristic.properties,
-      value: '',
-      localName: '',
-    }))
-    const my_res = {
-      characteristics: my_characteristics
-    }
-    return my_res
-  }
+  // static getBLEDeviceCharacteristics(my_object) {
+  //   const swan_res = swan.getBLEDeviceCharacteristics(my_object)
+  //   const my_characteristics = swan_res.characteristics.map(characteristic => ({
+  //     characteristicId: characteristic.uuid,
+  //     properties: characteristic.properties,
+  //     value: '',
+  //     localName: '',
+  //   }))
+  //   const my_res = {
+  //     characteristics: my_characteristics
+  //   }
+  //   return my_res
+  // }
 
-  static getBLEDeviceServices(my_object) {
-    const swan_res = swan.getBLEDeviceServices(my_object)
-    const my_services = swan_res.services.map(service => ({
-      serviceId: service.uuid,
-      isPrimary: service.isPrimary,
-    }))
-    const my_res = {
-      services: my_services
-    }
-    return my_res
-  }
+  // static getBLEDeviceServices(my_object) {
+  //   const swan_res = swan.getBLEDeviceServices(my_object)
+  //   const my_services = swan_res.services.map(service => ({
+  //     serviceId: service.uuid,
+  //     isPrimary: service.isPrimary,
+  //   }))
+  //   const my_res = {
+  //     services: my_services
+  //   }
+  //   return my_res
+  // }
 
-  static notifyBLECharacteristicValueChange(my_object) {
-    return swan.notifyBLECharacteristicValueChange(my_object)
-  }
+  // static notifyBLECharacteristicValueChange(my_object) {
+  //   return swan.notifyBLECharacteristicValueChange(my_object)
+  // }
 
-  static onBLECharacteristicValueChange(callback) {
-    swan.onBLECharacteristicValueChange(swan_res => {
-      const my_res = {
-        deviceId: swan_res.deviceId,
-        serviceId: swan_res.serviceId,
-        characteristicId: swan_res.characteristicId,
-        value: swan_res.value,
-        connected: true
-      }
-      callback(my_res)
-    })
-  }
+  // static onBLECharacteristicValueChange(callback) {
+  //   swan.onBLECharacteristicValueChange(swan_res => {
+  //     const my_res = {
+  //       deviceId: swan_res.deviceId,
+  //       serviceId: swan_res.serviceId,
+  //       characteristicId: swan_res.characteristicId,
+  //       value: swan_res.value,
+  //       connected: true
+  //     }
+  //     callback(my_res)
+  //   })
+  // }
 
-  static onBLEConnectionStateChange(callback) {
-    return swan.onBLEConnectionStateChange(callback)
-  }
+  // static onBLEConnectionStateChange(callback) {
+  //   return swan.onBLEConnectionStateChange(callback)
+  // }
 
-  static readBLECharacteristicValue(my_object) {
-    const swan_res = swan.readBLECharacteristicValue(my_object)
-    const my_res = {
-      deviceId: swan_res.deviceId,
-      serviceId: swan_res.serviceId,
-      characteristicId: swan_res.characteristicId,
-      value: swan_res.value,
-    }
-    return my_res
-  }
+  // static readBLECharacteristicValue(my_object) {
+  //   const swan_res = swan.readBLECharacteristicValue(my_object)
+  //   const my_res = {
+  //     deviceId: swan_res.deviceId,
+  //     serviceId: swan_res.serviceId,
+  //     characteristicId: swan_res.characteristicId,
+  //     value: swan_res.value,
+  //   }
+  //   return my_res
+  // }
 
-  static writeBLECharacteristicValue(my_object) {
-    const my_deviceId = my_object.deviceId
-    const my_serviceId = my_object.serviceId
-    const my_characteristicId = my_object.characteristicId
-    const my_value = my_object.value
-    const my_success = my_object.success
-    const my_fail = my_object.fail
-    const my_complete = my_object.complete
-    my_object = null
-    const deviceId = my_deviceId
-    const serviceId = my_serviceId
-    const characteristicId = my_characteristicId
-    const value = [my_value]
-    const success = my_success
-    const fail = my_fail
-    const complete = my_complete
-    const swan_object = {
-      deviceId,
-      serviceId,
-      characteristicId,
-      value,
-      success,
-      fail,
-      complete,
-    }
-    return swan.writeBLECharacteristicValue(swan_object)
-  }
+  // static writeBLECharacteristicValue(my_object) {
+  //   const my_deviceId = my_object.deviceId
+  //   const my_serviceId = my_object.serviceId
+  //   const my_characteristicId = my_object.characteristicId
+  //   const my_value = my_object.value
+  //   const my_success = my_object.success
+  //   const my_fail = my_object.fail
+  //   const my_complete = my_object.complete
+  //   my_object = null
+  //   const deviceId = my_deviceId
+  //   const serviceId = my_serviceId
+  //   const characteristicId = my_characteristicId
+  //   const value = [my_value]
+  //   const success = my_success
+  //   const fail = my_fail
+  //   const complete = my_complete
+  //   const swan_object = {
+  //     deviceId,
+  //     serviceId,
+  //     characteristicId,
+  //     value,
+  //     success,
+  //     fail,
+  //     complete,
+  //   }
+  //   return swan.writeBLECharacteristicValue(swan_object)
+  // }
 
-  // //////  iBeacon  /////////
-  static getBeacons(my_object) {
-    const my_success = my_object.success
-    const my_fail = my_object.fail
-    const my_complete = my_object.complete
-    my_object = null
-    PROMISE((SUCCESS) => {
-      swan.getBeacons({
-        success: swan_res => {
-          const my_res = {
-            beacons: swan_res.beacons,
-            errCode: '0',
-            errorMsg: 'ok'
-          }
-          SUCCESS(my_res)
-        }
-      })
-    }, my_success, my_fail, my_complete)
-  }
+  // // //////  iBeacon  /////////
+  // static getBeacons(my_object) {
+  //   const my_success = my_object.success
+  //   const my_fail = my_object.fail
+  //   const my_complete = my_object.complete
+  //   my_object = null
+  //   PROMISE((SUCCESS) => {
+  //     swan.getBeacons({
+  //       success: swan_res => {
+  //         const my_res = {
+  //           beacons: swan_res.beacons,
+  //           errCode: '0',
+  //           errorMsg: 'ok'
+  //         }
+  //         SUCCESS(my_res)
+  //       }
+  //     })
+  //   }, my_success, my_fail, my_complete)
+  // }
 
-  static startBeaconDiscovery(my_object) {
-    return swan.startBeaconDiscovery(my_object)
-  }
+  // static startBeaconDiscovery(my_object) {
+  //   return swan.startBeaconDiscovery(my_object)
+  // }
 
-  static stopBeaconDiscovery(my_object) {
-    return swan.stopBeaconDiscovery(my_object)
-  }
+  // static stopBeaconDiscovery(my_object) {
+  //   return swan.stopBeaconDiscovery(my_object)
+  // }
 
-  static onBeaconServiceChange(my_object) {
-    const my_success = my_object.success
-    my_object = null
-    return swan.onBeaconServiceChange(my_success)
-  }
+  // static onBeaconServiceChange(my_object) {
+  //   const my_success = my_object.success
+  //   my_object = null
+  //   return swan.onBeaconServiceChange(my_success)
+  // }
 
-  static onBeaconUpdate(my_object) {
-    const my_success = my_object.success
-    my_object = null
-    return swan.onBeaconUpdate(my_success)
-  }
+  // static onBeaconUpdate(my_object) {
+  //   const my_success = my_object.success
+  //   my_object = null
+  //   return swan.onBeaconUpdate(my_success)
+  // }
 
   // ////////////////////  数据安全  ///////////////////////////
 
@@ -1527,12 +1532,5 @@ export default class my {
 
   static hideShareMenu(my_object) {
     return swan.hideShareMenu(my_object)
-  }
-
-
-  // //////////////////////// serverless ///////////////////////////
-
-  static get serverless() {
-    return null
   }
 }
