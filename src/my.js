@@ -20,7 +20,7 @@ export default class my {
   }
 
   static getLaunchOptionsSync() {
-    return console.warn('TO DO ... WANGYEWEI')
+    return console.warn('TO DO ... ')
   }
 
   static getRunScene() {
@@ -105,7 +105,7 @@ export default class my {
   }
 
   static hideBackHome() {
-    return swan.hideHomeButton()
+    return console.warn('hideBackHome is not support')
   }
 
   static setNavigationBar(my_object) {
@@ -250,17 +250,19 @@ export default class my {
         content,
         confirmText,
         cancelText,
-        success: res => {
-          if (res.confirm) {
-            const res = {
-              confirm: true
+        success: swan_res => {
+          if (swan_res.confirm) {
+            const my_res = {
+              confirm: true,
+              cancel: false
             }
-            SUCCESS(res)
-          } else if (res.cancel) {
-            const res = {
-              confirm: false
+            SUCCESS(my_res)
+          } else if (swan_res.cancel) {
+            const my_res = {
+              confirm: false,
+              cancel: true
             }
-            SUCCESS(res)
+            SUCCESS(my_res)
           }
         }
       })
@@ -321,8 +323,8 @@ export default class my {
 
   static showToast(my_object) {
     const my_title = my_object.content
-    const my_duration = my_object.duration
-    const my_icon = my_object.type
+    const my_duration = my_object.duration || 3000
+    const my_icon = my_object.type || 'none'
     const my_success = my_object.success
     const my_fail = my_object.fail
     const my_complete = my_object.complete
@@ -389,13 +391,7 @@ export default class my {
 
   // //////  动画  /////////
   static createAnimation(my_object) {
-    const swan_res = swan.createAnimation(my_object)
-    const my_res = {
-      animations: swan_res.actions,
-      config: swan_res.option,
-      currentAnimation: swan_res.currentStepAnimates
-    }
-    return my_res
+    return swan.createAnimation(my_object)
   }
 
   // //////  画布  /////////
@@ -419,9 +415,8 @@ export default class my {
 
   // //////  滚动  /////////
   static pageScrollTo(my_object) {
-    const my_scrollTop = my_object.scrollTop
+    const my_scrollTop = my_object.scrollTop || 200
     const my_duration = my_object.duration
-    const my_selector = my_object.selector
     const my_success = my_object.success
     const my_fail = my_object.fail
     const my_complete = my_object.complete
@@ -429,11 +424,9 @@ export default class my {
     PROMISE((SUCCESS) => {
       const scrollTop = my_scrollTop
       const duration = my_duration
-      const selector = my_selector
       swan.pageScrollTo({
         scrollTop,
         duration,
-        selector,
         success: () => {
           const my_res = {
             success: true
@@ -497,16 +490,34 @@ export default class my {
 
   // //////  字体  /////////
   static loadFontFace(my_object) {
-    return swan.loadFontFace(my_object)
+    const my_source = my_object.source
+    const my_success = my_object.success
+    const my_fail = my_object.fail
+    const my_complete = my_object.complete
+    my_object = null
+    PROMISE((SUCCESS) => {
+      const url = my_source
+      swan.downloadFile({
+        url,
+        success: (swan_res) => {
+          const my_res = {
+            tempFilePath: swan_res.swan_res,
+            statusCode: swan_res.statusCode,
+            success: true
+          }
+          SUCCESS(my_res)
+        }
+      })
+    }, my_success, my_fail, my_complete)
   }
 
   // ////////////////////  多媒体  ///////////////////////////
 
   // //////  图片  /////////
   static chooseImage(my_object) {
-    const my_count = my_object.count
-    const my_sizeType = my_object.sizeType
-    const my_sourceType = my_object.sourceType
+    const my_count = my_object.count || 1
+    const my_sizeType = my_object.sizeType || ['original', 'compressed']
+    const my_sourceType = my_object.sourceType || ['camera', 'album']
     const my_success = my_object.success
     const my_fail = my_object.fail
     const my_complete = my_object.complete
@@ -544,7 +555,6 @@ export default class my {
       } else {
         swan_qumyty = (my_compressLevel + 1) * 25
       }
-
       TASK(my_apFilePaths, (my_apFilePath, callback) => {
         const swan_src = my_apFilePath
         swan.compressImage({
@@ -819,6 +829,18 @@ export default class my {
             latitude: swan_res.latitude,
             accuracy: swan_res.accuracy,
             horizontalAccuracy: swan_res.horizontalAccuracy,
+            country: swan_res.country,
+            countryCode: swan_res.countryCode,
+            province: swan_res.province,
+            city: swan_res.city,
+            cityAdcode: swan_res.cityCode,
+            district: swan_res.district,
+            streetNumber: swan_res.streetNumber,
+            pois: [],
+            speed: swan_res.speed,
+            altitude: swan_res.altitude,
+            verticalAccuracy: swan_res.verticalAccuracy,
+            isFullAccuracy: swan_res.isFullAccuracy,
           }
           SUCCESS(my_res)
         }
@@ -830,6 +852,7 @@ export default class my {
     const my_longitude = my_object.longitude
     const my_latitude = my_object.latitude
     const my_keyword = my_object.name
+    const my_scale = my_object.scale || 15
     const my_success = my_object.success
     const my_fail = my_object.fail
     const my_complete = my_object.complete
@@ -840,9 +863,11 @@ export default class my {
     const success = my_success
     const fail = my_fail
     const complete = my_complete
+    const scale = my_scale
     const swan_object = {
       longitude,
       latitude,
+      scale,
       name,
       success,
       fail,
@@ -884,8 +909,7 @@ export default class my {
           const my_res = {
             data: swan_res.data,
             statusCode: swan_res.statusCode,
-            headers: swan_res.header,
-            cookies: swan_res.cookies,
+            headers: swan_res.header
           }
           SUCCESS(my_res)
         }
@@ -985,19 +1009,19 @@ export default class my {
   }
 
   static offSocketClose() {
-    return console.warn('offSocketClose is not support')
+    getApp().onekit_SocketClose = false
   }
 
   static offSocketMessage() {
-    return console.warn('offSocketMessage is not support')
+    getApp().onekit_SocketMessage = false
   }
 
   static offSocketOpen() {
-    return console.warn('offSocketOpen is not support')
+    getApp().onekit_SocketOpen = false
   }
 
   static offSocketError() {
-    return console.warn('offSocketError is not support')
+    getApp().onekit_SocketError = false
   }
 
   // ////////////////////  设备  ///////////////////////////
@@ -1035,7 +1059,7 @@ export default class my {
   }
 
   static offNetworkStatusChange() {
-    return console.warn('offNetworkStatusChange is not support')
+    getApp().onekit_NetworkStatusChange = false
   }
 
   // //////  摇一摇  /////////
@@ -1044,8 +1068,8 @@ export default class my {
   }
 
   // //////  震动  /////////
-  static vibrate() {
-    return console.warn('vibrate is not support')
+  static vibrate(my_object) {
+    return swan.vibrateShort(my_object)
   }
 
   static vibrateLong(my_object) {
