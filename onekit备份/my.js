@@ -1,1637 +1,1585 @@
-// import Context from "./api/Context"
-import CanvasContext from "./api/CanvasContext"
-import VideoContext from "./api/VideoContext"
-import wx_cloud from "./my.cloud"
-import onekit from "./onekit"
+import PROMISE from '../node_modules/oneutil/PROMISE'
+import TASK from '../node_modules/oneutil/TASK'
+import serverless from './serverless/serverless'
+
+// import TheKit from './tools/TheKit'
 export default class my {
-  static triggerEvent(THIS,eventName, data){
-    eventName = onekit.firstUpper(eventName);
-    return THIS.props["on"+eventName](data);
-  }
-  /////////////////// animation //////////////////////////
-  static createAnimation(object) {
-    return swan.createAnimation(object);
-  }
 
-  ///////////////// basic ////////////////////////////////
-  static canIUse(string) { return swan.canIUse(string); }
-  static getSystemInfo(object) {return swan.getSystemInfo(object);}
-  static getSystemInfoSync(object) { return (swan.getSystemInfoSync(object));}
-  static base64ToArrayBuffer(base64) {
-    base64 = base64.replace(/\s/g, '+');
-    let commonContent = Buffer.from(base64, 'base64');
-    return commonContent;
-  }
-  static arrayBufferToBase64(arrayBuffer) {
-    let base64Content = Buffer.from(arrayBuffer).toString('base64');
-    return base64Content;
-  }
-  static getUpdateManager(object) { return swan.getUpdateManager(object); }
-  static getLaunchOptionsSync(object) { return swan.getLaunchOptionsSync(object); }
-  static offPageNotFound(object) { return swan.offPageNotFound(object); }
-  static onPageNotFound(object) { return swan.onPageNotFound(object); }
-  static offError(object) { return swan.offError(object); }
-  static onError(object) { return swan.onError(object); }
-  static offAppShow(object) { return swan.offAppShow(object); }
-  static onAppShow(object) { return swan.onAppShow(object); }
-  static offAppHide(object) { return swan.offAppHide(object); }
-  static onAppHide(object) { return swan.onAppHide(object); }
-  static setEnableDebug(object) { return swan.setEnableDebug(object); }
-  static getLogManager(object) { return swan.getLogManager(object); }
-  static rsa(Object ) { return /*swan.esa(object)*/ console.log("暂不支持"); }
-  /////////////////// Canvas ///////////////////
-  static drawCanvas(object) {
-    var canvasId = object.canvasId;
-    var actions = object.actions;
-    var canvasContext = swan.createCanvasContext(canvasId);
-    for (var action of actions) {
-      var data = action.data;
-      switch (action.method) {
-        case "save":
-          canvasContext.save();
-          break;
-        case "restore":
-          canvasContext.restore();
-          break;
-        case "setFillStyle":
-          canvasContext.setFillStyle(onekit.color.array2str(data[1]));
-          break;
-        case "setStrokeStyle":
-          canvasContext.setStrokeStyle(onekit.color.array2str(data[1]));
-          break;
-        case "setFontSize":
-          canvasContext.setFontSize(data[0]);
-          break;
-        case "setGlobalAlpha":
-          canvasContext.setGlobalAlpha(data[0]);
-          break;
-        case "setShadow":
-          var dat = data[3];
-          canvasContext.setShadow(data[0], data[1], data[2], onekit.color.array2str(data[3]));
-          break;
-        case "setStrokeStyle":
-          canvasContext.setStrokeStyle(onekit.color.array2str(data));
-          break;
-        case "drawImage":
-          canvasContext.drawImage.apply(canvasContext, data)
-          break;
-        case "fillText":
-          canvasContext.fillText.apply(canvasContext, data)
-          break;
-        case "setLineCap": canvasContext.setLineCap(data[0]); break;
-        case "setLineJoin": canvasContext.setLineJoin(data[0]); break;
-        case "setLineWidth": canvasContext.setLineWidth(data[0]); break;
-        case "setMiterLimit": canvasContext.setMiterLimit(data[0]); break;
-        case "rotate": canvasContext.rotate(data[0]); break;
-        case "scale": canvasContext.scale(data[0], data[1]); break;
-        case "translate": canvasContext.translate(data[0], data[1]); break;
-        case "strokePath":
-          canvasContext.beginPath()
-          for (var dat of data) {
-            var dt = dat.data;
-            switch (dat.method) {
-              case "rect": canvasContext.strokeRect(dt[0], dt[1], dt[2], dt[3]); break;
-              case "moveTo": canvasContext.moveTo(dt[0], dt[1]); break;
-              case "lineTo": canvasContext.lineTo(dt[0], dt[1]); break;
-              case "closePath": canvasContext.closePath(); break;
-              case "arc": canvasContext.arc.apply(canvasContext, dt); break;
-              case "quadraticCurveTo": canvasContext.quadraticCurveTo.apply(canvasContext, dt); break;
-              case "bezierCurveTo": canvasContext.bezierCurveTo.apply(canvasContext, dt); break;
+  //////////////////////  基础  ///////////////////////////
 
-              default:
-                console.log("[drawCanvas-strokePath]", dat.method);
-                break;
-            }
+	static canIUse(schema) {
+		return swan.canIUse(schema);
+  }
+  
+  static getAppIdSync() {
+    const my_res = {
+      appId: swan_appID
+    }
+    return my_res
+  }
+  
+  static getLaunchOptionsSync() {
+		return console.warn("TO DO ... WANGYEWEI")
+  }
+  
+  static getRunScene(my_object) {
+    const my_success = my_object.success
+    const my_fail = my_object.fail
+    const my_complete = my_object.complete
+    my_object = null
+
+    PROMISE((SUCCESS) =>{
+      const swan_accountInfo = swan.getAccountInfoSync()
+
+      const my_res = {
+        envVersion: swan_accountInfo.miniProgram.envVersion
+      }
+
+      SUCCESS(my_res)
+    },my_success, my_fail, my_complete)
+
+  }
+  
+  static SDKVersion(my_object) {
+    const my_success = my_object.success
+    const my_fail = my_object.fail
+    const my_complete = my_object.complete
+    my_object = null
+    PROMISE((SUCCESS) =>{
+      swan.getSystemInfo({
+        success: swan_res => {
+          const my_res = {
+            SDKVersion : swan_res.SDKVersion
           }
-          canvasContext.stroke()
-          break
-        case "fillPath":
-          for (var dat of data) {
-            var dt = dat.data;
-            switch (dat.method) {
-              case "rect": canvasContext.fillRect(dt[0], dt[1], dt[2], dt[3]); break;
-              case "arc": canvasContext.arc.apply(canvasContext, dt); break;
-              default:
-                console.log("[drawCanvas-fillPath]", dat.method);
-                break;
-            }
-          }
-          canvasContext.fill()
-          break;
-        case "clearRect": canvasContext.clearRect(data[0], data[1], data[2], data[3]); break;
-        default:
-          console.log("[drawCanvas]", action.method);
-          break;
-      }
-    }
-    canvasContext.draw();
-  }
-  static createContext() {
-    var context = new Context();
-    return context;
-  }
-  static createCanvasContext(id) {
-    return new CanvasContext(swan.createCanvasContext(id));
-  }
-  static createVideoContext(videoId) {
-    return new VideoContext(swan.createVideoContext(videoId));
-  }
-  static canvasToTempFilePath(object) {
-    var object2 = {
-      canvasId: object.canvasId
-    }
-    object2.success = function(res) {
-      var result = {
-        errMsg: "canvasToTempFilePath:ok",
-        tempFilePath: res.apFilePath
-      };
-      if (object.success) {
-        object["success"](res);
-      }
-      if (object.complete) {
-        object["complete"](res);
-      }
-    }
-    object2.fail = function(res) {
-      if (object.fail) {
-        object["success"](res);
-      }
-      if (object.complete) {
-        object["complete"](res);
-      }
-    }
-    return swan.canvasToTempFilePath(object2);
-  }
-  static canvasPutImageData(object) { return swan.canvasPutImageData(object) };
-  static canvasGetImageData(object) { return swan.canvasGetImageData(object) };
-  ////////////// Device //////////////////
-  static onBeaconServiceChange(object) { return swan.onBeaconServiceChange(object); }
-  static onBeaconUpdate(object) { return swan.onBeaconUpdate(object); }
-  static getBeacons(object) { return swan.getBeacons(object); }
-  static stopBeaconDiscovery(object) { return swan.stopBeaconDiscovery(object); }
-  static startBeaconDiscovery(object) { return swan.startBeaconDiscovery(object); }
-  static stopWifi(object) { return swan.stopWifi(object); }
-  static startWifi(object) { return swan.startWifi(object); }
-  static setWifiList(object) { return swan.setWifiList(object); }
-  static onWifiConnected(object) { return swan.onWifiConnected(object); }
-  static onGetWifiList(object) { return swan.onGetWifiList(object); }
-  static getWifiList(object) { return swan.getWifiList(object); }
-  static getConnectedWifi(object) { return swan.getConnectedWifi(object); }
-  static connectWifi(object) { return swan.connectWifi(object); }
-  static setNavigationBar(object) { return swan.setNavigationBarTitle(object); };
-  //
-  static onAccelerometerChange(callback) {
-    swan.onAccelerometerChange(function(res) {
-      if (swan._stopAccelerometer) {
-        return;
-      }
-      callback(res);
-    });
-  }
-  static stopAccelerometer(object) {
-    swan._stopAccelerometer = true;
-    if (object.success) {
-      object.success();
-    }
-    if (object.complete) {
-      object.complete();
-    }
-  }
-  static startAccelerometer(object) {
-    swan._stopAccelerometer = false;
-    if (object.success) {
-      object.success();
-    }
-    if (object.complete) {
-      object.complete();
-    }
-  }
-  static getBatteryInfoSync(object) { return swan.getBatteryInfoSync(object); }
-  static _getBatteryInfo(result) {
-    swan.getSystemInfo({
-      success: (res) => {
-        var percent = res.currentBattery;
-        function toPoint(percent) {
-          var str = percent.replace("%", "");
-          str = str / 100;
-          return str;
-        }
-        toPoint(percent);
-        var results = toPoint(percent);
-        result.level = results
-      }
-    })
-    return result;
-  }
-  static getBatteryInfo(object) {
-    var object2 = {}
-    object2.success = function(res) {
-      var result = {
-        errMsg: "getBatteryInfo:ok",
-        isCharging: false,
-      }
-      result = swan._getBatteryInfo(result);
-      if (object.success) { object.success(result); }
-      if (object.fail) { object.fail(result); }
-    },
-      object2.fail = function(res) {
-        if (object.success) { object.success(res); }
-        if (object.fail) { object.fail(res); }
-      }
-    return swan.getSystemInfo(object2);
-  }
-  //
-  static getClipboard(object) {
-    var object2;
-    if (object) {
-      object2 = {};
-      for (var key in object) {
-        switch (key) {
-          case "success":
-            object2["success"] = function(res) {
-              object[key]({ text: res.data });
-            };
-            break;
-          case "complete":
-            object2["complete"] = function(res) {
-              if (res.text) {
-                res = { text: res.data };
-              }
-              object["complete"](res);
-            };
-            break;
-          default:
-            object2[key] = object[key];
-            break;
-        }
-      }
-    }
-    return swan.getClipboardData(object2);
-  }
-  static setClipboard(object) {
-    var object2;
-    if (object) {
-      object2 = {};
-      for (var key in object) {
-        switch (key) {
-          case "text":
-            object2["data"] = object[key];
-            break;
-          default:
-            object2[key] = object[key];
-            break;
-        }
-      }
-    }
-    return swan.setClipboardData(object2);
-  }
-  static onCompassChange(callback) {
-    swan.onCompassChange(function(res) {
-      if (swan._stopCompass) {
-        return;
-      }
-      callback(res); s
-    });
-  };
-  static stopCompass(object) {
-    swan._stopCompass = true;
-    if (object.success) {
-      object.success();
-    }
-    if (object.complete) {
-      object.complete();
-    }
-  };
-  static startCompass(object) {
-    swan._stopCompass = false;
-    if (object.success) {
-      object.success();
-    }
-    if (object.complete) {
-      object.complete();
-    }
-  };
-  static addPhoneContact(object) {
-    var object2 = {};
-    var errMsg;
-    var result = {
-      errMsg: errMsg
-    }
-    object2.success = function(res) {
-      result.errMsg = "addPhoneContact:ok"
-      if (object.success) {
-        object["success"](result);
-      }
-      if (object.complete) {
-        object["complete"](result);
-      }
-    }
-    object2.fail = function(res) {
-      result.errMsg = "addPhoneContact:fail cancel"
-      if (object.fail) {
-        object["fail"](result);
-      }
-      if (object.complete) {
-        object["complete"](result);
-      }
-    }
-    return swan.addPhoneContact(object2);
-  }
-  static onGyroscopeChange(callback) {
-    swan.onGyroscopeChange(function(res) {
-      if (swan._stopGyroscope) {
-        return;
-      }
-      callback(res);
-    });
-  }
-  static stopGyroscope(object) {
-    swan._stopGyroscope = true;
-    if (object.success) {
-      object.success();
-    }
-    if (object.complete) {
-      object.complete();
-    }
-  }
-  static startGyroscope(object) {
-    swan._startGyroscope = false;
-    if (object.success) {
-      object.success();
-    }
-    if (object.complete) {
-      object.complete();
-    }
-  }
-  //
-  static onDeviceMotionChange(object) { return swan.onDeviceMotionChange(object); }
-  static stopDeviceMotionListening(object) { return swan.stopDeviceMotionListening(object); }
-  static startDeviceMotionListening(object) { return swan.startDeviceMotionListening(object); }
-  static startDeviceMotionListening(object) { return swan.startDeviceMotionListening(object); }
-  //
-  static getNetworkType = function(object) {
-    var object2 = {};
-    for (var key in object) {
-      switch (key) {
-        case "success":
-        case "fail":
-        case "complete":
-          break;
-        default:
-          object2[key] = object[key];
-          break;
-      }
-    }
-    object2.success = function(res) {
-      var result = { networkType: my._network(res).networkType };
-      if (object.success) {
-        object["success"](result);
-      }
-      if (object.complete) {
-        object["complete"](result);
-      }
-    }
-    object2.fail = function(res) {
-      if (object.fail) {
-        object["success"](res);
-      }
-      if (object.complete) {
-        object["complete"](res);
-      }
-    }
-    return swan.getNetworkType(object2);
-  }
-  static _network = function(res) {
-    var networkType;
-    if (res.networkAvailable) {
-      switch (res.networkType) {
-        case "WWAN": 
-          networkType = "WIFI";
-          break;
-        default:
-          networkType = res.networkType;
-          break;
-      }
-    } else {
-      networkType = "NONE";
-    }
-    return { isConnected: res.networkAvailable, networkType: networkType.toLowerCase() };
-  }
-  static onNetworkStatusChange = function(callack) {
-    swan.onNetworkStatusChange(function(res) {
-      callack(swan._network(res));
-    });
-  }
-
-
-  //
-  static makePhoneCall = function(object) {
-    var object2;
-    if (object) {
-      object2 = {};
-      for (var key in object) {
-        switch (key) {
-          case "number":
-            object2["phoneNumber"] = object[key];
-            break;
-          default:
-            object2[key] = object[key];
-            break;
-        }
-      }
-
-      return swan.makePhoneCall(object2);
-    }
-  }
-
-  static scan = function(object) {
-    var object2;
-    if (object) {
-      object2 = {};
-      for (var key in object) {
-        switch (key) {
-          case "hideAlbum":
-            object2["onlyFromCamera"] = object[key];
-            break;
-          case "type":
-            object2["scanType"] = object[key];
-            break;
-          case "success":
-          case "fail":
-          case "complete":
-            break;
-          default:
-            object2[key] = object[key];
-            break;
-        }
-      }
-      object2.success = function(res) {
-        var result = {};
-        if (res.result) {
-          result.charSet = "UTF-8";
-          result.result = res.result;
-          if (res.qrCode) {
-            result.scanType = "QR_CODE";
-          } else if (res.barCode) {
-            result.scanType = "EAN_8";
-          }
-        }
-        if (object.success) {
-          object.success(result);
-        }
-        if (object.complete) {
-          object.complete(result);
-        }
-      }
-      object2.fail = function(res) {
-        if (object.fail) {
-          object.fail(res);
-        }
-        if (object.complete) {
-          object.complete(res);
-        }
-      }
-    }
-    return swan.scanCode(object2);
-  }
-  //
-  static vibrate (object) {return console.log("此功能尚未开放")}
-  static vibrateLong(object) {
-    var object2 = {}
-    object2.success = function(res) {
-      var result = {
-        errMsg: "vibrateLong:ok"
-      }
-      if (object.success) {
-        object.success(result);
-      }
-      if (object.complete) {
-        object.complete(result);
-      }
-    }
-    return swan.vibrateLong(object2);
-  }
-  static vibrateShort(object) {
-    var object2 = {}
-    object2.success = function(res) {
-      var result = {
-        errMsg: "vibrateShort:ok"
-      }
-      if (object.success) {
-        object.success(result);
-      }
-      if (object.complete) {
-        object.complete(result);
-      }
-    }
-    return swan.vibrateShort(object2);
-  }
-  //
-  static onMemoryWarning(object) { return swan.onMemoryWarning(object); }
-  static offMemoryWarning(callback) { return swan.offMemoryWarning(callback); }
-  //
-  static writeBLECharacteristicValue(object) { return swan.writeBLECharacteristicValue(object); }
-  static readBLECharacteristicValue(object) { return swan.readBLECharacteristicValue(object); }
-  static onBLEConnectionStateChange(object) { return swan.onBLEConnectionStateChange(object); }
-  static onBLECharacteristicValueChange(object) { return swan.onBLECharacteristicValueChange(object); }
-  static notifyBLECharacteristicValueChange(object) { return swan.notifyBLECharacteristicValueChange(object); }
-  static getBLEDeviceServices(object) { return swan.getBLEDeviceServices(object); }
-  static getBLEDeviceCharacteristics(object) { return swan.getBLEDeviceCharacteristics(object); }
-  static createBLEConnection(object) { return swan.createBLEConnection(object); }
-  static closeBLEConnection(object) { return swan.closeBLEConnection(object); }
-  static offBLECharacteristicValueChange(callback) { return swan.offBLECharacteristicValueChange(callback);} 
-  static offBluetoothAdapterStateChange(callback) { return swan.offBluetoothAdapterStateChange(callback);}
-  static onBLEConnectionStateChanged(callback) { return swan.onBLEConnectionStateChanged(callback);}
-  static offBLEConnectionStateChanged(callback) { return swan.offBLEConnectionStateChange(callback);}
-  //
-  static stopBluetoothDevicesDiscovery(object) {
-    var object2 = {};
-    for (var key in object) {
-      switch (key) {
-        case "success":
-        case "fail":
-        case "complete":
-          break;
-        default:
-          object2[key] = object[key];
-          break;
-      }
-    }
-    return swan.stopBluetoothDevicesDiscovery(object2);
-  }
-  static startBluetoothDevicesDiscovery(object) {
-   return swan.openBluetoothAdapter(object)}
-  static openBluetoothAdapter(object) {
-    
-    return swan.openBluetoothAdapter(object);
-  }
-  static onBluetoothDeviceFound(object) { return swan.onBluetoothDeviceFound(object); }
-  static onBluetoothAdapterStateChange(object) { return swan.onBluetoothAdapterStateChange(object); }
-  static getConnectedBluetoothDevices(object) { return swan.getConnectedBluetoothDevices(object); }
-  static getBluetoothDevices(object) {
-    var object2 = {}
-    object2.success = function(res) {
-      swan.getBluetoothDevices({
-        success: (res) => {
-          // console.log("000", res)
-          // console.log("000", res.devices)
-          result.devices = res.devices
+          SUCCESS(my_res)
         }
       })
-      var result = {
-        errMsg: "closeBluetoothAdapter:ok"
-      }
-      if (object.success) { object["success"](result) }
-      if (object.complete) { object["complete"](result) }
-    }
-    object2.fail = function(res) {
-      if (object.success) { object["success"](res) }
-      if (object.complete) { object["complete"](res) }
-    }
-    return swan.getBluetoothDevices(object2);
-  }
-  static getBluetoothAdapterState(object) { return swan.getBluetoothAdapterState(object); }
-  static closeBluetoothAdapter(object) { return swan.closeBluetoothAdapter(object); }
-  //
-  static connectBLEDevice(object) { return swan.createBLEConnection(object);}
-  static disconnectBLEDevice(object) { return swan.closeBLEConnection(object)}
-  //
-  static stopHCE(object) { return swan.stopHCE(object); }
-  static startHCE(object) { return swan.startHCE(object); }
-  static sendHCEMessage(object) { return swan.sendHCEMessage(object); }
-  static onHCEMessage(object) { return swan.onHCEMessage(object); }
-  static getHCEState(object) { return swan.getHCEState(object); }
-  //
-  static setScreenBrightness(object) {
-    var object2;
-    if (object) {
-      object2 = {};
-      for (var key in object) {
-        switch (key) {
-          case "brightness": 
-            object2["value"] = object[key];
-            break;
-          default:
-            object2[key] = object[key];
-            break;
-        }
-      }
-    }
-    return swan.setScreenBrightness(object2);
-  }
-  static setKeepScreenOn(object) { return swan.setKeepScreenOn(object); }
-  static onUserCaptureScreen(object) { return swan.onUserCaptureScreen(object); }
-  static offUserCaptureScreen(callback) { return swan.offUserCaptureScreen(callback); }
-  static watchShake(object) { return /*swan.watchShake*/console.log("暂不支持")}
-  static getServerTime(object) { return /*swan.getServerTime*/console.log("暂不支持") }
-  //
-  static getScreenBrightness(object) {
-    var object2;
-    if (object) {
-      object2 = {};
-      for (var key in object) {
-        switch (key) {
-          case "success":
-          case "fail":
-          case "complete":
-            break;
-          default:
-            object2[key] = object[key];
-            break;
-        }
-      }
-    }
-    object2.success = function(res) {
-      var result = { brightness : res.value };
-      if (object.success) {
-        object["success"](result);
-      }
-      if (object.complete) {
-        object["complete"](result);
-      }
-    }
-    object2.fail = function(res) {
-      if (object.fail) {
-        object["success"](res);
-      }
-      if (object.complete) {
-        object["complete"](res);
-      }
-    }
-    return swan.getScreenBrightness(object2);
-  }
-  /////////////////// Ext //////////////
-  static getExtConfigSync(object) { return swan.getExtConfigSync(object) }
-  static getExtConfig(object) { return swan.getExtConfig(object) }
-  //////////////////// File //////////
-  static getFileSystemManager(object) { return swan.getFileSystemManager(object) }
-  static getFileInfo(object) {
-    var object2;
-    if (object) {
-      object2 = {};
-      for (var key in object) {
-        switch (key) {
-          case "success":
-          case "fail":
-          case "complete":
-            break;
-          default:
-            object2[key] = object[key];
-            break;
-        }
-      }
-    }
-    object2.success = function (res) {
-      var res2 = { value: res.brightness };
-      if (object.success) {
-        object["success"](res2);
-      }
-      if (object.complete) {
-        object["complete"](res2);
-      }
-    }
-    object2.fail = function (res) {
-      var res2 = res;
-      if (object.fail) {
-        object["success"](res2);
-      }
-      if (object.complete) {
-        object["complete"](res2);
-      }
-    }
-    return my.g(object2);
-  }
-
-  static removeSavedFile(object) { return swan.removeSavedFile(object) }
-  static getSavedFileInfo(object) { return swan.getSavedFileInfo(object) }
-  static getSavedFileList(object) { return swan.getSavedFileList(object) }
-  static openDocument(object) { return swan.openDocument(object) }
-  static saveFile(object) {
-    swan.saveFile({
-      tempFilePath: object.apFilePath,
-      success(res) {
-        var result = { savedFilePath: res.savedFilePath};
-        if (object.success) {
-          object.success(result);
-        }
-        if (object.complete) {
-          object.complete(result);
-        }
-      }, fail(res) {
-        if (object.fail) {
-          object.fail(res);
-        }
-        if (object.complete) {
-          object.complete(res);
-        }
-      }
-    });
-  };
-  //////////// Location ///////////////
-  static openLocation(object) { return swan.openLocation(object) }
-  static getLocation(object) { return swan.getLocation(object) }
-  static chooseLocation(object) { return swan.chooseLocation(object) }
-  ////////// Media ////////////////////
-  static createMapContext(object) { return swan.createMapContext(object) }
-  static compressImage(object) { return swan.compressImage(object) }
-  static saveImage (object) { return swan.saveImageToPhotosAlbum(object) }
-  static getImageInfo(object) { return swan.getImageInfo(object) }
-  static previewImage(object) { return swan.previewImage(object) }
-  static chooseImage(object) {
-    if (object.count == 0) {
-      object.count = 0;
-    }
-    swan.chooseImage({
-      conut: object.count,
-      sizeType: object.sizeType,
-      sourceType: object.scourceType,
-      success: (res) => {
-        var apFilePaths = [];
-        for (var path of res.tempFilePaths) {
-          apFilePaths.push(path)
-        }
-        var result = {
-          apFilePaths: apFilePaths,
-        };
-        if (object.success) {
-          object.success(result);
-        }
-        if (object.complete) {
-          object.complete(complete);
-        }
-      },
-      fail: (res) => {
-        if (object.fail) {
-          object.fail(res);
-        }
-        if (object.complete) {
-          object.complete(res);
-        }
-      }
-    });
-  };
-  static saveVideoToPhotosAlbum(object) { return swan.saveVideoToPhotosAlbum(object) }
-  static chooseVideo(object) { return swan.chooseVideo(object) }
-  static createVideoContext(object) { return swan.createVideoContext(object) }
-  static stopVoice(object) { return swan.stopVoice(object) }
-  static pauseVoice(object) { return swan.pauseVoice(object) }
-  static playVoice(object) { return swan.playVoice(object) }
-  static setInnerAudioOption(object) { return swan.setInnerAudioOption(object) }
-  static getAvailableAudioSources(object) { return swan.getAvailableAudioSources(object) }
-  static createInnerAudioContext(object) { return swan.createInnerAudioContext(object) }
-  static createAudioContext(object) { return swan.createAudioContext(object) }
-  static onBackgroundAudioStop(object) { return swan.onBackgroundAudioStop(object) }
-  static onBackgroundAudioPause(object) { return swan.onBackgroundAudioPause(object) }
-  static onBackgroundAudioPlay(object) { return swan.onBackgroundAudioPlay(object) }
-  static stopBackgroundAudio(object) { return swan.stopBackgroundAudio(object) }
-  static seekBackgroundAudio(object) { return swan.seekBackgroundAudio(object) }
-  static pauseBackgroundAudio(object) { return swan.pauseBackgroundAudio(object) }
-  static playBackgroundAudio(object) { return swan.playBackgroundAudio(object) }
-  static getBackgroundAudioPlayerState(object) { return swan.getBackgroundAudioPlayerState(object) }
-  static getBackgroundAudioManager(object) { return swan.getBackgroundAudioManager(object) }
-  static createLivePusherContext(object) { return swan.createLivePusherContext(object) }
-  static startRecord(object) { return swan.startRecord(object) }
-  static stopRecord(object) { return swan.stopRecord(object) }
-  static getRecorderManager(object) { return swan.getRecorderManager(object) }
-  //////////////// Network ///////////////
-  static request(object) {
-    var object2;
-    if (object) {
-      object2 = {};
-      for (var key in object) {
-        switch (key) {
-          case "headers":
-            object2["header"] = object[key];
-            break;
-          case "success":
-          case "fail":
-          case "complete":
-            break;
-          default:
-            object2[key] = object[key];
-            break;
-        }
-      }
-      object2.success = function(res) {
-        var result = {
-          headers: res.header
-        };
-        for (var key in object) {
-          switch (key) {
-            case "status":
-              result["statusCode"] = res[key];
-              break;
-            case "headers":
-              result["header"] = res[key];
-              break;
-            default:
-              result[key] = res[key];
-              break;
-          }
-        }
-        if (object.success) {
-          object.success(result);
-        }
-        if (object.complete) {
-          object.complete(result);
-        }
-      }
-      object2.fail = function(res) {
-        if (object.fail) {
-          object.fail(res);
-        }
-        if (object.complete) {
-          object.complete(res);
-        }
-      }
-    }
-    return swan.request(object2);
+    },my_success, my_fail, my_complete)  
 
   }
-   
-  static httpRequest(object) { return /*swan.httpRequest(object)*/console.log("暂不支持") }
-  static downloadFile(object) { 
-    swan.downloadFile({
-      url: object.url,
-      header:object.header,
-      success: object.success,
-      fail: object.fail,
-      complete: object.complete,
-      success: (res) => {
-        var apFilePath = "";
-        for (var urls of res.tempFilePath) {
-          apFilePath.url
-        }
-        var result = {
-          apFilePath: apFilePath,
-        };
-        if (object.success) {
-          object.success(result);
-        }
-        if (object.complete) {
-          object.complete(complete);
-        }
-      },
-      fail: (res) => {
-        if (object.fail) {
-          object.fail(res);
-        }
-        if (object.complete) {
-          object.complete(res);
-        }
-      }
-    });
-   }
-  static uploadFile(object) {
-    swan.uploadFile({
-      url: object.url,
-      filePath: object.filePath,
-      name:object.fileName,
-      fileType: "image",
-      header: object.header,
-      formData: object.formData,
-      success: object.success,
-      fail: object.fail,
-      complete: object.complete
-    });
-  };
-  //
-  static connectSocket(object) { return swan.connectSocket(object) }
-  static onSocketError(object) { return swan.onSocketError(object) }
-  static onSocketMessage(object) { return swan.onSocketMessage(object) }
-  static onSocketClose(object) { return swan.onSocketClose(object) }
-  static onSocketOpen(object) { return swan.onSocketOpen(object) }
-  static sendSocketMessage(object) { return swan.sendSocketMessage(object) }
-  static closeSocket(object) { return swan.closeSocket(object) }
-  static offLocalServiceResolveFail(object) { return swan.offLocalServiceResolveFail(object) }
-  static onLocalServiceResolveFail(object) { return swan.onLocalServiceResolveFail(object) }
-  static offLocalServiceDiscoveryStop(object) { return swan.offLocalServiceDiscoveryStop(object) }
-  static onLocalServiceDiscoveryStop(object) { return swan.onLocalServiceDiscoveryStop(object) }
-  static offLocalServiceLost(object) { return swan.offLocalServiceLost(object) }
-  static onLocalServiceLost(object) { return swan.onLocalServiceLost(object) }
-  static offLocalServiceFound(object) { return swan.offLocalServiceFound(object) }
-  static onLocalServiceFound(object) { return swan.onLocalServiceFound(object) }
-  static stopLocalServiceDiscovery(object) { return swan.stopLocalServiceDiscovery(object) }
-  static startLocalServiceDiscovery(object) { return swan.startLocalServiceDiscovery(object) }
-  //
-  static stopLocalServiceDiscovery(object) { return swan.stopLocalServiceDiscovery(object); }
-  static startLocalServiceDiscovery(object) { return swan.startLocalServiceDiscovery(object); }
-  static onLocalServiceResolveFail(callback) { return swan.onLocalServiceResolveFail(callback); }
-  static onLocalServiceLost(callback) { return swan.onLocalServiceLost(callback); }
-  static onLocalServiceFound(callback) { return swan.onLocalServiceFound(callback); }
-  static onLocalServiceDiscoveryStop(callback) { return swan.onLocalServiceDiscoveryStop(callback); }
-  static offLocalServiceResolveFail(callback) { return swan.offLocalServiceResolveFail(callback); }
-  static offLocalServiceLost(callback) { return swan.offLocalServiceLost(callback); }
-  static offLocalServiceFound(callback) { return swan.offLocalServiceFound(callback); }
-  static offLocalServiceDiscoveryStop(callback) { return swan.offLocalServiceDiscoveryStop(callback); }
-  ///////// Open Interface //////////
-  static _checkSession() {
-    var now = new Date().getTime();
-    return getApp().onekitwx._jscode && getApp().onekitwx._login && now <= getApp().onekitwx._login + 1000 * 60 * 60;
+  
+  //////////////////////  应用级事件  ///////////////////////////
+
+  static get env() {
+		const my_res = {
+      USER_DATA_PATH: 'https://usr'
+    }
+    return my_res
   }
 
-  static getAuthCode = function(object) {
-    var that = this;
-    if (!object) {
-      return swan.login(object);
-    }
-    var object2 = {
-      scopes: "auth_user"
-    };
-    object2.success = function(res) {
-      getApp().onekitwx._login = new Date().getTime();
-      getApp().onekitwx._jscode = res.code;
-      var result = { authCode: res.code };
-      if (object.success) {
-        object.success(result);
+  static offAppHide(callback) {
+		return swan.offAppHide(callback)
+  }
+  
+  static offAppShow(callback) {
+		return swan.offAppShow(callback)
+  }
+  
+  static offComponentError(callback) {
+		return console.warn("offComponentError is not support")
+  }
+  
+  static offError(callback) {
+		return swan.offError(callback)
+  }
+  
+  static offUnhandledRejection(callback) {
+		return console.warn("offUnhandledRejection is not support")
+  }
+  
+  static onAppHide(callback) {
+		return swan.onAppHide(callback)
+  }
+  
+  static onAppShow(callback) {
+		swan.onAppShow(swan_res => {
+      const my_res = {
+        query: swan_res.query,
+        scene: swan_res.scene
       }
-      if (object.complete) {
-        object.complete(complete);
-      }
-      my._getUserInfo(result);
-    }
-    object2.fail = function(res) {
-      if (object.fail) {
-        object.fail(res);
-      }
-      if (object.complete) {
-        object.complete(res);
-      }
-    }
-    if(my._checkSession()){
-      object2.success({ code: getApp().onekitwx._jscode });
-    }else{
-       swan.login(object2);
-    }
-  };
-  static getOpenUserInfo(object) {
-    getApp().onekitwx.getuserinfo = (data, callback) => {
-      console.log(data);
-      //
-      // { "response": { "code": "10000", "msg": "Success", "avatar": "https:\/\/tfs.alipayobjects.com\/images\/partner\/TB1domvbyRADuNkUuBbXXcvopXa", "city": "成都市", "countryCode": "CN", "gender": "m", "nickName": "安好", "province": "四川省" } }
-      var gender ;
-      if(data.userInfo.gender == 1){
-        gender = "m"
-      }else if(data.userInfo.gender == 2){
-        gender = "f";
-      }else{
-        gender = "t";
-      }
-      var res = {
-          code : "10000",
-          msg : "Success",
-         avatar: data.userInfo.avatarUrl,
-         city: "",
-         countryCode: "CN",
-         gender: gender,
-          nickName: data.userInfo.nickName,
-         province: ""
-      };
-      var response = {
-        response : res
-      }
-      var result = {
-        response: JSON.stringify(response)
-      };
-      callback(res);
-      if(object.success){
-        object.success(res);
-      }
-      if(object.complete){
-        object.complete(res);
-      }
-    }
-    swan.navigateTo({
-      url: '/onekitwx/page/getuserinfo/getuserinfo'
+      callback(my_res)
     })
-  };
-  static getOpenData = function(object) {
-    function success(opendata) {
-      var opendata = opendata.userInfo;
-      getApp().onekit.opendata = opendata;
-      for (var cb = 0; cb < getApp().onekit.opendataCallbacks.length; cb++) {
-        getApp().onekit.opendataCallbacks[cb](opendata);
-      }
-      getApp().onekit.opendataCallbacks = [];
-      if (object.success) {
-        object.success(opendata);
-      }
-      if (object.complete) {
-        object.complete(opendata);
-      }
-    }
-    var opendata = getApp().onekit.opendata;
-    if (opendata) {
-      if (Object.keys(opendata) > 0) {
-        object.success(opendata);
-      } else {
-        if (object.success) {
-          getApp().onekit.opendataCallbacks.push(object.success);
-        }
-      }
-      return;
-    }
-    getApp().onekit.opendata = {};
-    swan.login({
-      success(res) {
-        var jscode = res.code;
-        swan.getAuthUserInfo({
-          success(res) {
-            var url = getApp().onekit.server + "opendata";
-            swan.httpRequest({
-              url: url,
-              header: {
-                'Content-Type': 'application/x-www-form-urlencoded'
-              },
-              method: "POST",
-              data: {
-                nickname: res.nickName,
-                avatarUrl: res.avatar,
-                js_code: jscode
-              },
-              success(res) {
-                success(res.data);
-              }, fail(res) {
-                console.log(res);
-              }
-            });
-          }
-        });
-      }
-    })
+  }
+  
+  static onComponentError(callback) {
+		return console.warn("onComponentError is not support")
+  }
 
-  };
-  static getPhoneNumber = function(object) {
-    function getPhoneNumber(jscode, object) {
-      swan.getPhoneNumber({
-        success(res) {
-          //var response = {
-          // response: "ZOELfBOrmRHNNiiVR4FmNrvV7Dmog5w/KFaNrfLugkDqdkPzlxBCzmfLBrtQlPptWix+1f9I07p5xNfwGgTgVA==",
-          // sign: "fD6CyFQeJTTgtM1uviy5uAm4YWiN3s0crGtD1v5XdXuDzFEBPTRYqGODcfzskAMFWNXJAK5Zx0/kk+6e9tn/N3U9RcrTgc6VLw7HM9fPTcz8CzVl1+b6fjsi0wWsADF53vKTurFn6HTSTEJvzbMMD5M2lgazni72tZHCNJSkeG1W+kjX/Mj5tfJXNkn6nlrtu1N6BxgsZdgDdkMQfIrWv2TOFlpx043LMBmk4CxXLpGvRfRcHLjixs5wEO1dfqENn6oj9hAQbPA8itYW4TvGlo5qhnzT+ya1rWcKrjn4zh7uvnr0hB0oPiqLu17txS5uIQIF0DJ2cC0k6kuOQLVwTQ=="
-          // }
-          //  JSON.parse(res.response);
-          var response = JSON.parse(res.response);
-          console.log(response);
-          var url = getApp().onekitwx.server + "phonenumber";
-          swan.httpRequest({
-            url: url,
-            header: {
-              'Content-Type': 'application/x-www-form-urlencoded'
-            },
-            method: "POST",
-            data: {
-              response: response.response,
-              sign: response.sign,
-              js_code: jscode
-            },
-            success(res) {
-              var data = res.data;
-              if (object.success) {
-                object.success(data);
-              }
-              if (object.complete) {
-                object.complete(data);
-              }
-            }, fail(res) {
-              console.log(res.data);
+  static onError(callback) {
+		return swan.onError(callback)
+  }
+  
+  static onUnhandledRejection(callback) {
+		return console.warn("onUnhandledRejection is not support")
+  }
+
+  //////////////////////  界面  ///////////////////////////
+
+  /////// 导航栏 /////
+  static getTitleColor(my_object) {
+		return console.warn("getTitleColor is not support")
+  }
+
+  static hideBackHome() {
+		return swan.hideHomeButton();
+  }
+
+  static setNavigationBar(my_object) {
+    const my_title = my_object.title
+    const my_backgroundColor = my_object.backgroundColor
+    const my_success = my_object.success
+    const my_fail = my_object.fail
+    const my_complete = my_object.complete
+    my_object = null
+    const title = my_title
+    const backgroundColor = my_backgroundColor
+    const frontColor = "#ffffff"
+    const swan_object1 ={ title }
+    const swan_object2 ={ frontColor,backgroundColor }
+
+    PROMISE((SUCCESS) => {
+      swan.setNavigationBarTitle(swan_object1)
+      swan.setNavigationBarColor(swan_object2)
+
+      const result = {
+        errMsg: 'setNavigationBar: ok'
+      }
+
+      SUCCESS(result)
+    },my_success,my_fail,my_complete)
+    
+  }
+
+  static hideNavigationBarLoading() {
+		return swan.hideNavigationBarLoading()
+	}
+
+
+  static showNavigationBarLoading() {
+		return swan.showNavigationBarLoading()
+  }
+  
+  /////// tabBar /////
+  static hideTabBar(my_object) {
+    return swan.hideTabBar(my_object)
+  }
+  
+  static hideTabBarRedDot(my_object) {
+    return swan.hideTabBarRedDot(my_object)
+  }
+  
+  static removeTabBarBadge(my_object) {
+    return swan.removeTabBarBadge(my_object)
+  }
+  
+  static setTabBarBadge(my_object) {
+    return swan.setTabBarBadge(my_object)		
+  }
+  
+  static setTabBarItem(my_object) {
+   return swan.setTabBarItem(my_object)		
+  }
+  
+  static setTabBarStyle(my_object) {
+		return swan.setTabBarStyle(my_object)
+  }
+  
+  static showTabBar(my_object) {
+   return swan.showTabBar(my_object)
+  }
+  
+	static showTabBarRedDot(my_object) {
+    return swan.showTabBarRedDot(my_object)
+	
+  }
+  
+  ////////  路由  /////////
+
+	static switchTab(my_object) {
+		return swan.switchTab(my_object)
+	}
+
+	static reLaunch(my_object) {
+		return swan.reLaunch(my_object)
+	}
+
+	static redirectTo(my_object) {
+		return swan.redirectTo(my_object)
+	}
+
+	static navigateTo(my_object) {
+   return swan.navigateTo(my_object)
+	}
+
+	static navigateBack(my_object) {
+		return swan.navigateBack(my_object)
+  }
+  
+  ////////  交互反馈  /////////
+  static alert(my_object) {
+    const my_title = my_object.title
+    const my_content = my_object.content
+    const my_confirmText = my_object.buttonText
+		const my_success = my_object.success
+    const my_fail = my_object.fail
+    const my_complete = my_object.complete
+    my_object = null
+    PROMISE((SUCCESS) => {
+      const title = my_title
+      const content = my_content
+      const confirmText = my_confirmText
+      swan.showModal({
+        title,
+        content,
+        confirmText,
+        success: () =>{
+          const my_res = {
+          }
+          SUCCESS(my_res)
+        }
+      })
+    },my_success,my_fail,my_complete)
+  }
+
+  static confirm(my_object) {
+    const my_title = my_object.title
+    const my_content = my_object.content
+    const my_confirmText = my_object.confirmButtonText
+    const my_cancelText = my_object.cancelButtonText
+    const my_success = my_object.success
+    const my_fail = my_object.fail
+    const my_complete = my_object.complete
+    my_object = null
+    PROMISE((SUCCESS) => {
+      const title = my_title
+      const content = my_content
+      const confirmText = my_confirmText
+      const cancelText = my_cancelText
+      swan.showModal({
+        title,
+        content,
+        confirmText,
+        cancelText,
+        success: res => {
+          if(res.confirm) {
+            const res = {
+              confirm: true
             }
-          });
-        }
-      });
-    }
-    var jscode = getApp().onekitwx.jscode;
-    if (jscode) {
-      getPhoneNumber(jscode, object);
-    } else {
-      swan.login({
-        success: (res) => {
-          getPhoneNumber(res.code, object);
-        },
-      });
-    }
-  };
-  static navigateToMiniProgram(object) { return swan.navigateToMiniProgram(object) }
-  static navigateBackMiniProgram(object) { return swan.navigateBackMiniProgram(object) }
-  static getAccountInfoSync(object) { return swan.getAccountInfoSync(object) }
-
-  static reportMonitor(object) { return swan.reportMonitor(object) }
-  static reportAnalytics(object) { return swan.reportAnalytics(object) }
-  static tradePay(object) {
-    var trade_no = object.tradeNO;
-    var url = getApp().onekitwx.server + "orderinfo";
-    swan.request({
-        url: url,
-         header: {
-              'Content-Type': 'application/x-www-form-urlencoded'
-            },
-            method: "POST",
-        data:{
-            trade_no
-        },success(res){
-            console.log(res);
-            var orderInfo = res.data;
-            swan.requestPolymerPayment({
-                orderInfo : orderInfo,
-                success(res){
-                    console.log("pay_success",res);
-                    if(object.success){
-                        object.success(res);
-                    }
-                    if(object.complete){
-                        object.complete(res);
-                    }
-                },fail(res){
-                    console.log("pay_fail",res);
-                    if(object.fail){
-                        object.fail(res);
-                    }
-                    if(object.complete){
-                        object.complete(res);
-                    }
-                }
-            });
-        }
-    });
-  };
-  static authorize(object) { return swan.authorize(object) }
-  static openSetting(object) { return swan.openSetting(object) }
-  static getSetting(object) { return swan.getSetting(object) }
-  static chooseAddress(object) { return swan.chooseAddress(object) }
-  static openCard(object) {
-    swan.openCardList();
-    if (object.success) {
-      object.success();
-    }
-    if (object.complete) {
-      object.complete();
-    }
-  };
-  static addCard = function(object) {
-    var url = getApp().onekit.server + "addcard";
-    swan.httpRequest({
-      url: url,
-      header: {
-        'Content-Type': 'application/x-www-form-urlencoded'
-      },
-      method: "POST",
-      data: {
-        cardList: JSON.stringify(object.cardList),
-        js_code: object.jscode
-      },
-      success(res) {
-        var data = res.data;
-        if (object.success) {
-          object.success(data);
-        }
-        if (object.complete) {
-          object.complete(data);
-        }
-      }, fail(res) {
-        console.log(res.data);
-      }
-    });
-  }
-  static chooseInvoiceTitle(object) { return swan.chooseInvoiceTitle(object) }
-  static chooseInvoice(object) { return swan.chooseInvoice(object) }
-  static startSoterAuthentication(object) { return swan.startSoterAuthentication(object) }
-  static checkIsSupportSoterAuthentication(object) { return swan.checkIsSupportSoterAuthentication(object) }
-  static checkIsSoterEnrolledInDevice(object) { return swan.checkIsSoterEnrolledInDevice(object) }
-  static getWeRunData(object) { return swan.getWeRunData(object) }
-  static reportMonitor(name, value) {
-    var js_code = getApp().onekit.jscode;
-    swan.httpRequest({
-      url: "http://192.168.0.106:8080/onekit-adapter/reportMonitor",
-      header: {
-        'Content-Type': 'application/x-www-form-urlencoded'
-      },
-      method: "POST",
-      data: {
-        js_code: js_code,
-        name: name,
-        number: value
-      },
-      success: (res) => {
-        console.log("success")
-        console.log(res.data);
-      },
-      fail: function(res) {
-        console.log(res);
-      },
-      complete: function(res) {
-        console.log(res)
-      }
-
-    });
-  };
-  ////////// Router //////////////
-  static navigateBack(object) {
-    var object2;
-    if (object) {
-      object2 = {};
-      for (var key in object) {
-        switch (key) {
-          case "success":
-          case "fail":
-          case "complete":
-            break;
-          default:
-            object2[key] = object[key];
-            break;
-        }
-      }
-      object2.success = function(res) {
-        if (object.success) {
-          object["success"](result);
-        }
-        if (object.complete) {
-          object["complete"](result);
-        }
-      }
-      object2.fail = function(res) {
-        if (object.fail) {
-          object["success"](res);
-        }
-        if (object.complete) {
-          object["complete"](res);
-        }
-      }
-    }
-    return swan.navigateBack(object2);
-  }
-  static switchTab(object) {
-    var object2;
-    if (object) {
-      object2 = {};
-      for (var key in object) {
-        switch (key) {
-          case "success":
-          case "fail":
-          case "complete":
-            break;
-          default:
-            object2[key] = object[key];
-            break;
-        }
-      }
-    }
-    object2.success = function(res) {
-      if (object.success) {
-        object["success"](result);
-      }
-      if (object.complete) {
-        object["complete"](result);
-      }
-    }
-    object2.fail = function(res) {
-      if (object.fail) {
-        object["success"](res);
-      }
-      if (object.complete) {
-        object["complete"](res);
-      }
-    }
-    return swan.switchTab(object2);
-  }
-  static navigateTo(object) {
-    var object2;
-    if (object) {
-      object2 = {};
-      for (var key in object) {
-        switch (key) {
-          case "success":
-          case "fail":
-          case "complete":
-            break;
-          default:
-            object2[key] = object[key];
-            break;
-        }
-      }
-    }
-    object2.success = function(res) {
-      if (object.success) {
-        object["success"](result);
-      }
-      if (object.complete) {
-        object["complete"](result);
-      }
-    }
-    object2.fail = function(res) {
-      if (object.fail) {
-        object["success"](res);
-      }
-      if (object.complete) {
-        object["complete"](res);
-      }
-    }
-    return swan.navigateTo(object2);
-  }
-  static reLaunch(object) {
-    var object2;
-    if (object) {
-      object2 = {};
-      for (var key in object) {
-        switch (key) {
-          case "success":
-          case "fail":
-          case "complete":
-            break;
-          default:
-            object2[key] = object[key];
-            break;
-        }
-      }
-    }
-    object2.success = function(res) {
-      if (object.success) {
-        object["success"](result);
-      }
-      if (object.complete) {
-        object["complete"](result);
-      }
-    }
-    object2.fail = function(res) {
-      if (object.fail) {
-        object["success"](res);
-      }
-      if (object.complete) {
-        object["complete"](res);
-      }
-    }
-    return swan.reLaunch(object2);
-  }
-  static redirectTo(object) {
-    var object2;
-    if (object) {
-      object2 = {};
-      for (var key in object) {
-        switch (key) {
-          case "success":
-          case "fail":
-          case "complete":
-            break;
-          default:
-            object2[key] = object[key];
-            break;
-        }
-      }
-    }
-    object2.success = function(res) {
-      if (object.success) {
-        object["success"](result);
-      }
-      if (object.complete) {
-        object["complete"](result);
-      }
-    }
-    object2.fail = function(res) {
-      if (object.fail) {
-        object["success"](res);
-      }
-      if (object.complete) {
-        object["complete"](res);
-      }
-    }
-    return swan.redirectTo(object2);
-  }
-  ///////////// Share /////////////
-  static updateShareMenu(object) { return swan.updateShareMenu(object) }
-  static showShareMenu(object) {
-    swan.navigateTo({
-      url: "/my/page/share/share"
-    });
-  };
-  static hideShareMenu(object) { return swan.hideShareMenu(object) }
-  static getShareInfo(object) { return swan.getShareInfo(object) }
-  /////////////// Storage //////////////
-  static getStorageInfoSync(object) { return swan.getStorageInfoSync(object) }
-  static getStorageInfo(object) { return swan.getStorageInfo(object) }
-  static clearStorageSync(object) { swan.clearStorageSync(object); return{};}
-  static clearStorage(object) { return swan.clearStorage(object) }
-  static removeStorageSync(object) {swan.removeStorageSync(object.key);return{}; }
-  static removeStorage(object) { return swan.removeStorage(object) }
-  static setStorageSync(object) { swan.setStorageSync(object.key,object.data); return {};}
-  static setStorage(object) { return swan.setStorage(object) }
-  static getStorageSync(object) {return {data: swan.getStorageSync(object.key)};}
-  static getStorage(object) { return swan.getStorage(object) }
-  ////////////// UI ////////////////
-  static showActionSheet(object) {
-    var object2;
-    if (object) {
-      object2 = {};
-      for (var key in object) {
-        switch (key) {
-          case "items":
-            object2["itemList"] = object[key];
-            break; 
-          default:
-            object2[key] = object[key];
-            break;
-        }
-      }
-      object2.success = function(res) {
-        var result = { tapIndex: res.index };
-        if (object.success) {
-          object.success(result);
-        }
-        if (object.complete) {
-          object.complete(result);
-        }
-      }
-    }
-    return swan.showActionSheet(object2);
-  }
-  // static redirectTo(object) { return swan.redirectTo(object) }
-  // static redirectTo(object) { return swan.redirectTo(object) }
-  static hideLoading(object) { return swan.hideLoading(object) }
-  static showLoading(object) {
-    var object2;
-    if (object) {
-      if (!object.icon) {
-        object.icon = "success";
-      }
-      //
-      object2 = {};
-      for (var key in object) {
-        switch (key) {
-          case "content": 
-            object2["title"] = object[key];
-            break;
-          case "type": 
-            object2["icon"] = object[key];
-            break;
-          default:
-            object2[key] = object[key];
-            break;
-        }
-      }
-    }
-    return swan.showLoading(object2)
-  }
-  static SDKVersion(string) {return consloe.log("不支持此功能")}
-  static hideToast(object) {return swan.hideToast(object)}
-  static showToast(object) {
-    var object2;
-    if (object) {
-      if (!object.icon) {
-        object.icon = "success";
-        object2 = {};
-        for (var key in object) {
-          switch (key) {
-            case "content":
-              object2["title"] = object[key];
-              break;
-            case "type":
-              object2["icon"] = object[key];
-              break;
-            default:
-              object2[key] = object[key];
-              break;
+            SUCCESS(res)
+          } else if (res.cancel) {
+            const res = {
+              confirm: false
+            }
+            SUCCESS(res)
           }
         }
-      }
-    }
-    return swan.showToast(object2);
+      })
+    }, my_success,my_fail,my_complete)
   }
-  static confirm (object2) {
-    if (object2 == null) {
-      return swan.showModal();
-    }
-    if (object2.showCancel == null || object2.showCancel) {
-      var object;
-      object = {};
-      for (var key in object2) {
-        switch (key) {
-          case "cancelButtonText": 
-            object["cancelText"] = object2[key];
-            break;
-          case "confirmButtonText": 
-            object["confirmText"] = object2[key];
-            break;
-          default:
-            object[key] = object2[key];
-            break;
-        }
-      }
-      return swan.showModal(object);
-    } else {
-      var object;
-      object = {};
-      for (var key in object2) {
-        switch (key) {
-          default:
-            object[key] = object2[key];
-            break;
-        }
-      }
-      return swan.showModal(object);
-    }
-  }
-  static alert(object) {return swan.showModal(object);}
-  static setNavigationBarColor(object) { return swan.setNavigationBarColor(object) }
-  static hideNavigationBarLoading(object) {
-    var object2 = {}
-    for (key in object) {
-      switch (key) {
-        case "success":
-        case "fail":
-        case "complete":
-          break;
-        default:
-          object2[key] = object[key];
-          break;
-      }
-    }
-    return swan.hideNavigationBarLoading(object2)
-  }
-  static showNavigationBarLoading(object) {
-    var object2 = {}
-    for (key in object) {
-      switch (key) {
-        case "success":
-        case "fail":
-        case "complete":
-          break;
-        default:
-          object2[key] = object[key];
-          break;
-      }
-    }
-    return swan.showNavigationBarLoading(object2)
-  }
-  static setBackgroundTextStyle(object) { return swan.setBackgroundTextStyle(object) }
 
-  static setBackgroundColor(object) { return swan.setBackgroundColor(object) }
-  static setTabBarItem(object) { return swan.setTabBarItem(object) }
-  static setTabBarStyle(object) { return swan.setTabBarStyle(object) }
-  static hideTabBar(object) { return swan.hideTabBar(object) }
-  static showTabBar(object) { return swan.showTabBar(object) }
-  static hideTabBarRedDot(object) { return swan.hideTabBarRedDot(object) }
-  static showTabBarRedDot(object) { return swan.showTabBarRedDot(object) }
-  static removeTabBarBadge(object) { return swan.removeTabBarBadge(object) }
-  static setTabBarBadge(object) { return swan.setTabBarBadge(object) }
+  static hideLoading(my_object) {
+    return swan.hideLoading(my_object)		
+  }
+  
+  static hideToast(my_object) {
+    return swan.hideToast(my_object)	
+  }
 
-  static loadFontFace(object) { return swan.loadFontFace(object) }
+  static prompt(my_object) {
+		return console.warn("prompt is not support")
+  }
+  
+  static showActionSheet(my_object) {
+    const my_items = my_object.items
+    const my_success = my_object.success
+    const my_fail = my_object.fail
+    const my_complete = my_object.complete
+    my_object = null
+    PROMISE((SUCCESS) =>{
+      const itemList = my_items
+      swan.showActionSheet({
+        itemList,
+        success: swan_res =>{
+          const my_res ={
+            index: swan_res.tapIndex
+          }
+          SUCCESS(my_res)
+        }
+      })
 
-  static stopPullDownRefresh(object) {
-    var object2 = {}
-    if (object) {
-      object2.success = function(res) {
-        if (object.success) {
-          object["success"](res);
+    },my_success,my_fail,my_complete)
+  }
+  
+  static showLoading(my_object) {
+    const my_title = my_object.content
+    const my_success = my_object.success
+    const my_fail = my_object.fail
+    const my_complete = my_object.complete
+    my_object = null
+    PROMISE((SUCCESS) => {
+      const title = my_title
+      swan.showLoading({
+        title,
+        success: () =>{
+          const my_res ={
+            success: true
+          }
+          SUCCESS(my_res)
         }
-        if (object.complete) {
-          object["complete"](res);
+      })
+     
+    },my_success,my_fail,my_complete)
+	}
+
+  static showToast(my_object) {
+    const my_title = my_object.content
+    const my_duration = my_object.duration
+    const my_icon = my_object.type
+    const my_success = my_object.success
+    const my_fail = my_object.fail
+    const my_complete = my_object.complete
+    my_object = null
+    PROMISE((SUCCESS) =>{
+      const title = my_title
+      const duration = my_duration
+      const icon = my_icon
+      swan.showToast({
+        title,
+        duration,
+        icon,
+        success: () =>{
+          const my_res = {}
+          SUCCESS(my_res)
         }
-      }
-      object2.fail = function(res) {
-        if (object.fail) {
-          object["fail"](res);
-        }
-        if (object.complete) {
-          object["complete"](res);
-        }
-      }
+      })
+
+    },my_success,my_fail,my_complete)
+  }
+  
+  ////////  下拉刷新  /////////
+  static startPullDownRefresh(my_object) {
+		return swan.startPullDownRefresh(my_object)
+  }
+  
+  static stopPullDownRefresh(my_object) {
+		return swan.stopPullDownRefresh(my_object)
+  }
+  
+  ////////  联系人  /////////
+  static choosemypayContact(object) {
+		return console.warn("choosemypayContact is not support")
+  }
+
+  static chooseContact(object) {
+		return console.warn("chooseContactt is not support")
+  }
+
+  static choosePhoneContact(object) {
+		return console.warn("choosePhoneContact is not support")
+  }
+
+  ////////  选择城市  /////////
+  static chooseCity(object) {
+		return console.warn("chooseCity is not support")
+  }
+
+  static onLocatedComplete(object) {
+		return console.warn("onLocatedComplete is not support")
+  }
+
+  static setLocatedCity(object) {
+		return console.warn("setLocatedCity is not support")
+  }
+
+  static regionPicker(object) {
+		return console.warn("regionPicker is not support")
+  }
+
+  ////////  选择日期  /////////
+  static datePicker(object) {
+		return console.warn("datePicker is not support")
+  }
+
+  ////////  动画  /////////
+  static createAnimation(my_object) {
+    const swan_res = swan.createAnimation(my_object)
+    const my_res = {
+      animations: swan_res.actions,
+      config: swan_res.option,
+      currentAnimation: swan_res.currentStepAnimates
     }
-    return swan.stopPullDownRefresh(object2)
+    return my_res
   }
-  static startPullDownRefresh(object) {
-    var object2 = {}
-    if (object) {
-      object2.success = function(res) {
-        if (object.success) {
-          object["success"](res);
+
+  ////////  画布  /////////
+  static createCanvasContext(canvasId) {
+		return swan.createCanvasContext(canvasId)
+  }
+
+  ////////  地图  /////////
+  static createMapContext(mapId) {
+		return swan.createMapContext(mapId)
+  }
+
+  static getMapInfo(object) {
+		return console.warn("getMapInfo is not support")
+  }
+
+  ////////  计算路径  /////////
+  static calculateRoute(object) {
+		return console.warn("calculateRoute is not support")
+  }
+
+  ////////  键盘  /////////
+  static calculateRoute() {
+		return swan.calculateRoute()
+  }
+
+  ////////  滚动  /////////
+  static pageScrollTo(my_object) {
+    const my_scrollTop = my_object.scrollTop
+    const my_duration = my_object.duration
+    const my_selector = my_object.selector
+		const my_success = my_object.success
+    const my_fail = my_object.fail
+    const my_complete = my_object.complete
+    my_object = null
+    PROMISE((SUCCESS) => {
+      const scrollTop = my_scrollTop
+      const duration = my_duration
+      const selector = my_selector
+      swan.pageScrollTo({
+        scrollTop,
+        duration,
+        selector,
+        success: () =>{
+          const my_res ={
+            success: true
+          }
+          SUCCESS(my_res)
         }
-        if (object.complete) {
-          object["complete"](res);
+      })
+    },my_success,my_fail,my_complete)
+  }
+
+  ////////  节点查询  /////////
+  static createIntersectionObserver(my_object) {
+   return swan.createIntersectionObserver(my_object)
+  }
+
+  static createSelectorQuery() {
+    return swan.createSelectorQuery()
+  }
+
+  ////////  选项选择器  /////////
+  static optionsSelect(my_object) {
+    return console.warn("optionsSelect is not support")
+  }
+
+  ////////  级联选择  /////////
+  static optionsSelect(my_object) {
+    return console.warn("multiLevelSelect is not support")
+  }
+
+  ////////  设置窗口背景  /////////
+  static setBackgroundColor(my_object) {
+    const my_backgroundColor = my_object.backgroundColor
+    const my_backgroundColorTop = my_object.backgroundColorTop
+    const my_backgroundColorBottom = my_object.backgroundColorBottom
+		const my_success = my_object.success
+    const my_fail = my_object.fail
+    const my_complete = my_object.complete
+    my_object = null
+    PROMISE((SUCCESS) => {
+      const backgroundColor = my_backgroundColor
+      const backgroundColorTop = my_backgroundColorTop
+      const backgroundColorBottom = my_backgroundColorBottom
+      swan.setBackgroundColor({
+        backgroundColor,
+        backgroundColorTop,
+        backgroundColorBottom,
+        success: () =>{
+          const my_res ={
+            success: true
+          }
+          SUCCESS(my_res)
         }
+      })
+    },my_success,my_fail,my_complete)
+  }
+
+  static setBackgroundTextStyle(my_object) {
+    return swan.setBackgroundTextStyle(my_object)
+  }
+
+  ////////  设置页面是否支持下拉  /////////
+  static setCanPullDown(my_object) {
+    return coonsole.error("setCanPullDown is not support")
+  }
+
+  ////////  字体  /////////
+  static loadFontFace(my_object) {
+    return swan.loadFontFace(my_object)
+  }
+
+  //////////////////////  多媒体  ///////////////////////////
+
+  ////////  图片  /////////
+  static chooseImage(my_object) {
+    const my_count = my_object.count
+    const my_sizeType = my_object.sizeType
+    const my_sourceType = my_object.sourceType
+		const my_success = my_object.success
+    const my_fail = my_object.fail
+    const my_complete = my_object.complete
+    my_object = null
+    PROMISE((SUCCESS) => {
+      const count = my_count
+      const sizeType = my_sizeType
+      const sourceType = my_sourceType
+      swan.chooseImage({
+        count,
+        sizeType,
+        sourceType,
+        success: (res) =>{
+          const my_res = {
+            tempFiles: res.tempFiles,
+            apFilePaths: res.tempFilePaths
+          }
+          SUCCESS(my_res)
+        }
+      })
+    },my_success,my_fail,my_complete)
+  }
+
+  static compressImage(my_object) {
+    const my_apFilePaths = my_object.apFilePaths
+    const my_compressLevel = my_object.compressLevel || 4
+		const my_success = my_object.success
+    const my_fail = my_object.fail
+    const my_complete = my_object.complete
+    my_object = null
+    PROMISE((SUCCESS) => {
+      let swan_qumyty
+      if(my_compressLevel){
+        swan_qumyty = 80
+      }else{
+        swan_qumyty = (my_compressLevel+1)*25
       }
-      object2.fail = function(res) {
-        if (object.fail) {
-          object["fail"](res);
+    
+      TASK(my_apFilePaths, (my_apFilePath,callback)=>{
+        const swan_src = my_apFilePath
+        swan.compressImage({
+          src: swan_src,
+          qumyty: swan_qumyty,
+          success: (res) =>{
+            const apFilePath = res.tempFilePath
+            callback(apFilePath)
+          }
+        })
+      }, (apFilePaths)=>{
+        const my_res ={
+          apFilePaths
         }
-        if (object.complete) {
-          object["complete"](res);
+        SUCCESS(my_res)
+      })
+    },my_success,my_fail,my_complete)
+  }
+
+  static getImageInfo(my_object) {
+    return swan.getImageInfo(my_object)
+  }
+
+  static previewImage(my_object) {
+    return swan.previewImage(my_object)
+  }
+
+  static saveImage(my_object) {
+    const my_url = my_object.url
+		const my_success = my_object.success
+    const my_fail = my_object.fail
+    const my_complete = my_object.complete
+    my_object = null
+    PROMISE((SUCCESS)=>{
+      const filpath = my_url
+      swan.saveImageToPhotosAlbum({
+        filpath,
+        success:() =>{
+          const my_res = {
+            succcess: true
+          }
+          SUCCESS(my_res)
         }
-      }
+      })
+    },my_success,my_fail,my_complete)
+   
+  }
+
+  ////////  视频播放  /////////
+  static createVideoContext(videoId) {
+    return swan.createVideoContext(videoId)
+  }
+
+  ////////  音频播放  /////////
+  static createInnerAudioContext() {
+    return swan.createInnerAudioContext()
+  }
+
+  static getAvailableAudioSources(my_object) {
+    return console.warn("getAvailableAudioSources is not support")
+  }
+
+  static getBackgroundAudioManager() {
+    return swan.getBackgroundAudioManager()
+  }
+
+  static offAudioInterruptionBegin(my_object) {
+    return console.warn("offAudioInterruptionBegin is not support")
+  }
+
+  static offAudioInterruptionEnd(my_object) {
+    return console.warn("offAudioInterruptionEnd is not support")
+  }
+
+  static onAudioInterruptionBegin(my_object) {
+    return console.warn("onAudioInterruptionBegin is not support")
+  }
+
+  static onAudioInterruptionEnd(my_object) {
+    return console.warn("onAudioInterruptionEnd is not support")
+  }
+
+  //////////////////////  缓存  ///////////////////////////
+
+  static clearStorage() {
+    return swan.clearStorage()
+  }
+
+  static clearStorageSync() {
+    return swan.clearStorageSync()
+  }
+
+  static getStorage(my_object) {
+    return swan.getStorage(my_object)
+  }
+
+  static getStorageInfo(my_object) {
+    return swan.getStorageInfo(my_object)
+  }
+
+  static getStorageInfoSync() {
+    return swan.getStorageInfoSync()
+  }
+
+  static getStorageSync(my_object) {
+    const my_key = my_object.key
+    my_object = null
+    const swan_res = swan.getStorageSync(my_key)
+    const my_res = {
+      success: true,
+      data: swan_res
     }
-    return swan.startPullDownRefresh(object2)
+    return my_res
   }
-  static pageScrollTo(object) { return swan.pageScrollTo(object) }
-  static setTopBarText(object) { return swan.setTopBarText(object) }
-  static nextTick(object) { return swan.nextTick(object) }
-  static getMenuButtonBoundingClientRect(object) { return swan.getMenuButtonBoundingClientRect(object) }
-  static offWindowResize(object) { return swan.offWindowResize(object) }
-  static onWindowResize(object) { return swan.onWindowResize(object) }
-  ////////////// Worker ///////////////
-  static createWorker(object) { return swan.createWorker(object) }
-  ////////////// WXML ///////////////
-  static createSelectorQuery(object) { return swan.createSelectorQuery(object) }
-  static createIntersectionObserver(object) { return swan.createIntersectionObserver(object) }
-  /////////////////////////////////////
-  static hideKeyboard(object) { return swan.hideKeyboard(object) }
-  ///////////// cloud ////////////////
-  static get cloud() {
-    return new wx_cloud();
+
+  static removeStorage(my_object) {
+    return swan.removeStorage(my_object)
   }
+
+  static removeStorageSync(my_object) {
+    const my_key = my_object.key
+    my_object = null
+    return swan.removeStorageSync(my_key)
+  }
+
+  static setStorage(my_object) {
+    return swan.setStorage(my_object)
+  }
+
+  static setStorageSync(my_object) {
+    const my_key = my_object.key
+    const my_data = my_object.data
+    my_object = null
+    return swan.setStorageSync(my_key,my_data)
+  }
+
+  //////////////////////  文件  ///////////////////////////
+
+  static getFileInfo(my_object) {
+    const my_apFilePath = my_object.apFilePath
+    const my_digestAlgorithm = my_object.digestAlgorithm || "md5"
+		const my_success = my_object.success
+    const my_fail = my_object.fail
+    const my_complete = my_object.complete
+    my_object = null
+    PROMISE((SUCCESS) =>{
+      const filePath = my_apFilePath
+      const digestAlgorithm = my_digestAlgorithm
+      swan.getFileInfo({
+        filePath,
+        digestAlgorithm,
+        success: swan_res =>{
+          const my_res ={
+            size: swan_res.size,
+            digest: swan_res.digest
+          }
+          SUCCESS(my_res)
+        }
+      })
+    },my_success,my_fail,my_complete)
+    
+  }
+
+  static getSavedFileInfo(my_object) {
+    const my_apFilePath = my_object.apFilePath
+		const my_success = my_object.success
+    const my_fail = my_object.fail
+    const my_complete = my_object.complete
+    my_object = null
+    PROMISE((SUCCESS) =>{
+      const filePath = my_apFilePath
+      swan.getSavedFileInfo({
+        filePath,
+        success: swan_res =>{ 
+          const my_res = {
+            size: swan_res.size,
+            createTime: swan_res.createTime
+          }
+          SUCCESS(my_res)
+        }
+      })
+      
+    },my_success,my_fail,my_complete)
+    
+  }
+
+  static getSavedFileList(my_object) {
+		const my_success = my_object.success
+    const my_fail = my_object.fail
+    const my_complete = my_object.complete
+    my_object = null
+    PROMISE((SUCCESS) =>{
+      swan.getSavedFileList({
+        success: swan_res =>{ 
+          const my_fileList = swan_res.fileList.map(file =>{ 
+            return {
+              size: file.size,
+              createTime: file.createTime,
+              apFilePath: file.filePath
+            }
+          })
+          const my_res = {
+            fileList: my_fileList
+          }
+          SUCCESS(my_res)
+        }
+      })
+      
+    },my_success,my_fail,my_complete)
+    
+  }
+
+  static openDocument(my_object) {
+     return swan.openDocument(my_object)
+  }
+
+  static removeSavedFile(my_object) {
+    const my_apFilePath = my_object.apFilePath
+		const my_success = my_object.success
+    const my_fail = my_object.fail
+    const my_complete = my_object.complete
+    my_object = null
+    const filePath = my_apFilePath
+    const success = my_success
+    const fail = my_fail
+    const complete = my_complete
+    const swan_object = {
+      filePath,
+      success,
+      fail,
+      complete
+    }
+    return swan.removeSavedFile(swan_object)
+  }
+
+  static saveFile(my_object) {
+    const my_apFilePath = my_object.apFilePath
+		const my_success = my_object.success
+    const my_fail = my_object.fail
+    const my_complete = my_object.complete
+    my_object = null
+    PROMISE((SUCCESS) =>{
+      const tempFilePath = my_apFilePath
+      swan.saveFile({
+        tempFilePath,
+        success: swan_res =>{
+          const my_res ={
+            apFilePath: swan_res.savedFilePath
+          }
+          SUCCESS(my_res)
+        }
+      })
+    },my_success,my_fail,my_complete)
+    
+  }
+
+  //////////////////////  位置  ///////////////////////////
+  static chooseLocation(my_object) {
+		return swan.chooseLocation(my_object) 
+  }
+
+  static getLocation(my_object) {
+    const my_type = my_object.type || 0
+		const my_success = my_object.success
+    const my_fail = my_object.fail
+    const my_complete = my_object.complete
+    my_object = null
+    let swan_type = null
+    if(my_type == 0){
+      swan_type = "wgs84"
+    }else{
+      swan_type = "gcj02"
+    }
+    PROMISE((SUCCESS) =>{
+      const type = swan_type
+      swan.getLocation({
+        type,
+        success: swan_res =>{ 
+          const my_res = {
+            longitude: swan_res.longitude,
+            latitude: swan_res.latitude,
+            accuracy: swan_res.accuracy,
+            horizontalAccuracy: swan_res.horizontalAccuracy,
+          }
+          SUCCESS(my_res)
+        }
+      })
+      
+    },my_success,my_fail,my_complete)
+    
+  }
+
+  static openLocation(my_object) {
+    const my_longitude = my_object.longitude
+    const my_latitude = my_object.latitude
+    const my_keyword = my_object.name
+    const my_success = my_object.success
+    const my_fail = my_object.fail
+    const my_complete = my_object.complete
+    my_object = null
+    const longitude = my_longitude
+    const latitude = my_latitude
+    const name = my_keyword
+    const success = my_success
+    const fail = my_fail
+    const complete = my_complete
+    const swan_object = {
+      longitude,
+      latitude,
+      name,
+      success,
+      fail,
+      complete
+    }
+
+		return swan.openLocation(swan_object) 
+  }
+
+  //////////////////////  网络  ///////////////////////////
+
+  ////////  发起请求  /////////
+  static request(my_object) {
+    const my_url = my_object.url
+    const my_headers = my_object.headers
+    const my_method = my_object.method || "GET"
+    const my_data = my_object.data
+    const my_timeout = my_object.timeout || 30000
+    const my_dataType = my_object.dataType || "JSON"
+		const my_success = my_object.success
+    const my_fail = my_object.fail
+    const my_complete = my_object.complete
+    my_object = null
+    PROMISE((SUCCESS) =>{
+      const url = my_url
+      const header = my_headers
+      const method = my_method
+      const data = my_data
+      const timeout = my_timeout
+      const dataType = my_dataType
+      swan.request({
+        url,
+        header,
+        method,
+        data,
+        timeout,
+        dataType,
+        success: swan_res =>{ 
+          const my_res = {
+            data: swan_res.data,
+            statusCode: swan_res.statusCode,
+            headers: swan_res.header,
+            cookies: swan_res.cookies,
+          }
+          SUCCESS(my_res)
+        }
+      })
+      
+    },my_success,my_fail,my_complete)
+  }
+
+  ////////  上传、下载  /////////
+  static downloadFile(my_object) {
+		const my_url = my_object.url
+    const my_header = my_object.header
+		const my_success = my_object.success
+    const my_fail = my_object.fail
+    const my_complete = my_object.complete
+    my_object = null
+    PROMISE((SUCCESS) =>{
+      const url = my_url
+      const header = my_header
+      swan.downloadFile({
+        url,
+        header,
+        success: swan_res =>{ 
+          const my_res = {
+            apFilePath: swan_res.tempFilePath,
+            statusCode: swan_res.statusCode, 
+          }
+          SUCCESS(my_res)
+        }
+      })
+      
+    },my_success,my_fail,my_complete)
+  }
+
+  static uploadFile(my_object) {
+		const my_url = my_object.url
+    const my_filePath = my_object.filePath
+    const my_fileName = my_object.fileName
+    const my_fileType = my_object.fileType
+    const my_header = my_object.header
+    const my_formData = my_object.formData
+		const my_success = my_object.success
+    const my_fail = my_object.fail
+    const my_complete = my_object.complete
+    my_object = null
+    PROMISE((SUCCESS) =>{
+      const url = my_url
+      const header = my_header
+      const filePath = my_filePath
+      const fileType = my_fileType
+      const name = my_fileName
+      const formData = my_formData
+      swan.uploadFile({
+        url,
+        header,
+        filePath,
+        fileType,
+        name,
+        formData,
+        success: swan_res =>{ 
+          const my_res = {
+            statusCode: swan_res.statusCode,
+            data: swan_res.data, 
+            header:{}
+          }
+          SUCCESS(my_res)
+        }
+      })
+      
+    },my_success,my_fail,my_complete)
+  }
+
+  ////////  webScoket  /////////
+  static connectSocket(my_object) {
+		return swan.connectSocket(my_object)
+  }
+
+  static onSocketOpen(callback) {
+		return swan.onSocketOpen(callback)
+  }
+
+  static onSocketError(callback) {
+		return swan.onSocketError(callback)
+  }
+
+  static sendSocketMessage(my_object) {
+		return swan.sendSocketMessage(my_object)
+  }
+
+  static onSocketMessage(callback) {
+		return swan.onSocketMessage(callback)
+  }
+
+  static closeSocket(my_object) {
+		return swan.closeSocket(my_object)
+  }
+
+  static onSocketClose(callback) {
+		return swan.onSocketClose(callback)
+  }
+
+  static offSocketClose(callback) {
+		return console.warn("offSocketClose is not support")
+  }
+
+  static offSocketMessage(callback) {
+		return console.warn("offSocketMessage is not support")
+  }
+
+  static offSocketOpen(my_object) {
+		return console.warn("offSocketOpen is not support")
+  }
+
+  static offSocketError(callback) {
+		return console.warn("offSocketError is not support")
+  }
+
+  //////////////////////  设备  ///////////////////////////
+
+  ////////  系统消息  /////////
+  static getSystemInfo(my_object) {
+		return swan.getSystemInfo(my_object)
+  }
+
+  static getSystemInfoSync() {
+		return swan.getSystemInfoSync()
+  }
+
+  ////////  网络状态  /////////
+  static getNetworkType(my_object) {
+    const my_success = my_object.success
+    const my_fail = my_object.fail
+    const my_complete = my_object.complete
+    my_object = null
+    PROMISE((SUCCESS) =>{
+      swan.getNetworkType({
+        success: swan_res =>{
+          const my_res = {
+            networkType: swan_res.networkType,
+            networkAvailable: true
+          }
+          SUCCESS(my_res)
+        }
+      })
+    },my_success,my_fail,my_complete)
+		
+  }
+
+  static onNetworkStatusChange(callback) {
+    return swan.onNetworkStatusChange(callback)	
+  }
+
+  static offNetworkStatusChange(callback) {
+    return console.warn("offNetworkStatusChange is not support")
+  }
+
+  ////////  摇一摇  /////////
+  static watchShake(my_object) {
+    return console.warn("watchShake is not support")
+  }
+
+  ////////  震动  /////////
+  static vibrate(my_object) {
+    return console.warn("vibrate is not support")	
+  }
+
+  static vibrateLong(my_object) {
+    return swan.vibrateLong(my_object)	
+  }
+
+  static vibrateShort(my_object) {
+    return swan.vibrateShort(my_object)	
+  }
+
+  ////////  加速度计  /////////
+  static onAccelerometerChange(callback) {
+    return swan.onAccelerometerChange(callback)	
+  }
+
+  static offAccelerometerChange(callback) {
+    return swan.offAccelerometerChange(callback)	
+  }
+
+  ////////  陀螺仪  /////////
+  static onGyroscopeChange(callback) {
+    return swan.onGyroscopeChange(callback)	
+  }
+
+  static offGyroscopeChange(callback) {
+    return console.warn("offGyroscopeChange is not support")	
+  }
+
+  ////////  罗盘  /////////
+  static onCompassChange(callback) {
+    return swan.onCompassChange(callback)	
+  }
+
+  static offCompassChange(callback) {
+    return swan.offCompassChange(callback)	
+  }
+
+  ////////  拨打电话  /////////
+  static makePhoneCall(my_object) {
+    return swan.makePhoneCall(my_object)	
+  }
+
+  ////////  获取服务器时间  /////////
+  static getServerTime(my_object) {
+    return console.warn("getServerTime is not support")	
+  }
+
+  ////////  用户截屏事件  /////////
+  static onUserCaptureScreen(callback) {
+    return swan.onUserCaptureScreen(callback)	
+  }
+
+  static offUserCaptureScreen(callback) {
+    return console.warn("offUserCaptureScreen is not support")	
+  }
+
+  ////////  屏幕亮度  /////////
+  static getScreenBrightness(my_object) {
+    const my_success = my_object.success
+    const my_fail = my_object.fail
+    const my_complete = my_object.complete
+    my_object = null
+    PROMISE((SUCCESS) =>{
+      swan.getScreenBrightness({
+        success: swan_res =>{
+          const my_res = {
+            brightnes: swan_res.value,
+          }
+          SUCCESS(my_res)
+        }
+      })
+    },my_success,my_fail,my_complete)
+    
+  }
+
+  static setScreenBrightness(my_object) {
+    const my_brightness = my_object.brightness
+    const my_success = my_object.success
+    const my_fail = my_object.fail
+    const my_complete = my_object.complete
+    my_object = null
+    const value = my_brightness
+    const success = my_success
+    const fail = my_fail
+    const complete = my_complete
+    const swan_object = {
+      value,
+      success,
+      fail,
+      complete
+    }
+    return swan.setScreenBrightness(swan_object)
+  }
+
+  static setKeepScreenOn(my_object) {
+    return swan.setKeepScreenOn(my_object)	
+  }
+
+  ////////  设置  /////////
+  static getSetting(my_object) {
+    const my_success = my_object.success
+    const my_fail = my_object.fail
+    const my_complete = my_object.complete
+    my_object = null
+    PROMISE((SUCCESS) =>{
+      swan.getSetting({
+        success: swan_res =>{
+          const my_res = {
+            authSetting: {
+              location: swan_res.authSetting['scope.userLocation'],
+              album: swan_res.authSetting['scope.writePhotosAlbum'],
+              camera: swan_res.authSetting['scope.camera'],
+              mypaysports: swan_res.authSetting['scope.werun'],
+              phoneNumber: "000000",
+              myaddress: swan_res.authSetting['scope.address'],
+              userinfo: swan_res.authSetting['scope.userInfo'],
+              userLocationBackground: swan_res.authSetting['scope.userLocationBackground'],
+              record: swan_res.authSetting['scope.record'],
+              invoice: swan_res.authSetting['scope.invoice'],
+              invoiceTitle: swan_res.authSetting['scope.invoiceTitle'],
+              _RVA_APPID: null
+            }
+          }
+          SUCCESS(my_res)
+        }
+      })
+
+    },my_success,my_fail,my_complete)
+    
+  }
+
+  static openSetting(my_object) {
+    const my_success = my_object.success
+    const my_fail = my_object.fail
+    const my_complete = my_object.complete
+    my_object = null
+    PROMISE((SUCCESS) =>{
+      swan.openSetting({
+        success: swan_res =>{
+          const my_res = {
+            authSetting: {
+              location: swan_res.authSetting['scope.userLocation'],
+              album: swan_res.authSetting['scope.writePhotosAlbum'],
+              camera: swan_res.authSetting['scope.camera'],
+              werun: swan_res.authSetting['scope.werun'],
+              address: swan_res.authSetting['scope.address'],
+              userinfo: swan_res.authSetting['scope.userInfo'],
+              userLocationBackground: swan_res.authSetting['scope.userLocationBackground'],
+              record: swan_res.authSetting['scope.record'],
+              invoice: swan_res.authSetting['scope.invoice'],
+              invoiceTitle: swan_res.authSetting['scope.invoiceTitle']
+            }
+          }
+          SUCCESS(my_res)
+        }
+      })
+
+    },my_success,my_fail,my_complete)
+    
+  }
+
+  ////////  添加手机联系人  /////////
+  static addPhoneContact(my_object) {
+    return swan.addPhoneContact(my_object)	
+  }
+
+  ////////  权限引导  /////////
+  static showAuthGuide (my_object) {
+    return console.warn("showAuthGuide is not support")
+  }
+
+  ////////  扫码  /////////
+  static scan(my_object) {
+    const my_scanType = my_object.scanType || ['qrCode','barCode']
+    const my_hideAlbum = my_object.hideAlbum || false
+    const my_success = my_object.success
+    const my_fail = my_object.fail
+    const my_complete = my_object.complete
+    my_object = null
+    const scanType = my_scanType
+    const onlyFromCamera = my_hideAlbum
+    PROMISE((SUCCESS) =>{
+      swan.scanCode({
+        scanType,
+        onlyFromCamera,
+        success: swan_res =>{
+          const my_res = {
+            code: "code data",
+            qrCode: "qrCode data",
+            barCode: "barCode data",
+            codeContent: swan_res.result,
+            imageChannel: "",
+            rawData: "",
+            charSet:swan_res.charSet,
+            path: swan_res.path
+          }
+          SUCCESS(my_res)
+        }
+      })
+
+    },my_success,my_fail,my_complete)
+  }
+
+  ////////  内存不足警告  /////////
+  static onMemoryWarning (callback) {
+    return swan.onMemoryWarning (callback)	
+  }
+
+  static offMemoryWarning (callback) {
+    return console.warn("offMemoryWarning is not support")
+  }
+
+  ////////  获取设备电量  /////////
+  static getBatteryInfo (my_object) {
+    return console.warn("getBatteryInfo is not support")	
+  }
+
+  static getBatteryInfoSync (my_object) {
+    return console.warn("getBatteryInfoSync is not support")	
+  }
+
+  ////////  传统蓝牙  /////////
+  static openBluetoothAdapter (my_object) {
+    return swan.openBluetoothAdapter (my_object)	
+  }
+
+  static startBluetoothDevicesDiscovery (my_object) {
+    return swan.startBluetoothDevicesDiscovery (my_object)	
+  }
+
+  static onBluetoothDeviceFound (callback) {
+    swan.onBluetoothDeviceFound (swan_res =>{
+      const my_devices = swan_res.devices.map(device =>{ 
+        return {
+          name: device.name,
+          deviceName: device.name,
+          deviceId: device.deviceId,
+          localName: device.localName,
+          RSSI: device.RSSI,
+          advertisData: device.advertisData,
+          advertisServiceUUIDs: device.advertisServiceUUIDs,
+          serviceData: device.serviceData
+        }
+      })
+      const my_res = {
+        devices:my_devices
+      }
+      callback(my_res)
+    })	
+  }
+
+  static stopBluetoothDevicesDiscovery (my_object) {
+    return swan.stopBluetoothDevicesDiscovery (my_object)	
+  }
+
+  static onBluetoothAdapterStateChange (callback) {
+    return swan.onBluetoothAdapterStateChange (callback)	
+  }
+
+  static getConnectedBluetoothDevices (my_object) {
+    const my_deviceId = my_object.deviceId
+    const my_success = my_object.success
+    const my_fail = my_object.fail
+    const my_complete = my_object.complete
+    my_object = null
+    const services = [my_deviceId]
+    const success = my_success
+    const fail = my_fail
+    const complete = my_complete
+    const swan_object = {
+      services,
+      success,
+      fail,
+      complete
+    }
+    return swan.getConnectedBluetoothDevices (swan_object)	
+  }
+
+  static getBluetoothDevices (my_object) {
+    const my_success = my_object.success
+    const my_fail = my_object.fail
+    const my_complete = my_object.complete
+    my_object = null
+    PROMISE((SUCCESS) =>{
+      swan.getBluetoothDevices ({
+        success:swan_res =>{
+        const my_devices = swan_res.devices.map(device =>{ 
+          return {
+            name: device.name,
+            deviceName: device.name,
+            deviceId: device.deviceId,
+            localName: device.localName,
+            RSSI: device.RSSI,
+            manufacturerData: device.advertisData,
+            advertisServiceUUIDs: device.advertisServiceUUIDs,
+            serviceData: device.serviceData
+          }
+        })
+        const my_res = {
+          devices: my_devices
+        }
+        SUCCESS(my_res)
+      }
+      })	
+
+    },my_success,my_fail,my_complete)
+    
+  }
+
+  static getBluetoothAdapterState (my_object) {
+    return swan.getBluetoothAdapterState(my_object)
+  }
+
+  static closeBluetoothAdapter (my_object) {
+    return swan.closeBluetoothAdapter(my_object)
+  }
+
+  static offBluetoothAdapterStateChange (callback) {
+    return console.warn("offBluetoothAdapterStateChange is not support")	
+  }
+
+  static offBluetoothDeviceFound (callback) {
+    return console.warn("getBatteryInfoSync is not support")	
+  }
+
+  ////////  低功耗蓝牙  /////////
+  static connectBLEDevice (my_object) {
+    return swan.createBLEConnection(my_object)	
+  }
+
+  static disconnectBLEDevice (my_object) {
+    return swan.closeBLEConnection(my_object)	
+  }
+
+  static getBLEDeviceCharacteristics (my_object) {
+    const swan_res = swan.getBLEDeviceCharacteristics(my_object)	
+    const my_characteristics = swan_res.characteristics.map(characteristic =>{ 
+      return {
+        characteristicId: characteristic.uuid,
+        properties: characteristic.properties,
+        value: "",
+        localName: "",
+      }
+    })
+    const my_res = {
+      characteristics: my_characteristics 
+    }
+    return my_res
+  }
+
+  static getBLEDeviceServices (my_object) {
+    const swan_res = swan.getBLEDeviceServices(my_object)	
+    const my_services = swan_res.services.map(service =>{ 
+      return {
+        serviceId: service.uuid,
+        isPrimary: service.isPrimary,
+      }
+    })
+    const my_res = {
+      services: my_services 
+    }
+    return my_res 
+  }
+
+  static notifyBLECharacteristicValueChange (my_object) {
+    return swan.notifyBLECharacteristicValueChange(my_object)	
+  }
+
+  static onBLECharacteristicValueChange (callback) {
+    swan.onBLECharacteristicValueChange(swan_res =>{
+      const my_res = {
+        deviceId: swan_res.deviceId,
+        serviceId: swan_res.serviceId,
+        characteristicId: swan_res.characteristicId,
+        value: swan_res.value,
+        connected: true
+      }
+      callback(my_res)
+    })	
+  }
+
+  static onBLEConnectionStateChange (callback) {
+    return swan.onBLEConnectionStateChange(callback)	
+  }
+
+  static readBLECharacteristicValue (my_object) {
+    const swan_res =  swan.readBLECharacteristicValue(my_object)	
+    const my_res = {
+      deviceId: swan_res.deviceId,
+      serviceId: swan_res.serviceId,
+      characteristicId: swan_res.characteristicId,
+      value: swan_res.value,
+    }
+    return my_res
+  }
+
+  static writeBLECharacteristicValue (my_object) {
+    const my_deviceId = my_object.deviceId
+    const my_serviceId = my_object.serviceId
+    const my_characteristicId = my_object.characteristicId
+    const my_value = my_object.value
+    const my_success = my_object.success
+    const my_fail = my_object.fail
+    const my_complete = my_object.complete
+    my_object = null
+    const deviceId = my_deviceId
+    const serviceId = my_serviceId
+    const characteristicId = my_characteristicId
+    const value = [my_value]
+    const success = my_success
+    const fail = my_fail
+    const complete = my_complete
+    const swan_object = {
+      deviceId,
+      serviceId,
+      characteristicId,
+      value,
+      success,
+      fail,
+      complete,
+    }
+    return swan.writeBLECharacteristicValue(swan_object)
+  }
+
+  static offBluetoothAdapterStateChange (callback) {
+    return console.warn("offBluetoothAdapterStateChange is not support")	
+  }
+
+  static offBluetoothDeviceFound (callback) {
+    return console.warn("offBluetoothDeviceFound is not support")	
+  }
+
+  ////////  iBeacon  /////////
+  static getBeacons (my_object) {
+    const my_success = my_object.success
+    const my_fail = my_object.fail
+    const my_complete = my_object.complete
+    my_object = null
+    PROMISE((SUCCESS) =>{
+      swan.getBeacons({
+        success: swan_res =>{
+          const my_res = {
+            beacons: swan_res.beacons,
+            errCode: "0",
+            errorMsg: "ok"
+          }
+          SUCCESS(my_res)
+        }
+      })
+
+    },my_success,my_fail,my_complete)
+  }
+
+  static startBeaconDiscovery (my_object) {
+    return swan.startBeaconDiscovery (my_object)
+  }
+
+  static stopBeaconDiscovery (my_object) {
+    return swan.stopBeaconDiscovery (my_object)
+  }
+
+  static onBeaconServiceChange (my_object) {
+    const my_success = my_object.success
+    my_object = null
+    return swan.onBeaconServiceChange (my_success)
+  }
+
+  static onBeaconUpdate (my_object) {
+    const my_success = my_object.success
+    my_object = null
+    return swan.onBeaconUpdate (my_success)
+  }
+
+  //////////////////////  数据安全  ///////////////////////////
+  static getBeacons (my_object) {
+    console.warn("getBeacons is not support")	
+  }
+
+  //////////////////////  分享  ///////////////////////////
+  static showSharePanel () {
+    return swan.showShareMenu()
+  }
+
+  static hideShareMenu (my_object) {
+    return swan.hideShareMenu(my_object)
+  }
+
+  
+
+  ////////////////////////// serverless ///////////////////////////
+
+  static get serverless() {
+    return serverless
+  }
+
+
+	
+
+	
 }
