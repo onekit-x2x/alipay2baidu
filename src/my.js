@@ -15,7 +15,12 @@ export default class my {
 
   static getAppIdSync() {
     if (getApp().onekit_AppId) {
-      return getApp().onekit_AppId
+      return getApp().onekit_AppId.appid
+    } else {
+      const swan_res = {
+        appid: '17211727'
+      }
+      return swan_res
     }
   }
 
@@ -80,9 +85,11 @@ export default class my {
     return swan.onAppHide(callback)
   }
 
-  static onAppShow(callback) {
-    getApp().onekit_AppId = callback(referrerInfo.appid)
-    return swan.onAppShow(callback)
+  static onAppShow() {
+    return swan.onAppShow(res => {
+      getApp().onekit_AppId = res.referrerInfo
+      console.log(res)
+    })
   }
 
   static onComponentError() {
@@ -101,7 +108,9 @@ export default class my {
 
   // ///// 导航栏 /////
   static getTitleColor() {
-    return console.warn('getTitleColor is not support')
+    if (getApp().onekit_TitleColor) {
+      return getApp().onekit_TitleColor
+    }
   }
 
   static hideBackHome() {
@@ -109,8 +118,8 @@ export default class my {
   }
 
   static setNavigationBar(my_object) {
-    const my_title = my_object.title
-    const my_backgroundColor = my_object.backgroundColor
+    const my_title = my_object.title || ''
+    const my_backgroundColor = my_object.backgroundColor || '#ffffff'
     const my_success = my_object.success
     const my_fail = my_object.fail
     const my_complete = my_object.complete
@@ -118,6 +127,7 @@ export default class my {
     const title = my_title
     const backgroundColor = my_backgroundColor
     const frontColor = '#ffffff'
+    getApp().onekit_TitleColor = backgroundColor
     PROMISE((SUCCESS) => {
       swan.setNavigationBarTitle({
         title,

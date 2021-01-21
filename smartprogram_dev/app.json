@@ -1,6 +1,6 @@
 {
     "pages": [
-        "pages/zeng/zeng"
+        "zeng/zeng"
     ],
     "window": {
         "backgroundColor": "#f8f8f8",
