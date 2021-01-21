@@ -3,8 +3,8 @@
 /* eslint-disable consistent-return */
 /* eslint-disable no-console */
 
-import PROMISE from '../node_modules/oneutil/PROMISE'
-import TASK from '../node_modules/oneutil/TASK'
+import PROMISE from 'oneutil/PROMISE'
+import TASK from 'oneutil/TASK'
 
 export default class my {
   // ////////////////////  基础  ///////////////////////////
@@ -109,7 +109,9 @@ export default class my {
   // ///// 导航栏 /////
   static getTitleColor() {
     if (getApp().onekit_TitleColor) {
-      return getApp().onekit_TitleColor
+      return {
+        color: getApp().onekit_TitleColor
+      }
     }
   }
 
@@ -242,10 +244,10 @@ export default class my {
   }
 
   static confirm(my_object) {
-    const my_title = my_object.title
-    const my_content = my_object.content
-    const my_confirmText = my_object.confirmButtonText
-    const my_cancelText = my_object.cancelButtonText
+    const my_title = my_object.title || ''
+    const my_content = my_object.content || ''
+    const my_confirmText = my_object.confirmButtonText || '确定'
+    const my_cancelText = my_object.cancelButtonText || '取消'
     const my_success = my_object.success
     const my_fail = my_object.fail
     const my_complete = my_object.complete
@@ -312,7 +314,7 @@ export default class my {
   }
 
   static showLoading(my_object) {
-    const my_title = my_object.content
+    const my_title = my_object.content || ''
     const my_success = my_object.success
     const my_fail = my_object.fail
     const my_complete = my_object.complete
@@ -332,7 +334,7 @@ export default class my {
   }
 
   static showToast(my_object) {
-    const my_title = my_object.content
+    const my_title = my_object.content || ''
     const my_duration = my_object.duration || 3000
     const my_icon = my_object.type || 'none'
     const my_success = my_object.success
@@ -464,9 +466,9 @@ export default class my {
 
   // //////  设置窗口背景  /////////
   static setBackgroundColor(my_object) {
-    const my_backgroundColor = my_object.backgroundColor
-    const my_backgroundColorTop = my_object.backgroundColorTop
-    const my_backgroundColorBottom = my_object.backgroundColorBottom
+    const my_backgroundColor = my_object.backgroundColor || '#ffffff'
+    const my_backgroundColorTop = my_object.backgroundColorTop || '#ffffff'
+    const my_backgroundColorBottom = my_object.backgroundColorBottom || '#ffffff'
     const my_success = my_object.success
     const my_fail = my_object.fail
     const my_complete = my_object.complete
@@ -495,7 +497,7 @@ export default class my {
 
   // //////  设置页面是否支持下拉  /////////
   static setCanPullDown() {
-    return console.error('setCanPullDown is not support')
+    return console.warn('setCanPullDown is not support')
   }
 
   // //////  字体  /////////
@@ -599,9 +601,9 @@ export default class my {
     const my_complete = my_object.complete
     my_object = null
     PROMISE((SUCCESS) => {
-      const filpath = my_url
+      const filePath = my_url
       swan.saveImageToPhotosAlbum({
-        filpath,
+        filePath,
         success: () => {
           const my_res = {
             succcess: true
@@ -631,19 +633,19 @@ export default class my {
   }
 
   static offAudioInterruptionBegin() {
-    return console.warn('offAudioInterruptionBegin is not support')
+    getApp().onekit_AudioInterruptionBegin = false
   }
 
   static offAudioInterruptionEnd() {
-    return console.warn('offAudioInterruptionEnd is not support')
+    getApp().onekit_AudioInterruptionEnd = false
   }
 
   static onAudioInterruptionBegin() {
-    return console.warn('onAudioInterruptionBegin is not support')
+    getApp().onekit_AudioInterruptionBegin = true
   }
 
   static onAudioInterruptionEnd() {
-    return console.warn('onAudioInterruptionEnd is not support')
+    getApp().onekit_AudioInterruptionEnd = true
   }
 
   // ////////////////////  缓存  ///////////////////////////
