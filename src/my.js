@@ -894,9 +894,11 @@ export default class my {
   // //////  发起请求  /////////
   static request(my_object) {
     const my_url = my_object.url
-    const my_headers = my_object.headers
+    const my_headers = my_object.headers || {
+      'content-type': 'application/json'
+    }
     const my_method = my_object.method || 'GET'
-    const my_data = my_object.data
+    const my_data = my_object.data || {}
     const my_timeout = my_object.timeout || 30000
     const my_dataType = my_object.dataType || 'JSON'
     const my_success = my_object.success
@@ -920,8 +922,11 @@ export default class my {
         success: swan_res => {
           const my_res = {
             data: swan_res.data,
-            statusCode: swan_res.statusCode,
-            headers: swan_res.header
+            status: swan_res.statusCode,
+            headers: swan_res.header,
+            logid: swan_res.logid,
+            errno: swan_res.errno,
+            errmsg: swan_res.errmsg,
           }
           SUCCESS(my_res)
         }
