@@ -1550,4 +1550,131 @@ export default class my {
   static hideShareMenu(my_object) {
     return swan.hideShareMenu(my_object)
   }
+
+  // ///////////  自定义分析  //////////////
+  static reportAnalytics(eventName, object) {
+    return swan.reportAnalytics(eventName, object)
+  }
+
+  // ///////////  更新管理  //////////////
+  static getUpdateManager() {
+    return swan.getUpdateManager()
+  }
+
+  // ///////////  小程序跳转  //////////////
+  static navigateBackMiniProgram(my_object) {
+    return swan.navigateBackMiniProgram(my_object)
+  }
+
+  static navigateToMiniProgram(my_object) {
+    const my_appId = my_object.appId
+    const my_success = my_object.success
+    const my_fail = my_object.fail
+    const my_complete = my_object.complete
+    my_object = null
+    const appKey = my_appId
+    PROMISE((SUCCESS) => {
+      swan.navigateToSmartProgram({
+        appKey,
+        success: () => {
+          const my_res = {
+            errorMsg: 'navigateToMiniProgram:ok'
+          }
+          SUCCESS(my_res)
+        }
+      })
+    }, my_success, my_fail, my_complete)
+  }
+
+  // ///////////  用户授权  //////////////
+  static getAuthCode(my_object) {
+    const my_scopes = my_object.scopes || 'auth_user'
+    const my_success = my_object.success
+    const my_fail = my_object.fail
+    const my_complete = my_object.complete
+    my_object = null
+    PROMISE((SUCCESS) => {
+      if (my_scopes === 'auth_user' || my_scopes.indexOf('auth_user') === 0) {
+        const scope = 'scope.userInfo'
+        swan.authorize({
+          scope,
+          success: () => {
+            const my_res = {
+              errorMsg: '授权成功'
+            }
+            SUCCESS(my_res)
+          }
+        })
+      } else {
+        return console.warn('not suppoert')
+      }
+    }, my_success, my_fail, my_complete)
+  }
+
+  // ///////////  用户会员基础信息  //////////////
+  static getOpenUserInfo(my_object) {
+    const my_success = my_object.success
+    const my_fail = my_object.fail
+    const my_complete = my_object.complete
+    my_object = null
+    PROMISE((SUCCESS, FAIL) => {
+      swan.getUserInfo({
+        success: (swan_res) => {
+          const my_res = {
+            response: {
+              response: {
+                avatar: swan_res.userInfo.avatarUrl,
+                nickName: swan_res.userInfo.nickName,
+                gender: swan_res.userInfo.gender
+              }
+            }
+          }
+          SUCCESS(my_res)
+        },
+        fail: (swan_res) => {
+          const my_res = {
+            response: {
+              response: {
+                code: swan_res.errCode,
+                msg: swan_res.errMsg
+              }
+            }
+          }
+          FAIL(my_res)
+        }
+      })
+    }, my_success, my_fail, my_complete)
+  }
+
+  // ///////////  会员收货地址  //////////////
+  static getAddress(my_object) {
+    const my_success = my_object.success
+    const my_fail = my_object.fail
+    const my_complete = my_object.complete
+    my_object = null
+    PROMISE((SUCCESS) => {
+      swan.chooseAddress({
+        success: (swan_res) => {
+          const my_res = {
+            result: {
+              address: swan_res.detailInfo,
+              country: swan_res.countyName,
+              prov: swan_res.provinceName,
+              city: swan_res.cityName,
+              area: swan_res.townName,
+              street: swan_res.detailInfo,
+              fullname: swan_res.detailInfo,
+              mobilePhone: swan_res.telNumber,
+              provinceCode: swan_res.provinceCode,
+              cityCode: swan_res.cityCode,
+              countyCode: swan_res.countyCode,
+              townCode: swan_res.townCode
+            },
+            resultStatus: '9000'
+          }
+          SUCCESS(my_res)
+        }
+      })
+    }, my_success, my_fail, my_complete)
+  }
 }
